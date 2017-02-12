@@ -575,7 +575,7 @@ class episodes:
 
 
             elif self.tvmaze_link in url and url == self.added_link:
-                urls = [i['url'] for i in self.calendars(idx=False)][:5]
+                urls = [self.calendar_link % i['url'] for i in self.calendars(idx=False)][:5]
                 self.list = []
                 for url in urls:
                     self.list += cache.get(self.tvmaze_list, 720, url, True)
@@ -618,14 +618,14 @@ class episodes:
         for i in range(0, 30):
             try:
                 name = (self.datetime - datetime.timedelta(days = i))
-                name_format = "<strong>%s</strong> : %s"
+                name_format = "%s : %s"
                 name = (name_format % (name.strftime('%A'), name.strftime('%d %B'))).encode('utf-8')
                 for m in months: name = name.replace(m[1], m[0])
                 for d in days: name = name.replace(d[1], d[0])
                 try: name = name.encode('utf-8')
                 except: pass
 
-                url = self.calendar_link % (self.datetime - datetime.timedelta(days = i)).strftime('%Y-%m-%d')
+                url = (self.datetime - datetime.timedelta(days = i)).strftime('%Y-%m-%d')
 
                 self.list.append({'name': name, 'url': url, 'image': 'calendar.png', 'action': 'calendar'})
             except:

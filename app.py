@@ -62,14 +62,25 @@ def tvshows_navigator():
                 'tvdb': show['tvdb']
             })
             show['_swaks_label'] = show['title']
+    elif 'cals' in args:
+        data = episodes.episodes().calendars(idx=False)
+        for item in data:
+            item['href_qs'] = urllib.urlencode({
+                'cald': item['url']
+            })
+            item['_swaks_label'] = item['name']
     else:
-        if 'season' in args or 'cal' in args:
+        if 'season' in args or 'cal' in args or 'cald' in args:
             e = episodes.episodes()
             if 'season' in args:
                 title, year, imdb, tvdb, season = args['tvshowtitle'], args['year'], args['imdb'], args['tvdb'], args['season']
                 data = e.get(title, year, imdb, tvdb, season)
             else:
-                data = e.calendar(args['cal'])
+                if 'cal' in args:
+                    url = args['cal']
+                if 'cald' in args:
+                    url = e.calendar_link % args['cald']
+                data = e.calendar(url)
             try: multi = [i['tvshowtitle'] for i in data]
             except: multi = []
             multi = len([x for y,x in enumerate(multi) if x not in multi[:y]]) > 1
