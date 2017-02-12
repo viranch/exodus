@@ -1,4 +1,4 @@
-import urllib,json
+import urllib
 from flask import Flask, render_template, request
 
 from resources.lib.indexers import movies
@@ -22,22 +22,10 @@ def movies_navigator():
 
     data = m.get(url)
     for movie in data:
-        meta = dict((k,v) for k, v in movie.iteritems() if not v == '0')
-        meta.update({'mediatype': 'movie'})
-        meta.update({'trailer': '%s (%s)' % (movie['title'], movie['year'])})
-        if not 'duration' in movie: meta.update({'duration': '120'})
-        elif movie['duration'] == '0': meta.update({'duration': '120'})
-        try: meta.update({'duration': str(int(meta['duration']) * 60)})
-        except: pass
-        try: meta.update({'genre': meta['genre']})
-        except: pass
-
         movie['play_qs'] = urllib.urlencode({
             'title': movie['title'],
             'year': movie['year'],
             'imdb': movie['imdb'],
-            'meta': json.dumps(meta),
-            't': m.systime
         })
         movie['_swaks_label'] = '%s (%s)' % (movie['title'], movie['year'])
 
@@ -85,18 +73,6 @@ def tvshows_navigator():
             except: multi = []
             multi = len([x for y,x in enumerate(multi) if x not in multi[:y]]) > 1
             for item in data:
-                meta = dict((k,v) for k, v in item.iteritems() if not v == '0')
-                meta.update({'mediatype': 'episode'})
-                meta.update({'trailer': item['tvshowtitle']})
-                if not 'duration' in item: meta.update({'duration': '60'})
-                elif item['duration'] == '0': meta.update({'duration': '60'})
-                try: meta.update({'duration': str(int(meta['duration']) * 60)})
-                except: pass
-                try: meta.update({'genre': meta['genre']})
-                except: pass
-                try: meta.update({'title': item['label']})
-                except: pass
-
                 item['play_qs'] = urllib.urlencode({
                     'title': item['title'],
                     'year': item['year'],
@@ -106,8 +82,6 @@ def tvshows_navigator():
                     'episode': item['episode'],
                     'tvshowtitle': item['tvshowtitle'],
                     'premiered': item['premiered'],
-                    'meta': json.dumps(meta),
-                    't': e.systime
                 })
                 item['_swaks_label'] = item.get('label', item['title'])
                 item['_swaks_label'] = '%sx%02d . %s' % (item['season'], int(item['episode']), item['_swaks_label'])
@@ -135,6 +109,5 @@ def play():
     args = request.args
     # print sources().play()
     return 'Hi'
-    # return render_template('play.html')
 
 app.run()
