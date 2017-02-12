@@ -22,7 +22,7 @@
 import re,urlparse,json,base64
 
 from resources.lib.modules import cache
-from resources.lib.modules import control
+# from resources.lib.modules import control
 from resources.lib.modules import client
 
 
@@ -38,8 +38,8 @@ class source:
         self.show_link = '/api/v2/shows/%s'
         self.episode_link = '/api/v2/episodes/%s'
 
-        self.user = control.setting('ororo.user')
-        self.password = control.setting('ororo.pass')
+        self.user = '' #control.setting('ororo.user')
+        self.password = '' #control.setting('ororo.pass')
         self.headers = {
         'Authorization': 'Basic %s' % base64.b64encode('%s:%s' % (self.user, self.password)),
         'User-Agent': 'Exodus for Kodi'

@@ -22,21 +22,21 @@
 from resources.lib.modules import trakt
 from resources.lib.modules import cleantitle
 from resources.lib.modules import cleangenre
-from resources.lib.modules import control
+# from resources.lib.modules import control
 from resources.lib.modules import client
 from resources.lib.modules import cache
-from resources.lib.modules import metacache
-from resources.lib.modules import playcount
+# from resources.lib.modules import metacache
+# from resources.lib.modules import playcount
 from resources.lib.modules import workers
-from resources.lib.modules import views
+# from resources.lib.modules import views
 
 import os,sys,re,json,urllib,urlparse,datetime
 
-params = dict(urlparse.parse_qsl(sys.argv[2].replace('?','')))
+# params = dict(urlparse.parse_qsl(sys.argv[2].replace('?','')))
 
-action = params.get('action')
+# action = params.get('action')
 
-control.moderator()
+# control.moderator()
 
 
 class tvshows:
@@ -48,11 +48,11 @@ class tvshows:
         self.tvmaze_link = 'http://www.tvmaze.com'
         self.tvdb_key = 'MUQ2MkYyRjkwMDMwQzQ0NA=='
         self.datetime = (datetime.datetime.utcnow() - datetime.timedelta(hours = 5))
-        self.trakt_user = control.setting('trakt.user').strip()
-        self.imdb_user = control.setting('imdb.user').replace('ur', '')
-        self.fanart_tv_user = control.setting('fanart.tv.user')
-        self.user = control.setting('fanart.tv.user') + str('')
-        self.lang = control.apiLanguage()['tvdb']
+        self.trakt_user = '' #control.setting('trakt.user').strip()
+        self.imdb_user = '' #control.setting('imdb.user').replace('ur', '')
+        self.fanart_tv_user = '' #control.setting('fanart.tv.user')
+        self.user = '' #control.setting('fanart.tv.user') + str('')
+        self.lang = 'en' #control.apiLanguage()['tvdb']
 
         self.search_link = 'http://api-v2launch.trakt.tv/search?type=show&limit=20&page=1&query='
         self.tvmaze_info_link = 'http://api.tvmaze.com/shows/%s'
@@ -138,6 +138,7 @@ class tvshows:
             if idx == True: self.tvshowDirectory(self.list)
             return self.list
         except:
+            raise
             pass
 
 
@@ -203,8 +204,9 @@ class tvshows:
         ('Western', 'western')
         ]
 
-        for i in genres: self.list.append({'name': cleangenre.lang(i[0], self.lang), 'url': self.genre_link % i[1], 'image': 'genres.png', 'action': 'tvshows'})
-        self.addDirectory(self.list)
+        # for i in genres: self.list.append({'name': cleangenre.lang(i[0], self.lang), 'url': self.genre_link % i[1], 'image': 'genres.png', 'action': 'tvshows'})
+        for i in genres: self.list.append({'name': i[0], 'url': i[1], 'image': 'genres.png', 'action': 'tvshows'})
+        # self.addDirectory(self.list)
         return self.list
 
 

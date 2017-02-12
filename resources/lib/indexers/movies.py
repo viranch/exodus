@@ -22,21 +22,21 @@
 from resources.lib.modules import trakt
 from resources.lib.modules import cleangenre
 from resources.lib.modules import cleantitle
-from resources.lib.modules import control
+# from resources.lib.modules import control
 from resources.lib.modules import client
 from resources.lib.modules import cache
-from resources.lib.modules import metacache
-from resources.lib.modules import playcount
+# from resources.lib.modules import metacache
+# from resources.lib.modules import playcount
 from resources.lib.modules import workers
-from resources.lib.modules import views
+# from resources.lib.modules import views
 
 import os,sys,re,json,urllib,urlparse,datetime
 
-params = dict(urlparse.parse_qsl(sys.argv[2].replace('?','')))
+# params = dict(urlparse.parse_qsl(sys.argv[2].replace('?','')))
 
-action = params.get('action')
+# action = params.get('action')
 
-control.moderator()
+# control.moderator()
 
 
 class movies:
@@ -47,12 +47,12 @@ class movies:
         self.trakt_link = 'http://api-v2launch.trakt.tv'
         self.datetime = (datetime.datetime.utcnow() - datetime.timedelta(hours = 5))
         self.systime = (self.datetime).strftime('%Y%m%d%H%M%S%f')
-        self.trakt_user = control.setting('trakt.user').strip()
-        self.imdb_user = control.setting('imdb.user').replace('ur', '')
-        self.tm_user = control.setting('tm.user')
-        self.fanart_tv_user = control.setting('fanart.tv.user')
-        self.user = str(control.setting('fanart.tv.user')) + str(control.setting('tm.user'))
-        self.lang = control.apiLanguage()['trakt']
+        self.trakt_user = ''
+        self.imdb_user = ''
+        self.tm_user = ''
+        self.fanart_tv_user = ''
+        self.user = ''
+        self.lang = 'en'
 
         self.search_link = 'http://api-v2launch.trakt.tv/search?type=movie&limit=20&page=1&query='
         self.imdb_info_link = 'http://www.omdbapi.com/?i=%s&plot=full&r=json'
@@ -130,12 +130,14 @@ class movies:
 
             elif u in self.imdb_link:
                 self.list = cache.get(self.imdb_list, 24, url)
-                if idx == True: self.worker() ; self.list = [i for i in self.list if not i['poster'] == '0']
+                if idx == True: self.list = [i for i in self.list if not i['poster'] == '0']
+                # if idx == True: self.worker() ; self.list = [i for i in self.list if not i['poster'] == '0']
 
 
-            if idx == True: self.movieDirectory(self.list)
+            # if idx == True: self.movieDirectory(self.list)
             return self.list
         except:
+            raise
             pass
 
 
@@ -210,8 +212,9 @@ class movies:
         ('Western', 'western')
         ]
 
-        for i in genres: self.list.append({'name': cleangenre.lang(i[0], self.lang), 'url': self.genre_link % i[1], 'image': 'genres.png', 'action': 'movies'})
-        self.addDirectory(self.list)
+        # for i in genres: self.list.append({'name': i[0], 'url': self.genre_link % i[1], 'image': 'genres.png', 'action': 'movies'})
+        for i in genres: self.list.append({'name': i[0], 'url': i[1], 'image': 'genres.png', 'action': 'movies'})
+        # self.addDirectory(self.list)
         return self.list
 
 

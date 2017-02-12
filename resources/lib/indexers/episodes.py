@@ -22,27 +22,27 @@
 from resources.lib.modules import trakt
 from resources.lib.modules import cleantitle
 from resources.lib.modules import cleangenre
-from resources.lib.modules import control
+# from resources.lib.modules import control
 from resources.lib.modules import client
 from resources.lib.modules import cache
-from resources.lib.modules import playcount
+# from resources.lib.modules import playcount
 from resources.lib.modules import workers
-from resources.lib.modules import views
+# from resources.lib.modules import views
 
 import os,sys,re,json,zipfile,StringIO,urllib,urllib2,urlparse,datetime
 
-params = dict(urlparse.parse_qsl(sys.argv[2].replace('?','')))
+# params = dict(urlparse.parse_qsl(sys.argv[2].replace('?','')))
 
-action = params.get('action')
+# action = params.get('action')
 
-control.moderator()
+# control.moderator()
 
 
 class seasons:
     def __init__(self):
         self.list = []
 
-        self.lang = control.apiLanguage()['tvdb']
+        self.lang = 'en' #control.apiLanguage()['tvdb']
         self.datetime = (datetime.datetime.utcnow() - datetime.timedelta(hours = 5))
         self.today_date = (self.datetime).strftime('%Y-%m-%d')
         self.tvdb_key = 'MUQ2MkYyRjkwMDMwQzQ0NA=='
@@ -56,8 +56,8 @@ class seasons:
 
 
     def get(self, tvshowtitle, year, imdb, tvdb, idx=True):
-        if control.window.getProperty('PseudoTVRunning') == 'True':
-            return episodes().get(tvshowtitle, year, imdb, tvdb)
+        # if control.window.getProperty('PseudoTVRunning') == 'True':
+        #     return episodes().get(tvshowtitle, year, imdb, tvdb)
 
         if idx == True:
             self.list = cache.get(self.tvdb_list, 24, tvshowtitle, year, imdb, tvdb, self.lang)
@@ -510,8 +510,8 @@ class episodes:
         self.datetime = (datetime.datetime.utcnow() - datetime.timedelta(hours = 5))
         self.systime = (self.datetime).strftime('%Y%m%d%H%M%S%f')
         self.today_date = (self.datetime).strftime('%Y-%m-%d')
-        self.trakt_user = control.setting('trakt.user').strip()
-        self.lang = control.apiLanguage()['tvdb']
+        self.trakt_user = '' #control.setting('trakt.user').strip()
+        self.lang = 'en' #control.apiLanguage()['tvdb']
 
         self.tvdb_info_link = 'http://thetvdb.com/api/%s/series/%s/all/%s.zip' % (self.tvdb_key.decode('base64'), '%s', '%s')
         self.tvdb_image = 'http://thetvdb.com/banners/'
@@ -541,7 +541,7 @@ class episodes:
                     num = [x for x,y in enumerate(self.list) if y['season'] == str(season) and  y['episode'] == str(episode)][-1]
                     self.list = [y for x,y in enumerate(self.list) if x >= num]
 
-                self.episodeDirectory(self.list)
+                # self.episodeDirectory(self.list)
                 return self.list
             else:
                 self.list = seasons().tvdb_list(tvshowtitle, year, imdb, tvdb, 'en', '-1')

@@ -22,7 +22,7 @@
 import urllib,json,time
 
 from resources.lib.modules import cache
-from resources.lib.modules import control
+# from resources.lib.modules import control
 from resources.lib.modules import client
 
 
@@ -149,22 +149,22 @@ def debridDict():
 def credentials():
     return {
         'realdebrid': {
-        'id': control.setting('realdebrid.id'),
-        'secret': control.setting('realdebrid.secret'),
-        'token': control.setting('realdebrid.token'),
-        'refresh': control.setting('realdebrid.refresh')
+        'id': '', #control.setting('realdebrid.id'),
+        'secret': '', #control.setting('realdebrid.secret'),
+        'token': '', #control.setting('realdebrid.token'),
+        'refresh': '' #control.setting('realdebrid.refresh')
     },
         'premiumize': {
-        'user': control.setting('premiumize.user'),
-        'pass': control.setting('premiumize.pin')
+        'user': '', #control.setting('premiumize.user'),
+        'pass': '' #control.setting('premiumize.pin')
     },
         'alldebrid': {
-        'user': control.setting('alldebrid.user'),
-        'pass': control.setting('alldebrid.pass')
+        'user': '', #control.setting('alldebrid.user'),
+        'pass': '' #control.setting('alldebrid.pass')
     },
         'rpnet': {
-        'user': control.setting('rpnet.user'),
-        'pass': control.setting('rpnet.api')
+        'user': '', #control.setting('rpnet.user'),
+        'pass': '' #control.setting('rpnet.api')
     }}
 
 

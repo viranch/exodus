@@ -21,7 +21,7 @@
 
 import re,urllib,urlparse,json,base64,time
 
-from resources.lib.modules import control
+# from resources.lib.modules import control
 from resources.lib.modules import pyaes
 from resources.lib.modules import cleantitle
 from resources.lib.modules import client
@@ -35,8 +35,8 @@ class source:
         self.domains = ['moviesplanet.is']
         self.base_link = 'http://www.moviesplanet.is'
         self.search_link = '/ajax/search.php'
-        self.user = control.setting('moviesplanet.user')
-        self.password = control.setting('moviesplanet.pass')
+        self.user = '' #control.setting('moviesplanet.user')
+        self.password = '' #control.setting('moviesplanet.pass')
 
 
     def movie(self, imdb, title, localtitle, year):

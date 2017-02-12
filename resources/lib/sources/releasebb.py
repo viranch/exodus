@@ -25,7 +25,7 @@ import re,urllib,urlparse,json
 from resources.lib.modules import cleantitle
 from resources.lib.modules import client
 from resources.lib.modules import debrid
-from resources.lib.modules import control
+# from resources.lib.modules import control
 
 class source:
     def __init__(self):

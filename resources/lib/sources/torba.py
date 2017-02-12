@@ -21,7 +21,7 @@
 
 import re,os,json,urllib,urlparse
 
-from resources.lib.modules import control
+# from resources.lib.modules import control
 from resources.lib.modules import cleantitle
 from resources.lib.modules import client
 from resources.lib.modules import workers

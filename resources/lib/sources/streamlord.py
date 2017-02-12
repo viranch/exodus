@@ -21,7 +21,7 @@
 
 import re,urllib,urlparse
 
-from resources.lib.modules import control
+# from resources.lib.modules import control
 from resources.lib.modules import cleantitle
 from resources.lib.modules import client
 
@@ -33,8 +33,8 @@ class source:
         self.domains = ['streamlord.com']
         self.base_link = 'http://www.streamlord.com'
         self.search_link = '/search2.php'
-        self.user = control.setting('streamlord.user')
-        self.password = control.setting('streamlord.pass')
+        self.user = '' #control.setting('streamlord.user')
+        self.password = '' #control.setting('streamlord.pass')
 
 
     def movie(self, imdb, title, localtitle, year):

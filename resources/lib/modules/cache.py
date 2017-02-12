@@ -24,7 +24,7 @@ import re,hashlib,time
 try: from sqlite3 import dbapi2 as database
 except: from pysqlite2 import dbapi2 as database
 
-from resources.lib.modules import control
+# from resources.lib.modules import control
 
 
 def get(function, timeout, *args, **table):
@@ -46,8 +46,9 @@ def get(function, timeout, *args, **table):
         table = 'rel_list'
 
     try:
-        control.makeFile(control.dataPath)
-        dbcon = database.connect(control.cacheFile)
+        # control.makeFile(control.dataPath)
+        # dbcon = database.connect(control.cacheFile)
+        dbcon = database.connect('/tmp/swaks/cache.db')
         dbcur = dbcon.cursor()
         dbcur.execute("SELECT * FROM %s WHERE func = '%s' AND args = '%s'" % (table, f, a))
         match = dbcur.fetchone()
@@ -106,8 +107,9 @@ def timeout(function, *args, **table):
         table = 'rel_list'
 
     try:
-        control.makeFile(control.dataPath)
-        dbcon = database.connect(control.cacheFile)
+        # control.makeFile(control.dataPath)
+        # dbcon = database.connect(control.cacheFile)
+        dbcon = database.connect('/tmp/swaks/cache.db')
         dbcur = dbcon.cursor()
         dbcur.execute("SELECT * FROM %s WHERE func = '%s' AND args = '%s'" % (table, f, a))
         match = dbcur.fetchone()
@@ -121,7 +123,8 @@ def clear(table=None):
         if table == None: table = ['rel_list', 'rel_lib']
         elif not type(table) == list: table = [table]
 
-        dbcon = database.connect(control.cacheFile)
+        # dbcon = database.connect(control.cacheFile)
+        dbcon = database.connect('/tmp/swaks/cache.db')
         dbcur = dbcon.cursor()
 
         for t in table:

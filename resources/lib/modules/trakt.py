@@ -22,7 +22,7 @@
 import re,json,urlparse,time
 
 from resources.lib.modules import cache
-from resources.lib.modules import control
+# from resources.lib.modules import control
 from resources.lib.modules import cleandate
 from resources.lib.modules import client
 
