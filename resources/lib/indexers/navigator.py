@@ -199,6 +199,7 @@ class navigator:
         self.addDirectoryItem(32049, 'viewsNavigator', 'tools.png', 'DefaultAddonProgram.png')
         self.addDirectoryItem(32050, 'clearSources', 'tools.png', 'DefaultAddonProgram.png')
         self.addDirectoryItem(32052, 'clearCache', 'tools.png', 'DefaultAddonProgram.png')
+        self.addDirectoryItem(32073, 'infoCheck', 'tools.png', 'DefaultAddonProgram.png', isFolder=False)
 
         self.endDirectory()
 
@@ -263,6 +264,14 @@ class navigator:
             sys.exit()
 
 
+    def infoCheck(self, version):
+        try:
+            control.infoDialog('www.tvaddons.ag', control.lang(32074).encode('utf-8'), time=5000, sound=False)
+            return '1'
+        except:
+            return '1'
+
+
     def clearCache(self):
         control.idle()
         yes = control.yesnoDialog(control.lang(32056).encode('utf-8'), '', '')
@@ -287,6 +296,7 @@ class navigator:
 
 
     def endDirectory(self):
+        control.content(syshandle, 'addons')
         control.directory(syshandle, cacheToDisc=True)
 
 

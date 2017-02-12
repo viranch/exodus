@@ -65,17 +65,17 @@ class movies:
 
         self.persons_link = 'http://www.imdb.com/search/name?count=100&name='
         self.personlist_link = 'http://www.imdb.com/search/name?count=100&gender=male,female'
-        self.popular_link = 'http://www.imdb.com/search/title?title_type=feature,tv_movie&languages=en&num_votes=1000,&production_status=released&groups=top_1000&sort=moviemeter,asc&count=40&start=1'
-        self.views_link = 'http://www.imdb.com/search/title?title_type=feature,tv_movie&languages=en&num_votes=1000,&production_status=released&sort=num_votes,desc&count=40&start=1'
-        self.featured_link = 'http://www.imdb.com/search/title?title_type=feature,tv_movie&languages=en&num_votes=1000,&production_status=released&release_date=date[365],date[60]&sort=moviemeter,asc&count=40&start=1'
+        self.popular_link = 'http://www.imdb.com/search/title?title_type=feature,tv_movie&num_votes=1000,&production_status=released&groups=top_1000&sort=moviemeter,asc&count=40&start=1'
+        self.views_link = 'http://www.imdb.com/search/title?title_type=feature,tv_movie&num_votes=1000,&production_status=released&sort=num_votes,desc&count=40&start=1'
+        self.featured_link = 'http://www.imdb.com/search/title?title_type=feature,tv_movie&num_votes=1000,&production_status=released&release_date=date[365],date[60]&sort=moviemeter,asc&count=40&start=1'
         self.person_link = 'http://www.imdb.com/search/title?title_type=feature,tv_movie&production_status=released&role=%s&sort=year,desc&count=40&start=1'
-        self.genre_link = 'http://www.imdb.com/search/title?title_type=feature,tv_movie&languages=en&num_votes=100,&release_date=date[730],date[30]&genres=%s&sort=moviemeter,asc&count=40&start=1'
+        self.genre_link = 'http://www.imdb.com/search/title?title_type=feature,tv_movie&num_votes=100,&release_date=date[730],date[30]&genres=%s&sort=moviemeter,asc&count=40&start=1'
         self.language_link = 'http://www.imdb.com/search/title?title_type=feature,tv_movie&num_votes=100,&production_status=released&languages=%s&sort=moviemeter,asc&count=40&start=1'
-        self.certification_link = 'http://www.imdb.com/search/title?title_type=feature,tv_movie&languages=en&num_votes=100,&production_status=released&certificates=us:%s&sort=moviemeter,asc&count=40&start=1'
-        self.year_link = 'http://www.imdb.com/search/title?title_type=feature,tv_movie&languages=en&num_votes=100,&production_status=released&year=%s,%s&sort=moviemeter,asc&count=40&start=1'
-        self.boxoffice_link = 'http://www.imdb.com/search/title?title_type=feature,tv_movie&languages=en&production_status=released&sort=boxoffice_gross_us,desc&count=40&start=1'
-        self.oscars_link = 'http://www.imdb.com/search/title?title_type=feature,tv_movie&languages=en&production_status=released&groups=oscar_best_picture_winners&sort=year,desc&count=40&start=1'
-        self.theaters_link = 'http://www.imdb.com/search/title?title_type=feature&languages=en&num_votes=1000,&release_date=date[365],date[0]&sort=release_date_us,desc&count=40&start=1'
+        self.certification_link = 'http://www.imdb.com/search/title?title_type=feature,tv_movie&num_votes=100,&production_status=released&certificates=us:%s&sort=moviemeter,asc&count=40&start=1'
+        self.year_link = 'http://www.imdb.com/search/title?title_type=feature,tv_movie&num_votes=100,&production_status=released&year=%s,%s&sort=moviemeter,asc&count=40&start=1'
+        self.boxoffice_link = 'http://www.imdb.com/search/title?title_type=feature,tv_movie&production_status=released&sort=boxoffice_gross_us,desc&count=40&start=1'
+        self.oscars_link = 'http://www.imdb.com/search/title?title_type=feature,tv_movie&production_status=released&groups=oscar_best_picture_winners&sort=year,desc&count=40&start=1'
+        self.theaters_link = 'http://www.imdb.com/search/title?title_type=feature&num_votes=1000,&release_date=date[365],date[0]&sort=release_date_us,desc&count=40&start=1'
         self.trending_link = 'http://api-v2launch.trakt.tv/movies/trending?limit=40&page=1'
 
         self.traktlists_link = 'http://api-v2launch.trakt.tv/users/me/lists'
@@ -446,7 +446,7 @@ class movies:
                 url = url.replace('date[%s]' % i, (self.datetime - datetime.timedelta(days = int(i))).strftime('%Y-%m-%d'))
 
             def imdb_watchlist_id(url):
-                return client.parseDOM(client.request(url).decode('iso-8859-1').encode('utf-8'), 'meta', ret='content', attrs = {'property': 'pageId'})[0]
+                return client.parseDOM(client.request(url), 'meta', ret='content', attrs = {'property': 'pageId'})[0]
 
             if url == self.imdbwatchlist_link:
                 url = cache.get(imdb_watchlist_id, 8640, url)
@@ -459,7 +459,6 @@ class movies:
             result = client.request(url)
 
             result = result.replace('\n','')
-            result = result.decode('iso-8859-1').encode('utf-8')
 
             items = client.parseDOM(result, 'div', attrs = {'class': 'lister-item mode-advanced'})
             items += client.parseDOM(result, 'div', attrs = {'class': 'list_item.+?'})
@@ -577,7 +576,6 @@ class movies:
     def imdb_person_list(self, url):
         try:
             result = client.request(url)
-            result = result.decode('iso-8859-1').encode('utf-8')
             items = client.parseDOM(result, 'tr', attrs = {'class': '.+? detailed'})
         except:
             return
@@ -610,7 +608,6 @@ class movies:
     def imdb_user_list(self, url):
         try:
             result = client.request(url)
-            result = result.decode('iso-8859-1').encode('utf-8')
             items = client.parseDOM(result, 'div', attrs = {'class': 'list_name'})
         except:
             pass
@@ -678,6 +675,8 @@ class movies:
 
             title = item['Title']
             title = title.encode('utf-8')
+
+            originaltitle = title
 
             year = item['Year']
             year = year.encode('utf-8')
@@ -834,19 +833,19 @@ class movies:
                 item = json.loads(item)[0]
 
                 t = item['title']
-                if not (t == None or t == ''): title = t
-                try: title = title.encode('utf-8')
-                except: pass
+                if not (t == None or t == ''):
+                    try: title = t.encode('utf-8')
+                    except: pass
 
                 t = item['overview']
-                if not (t == None or t == ''): plot = t
-                try: plot = plot.encode('utf-8')
-                except: pass
+                if not (t == None or t == ''):
+                    try: plot = t.encode('utf-8')
+                    except: pass
             except:
                 pass
 
 
-            item = {'title': title, 'year': year, 'imdb': imdb, 'poster': poster, 'poster2': poster2, 'poster3': poster3, 'banner': banner, 'fanart': fanart, 'fanart2': fanart2, 'clearlogo': clearlogo, 'clearart': clearart, 'premiered': premiered, 'genre': genre, 'duration': duration, 'rating': rating, 'votes': votes, 'mpaa': mpaa, 'director': director, 'writer': writer, 'cast': cast, 'plot': plot}
+            item = {'title': title, 'originaltitle': originaltitle, 'year': year, 'imdb': imdb, 'poster': poster, 'poster2': poster2, 'poster3': poster3, 'banner': banner, 'fanart': fanart, 'fanart2': fanart2, 'clearlogo': clearlogo, 'clearart': clearart, 'premiered': premiered, 'genre': genre, 'duration': duration, 'rating': rating, 'votes': votes, 'mpaa': mpaa, 'director': director, 'writer': writer, 'cast': cast, 'plot': plot}
             item = dict((k,v) for k, v in item.iteritems() if not v == '0')
             self.list[i].update(item)
 
@@ -1000,7 +999,7 @@ class movies:
 
         control.content(syshandle, 'movies')
         control.directory(syshandle, cacheToDisc=True)
-        views.setView('movies', {'skin.confluence': 500})
+        views.setView('movies', {'skin.estuary': 55, 'skin.confluence': 500})
 
 
     def addDirectory(self, items, queue=False):
@@ -1042,6 +1041,7 @@ class movies:
             except:
                 pass
 
+        control.content(syshandle, 'addons')
         control.directory(syshandle, cacheToDisc=True)
 
 

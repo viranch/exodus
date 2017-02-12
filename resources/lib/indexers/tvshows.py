@@ -66,7 +66,7 @@ class tvshows:
 
         self.persons_link = 'http://www.imdb.com/search/name?count=100&name='
         self.personlist_link = 'http://www.imdb.com/search/name?count=100&gender=male,female'
-        self.popular_link = 'http://www.imdb.com/search/title?title_type=tv_series,mini_series&languages=en&num_votes=100,&release_date=,date[0]&sort=moviemeter,asc&count=40&start=1'
+        self.popular_link = 'http://www.imdb.com/search/title?title_type=tv_series,mini_series&num_votes=100,&release_date=,date[0]&sort=moviemeter,asc&count=40&start=1'
         self.airing_link = 'http://www.imdb.com/search/title?title_type=tv_episode&release_date=date[1],date[0]&sort=moviemeter,asc&count=40&start=1'
         self.active_link = 'http://www.imdb.com/search/title?title_type=tv_series,mini_series&num_votes=10,&production_status=active&sort=moviemeter,asc&count=40&start=1'
         self.premiere_link = 'http://www.imdb.com/search/title?title_type=tv_series,mini_series&languages=en&num_votes=10,&release_date=date[60],date[0]&sort=moviemeter,asc&count=40&start=1'
@@ -481,7 +481,7 @@ class tvshows:
                 url = url.replace('date[%s]' % i, (self.datetime - datetime.timedelta(days = int(i))).strftime('%Y-%m-%d'))
 
             def imdb_watchlist_id(url):
-                return client.parseDOM(client.request(url).decode('iso-8859-1').encode('utf-8'), 'meta', ret='content', attrs = {'property': 'pageId'})[0]
+                return client.parseDOM(client.request(url), 'meta', ret='content', attrs = {'property': 'pageId'})[0]
 
             if url == self.imdbwatchlist_link:
                 url = cache.get(imdb_watchlist_id, 8640, url)
@@ -494,7 +494,6 @@ class tvshows:
             result = client.request(url)
 
             result = result.replace('\n','')
-            result = result.decode('iso-8859-1').encode('utf-8')
 
             items = client.parseDOM(result, 'div', attrs = {'class': 'lister-item mode-advanced'})
             items += client.parseDOM(result, 'div', attrs = {'class': 'list_item.+?'})
@@ -574,7 +573,6 @@ class tvshows:
     def imdb_person_list(self, url):
         try:
             result = client.request(url)
-            result = result.decode('iso-8859-1').encode('utf-8')
             items = client.parseDOM(result, 'tr', attrs = {'class': '.+? detailed'})
         except:
             return
@@ -607,7 +605,6 @@ class tvshows:
     def imdb_user_list(self, url):
         try:
             result = client.request(url)
-            result = result.decode('iso-8859-1').encode('utf-8')
             items = client.parseDOM(result, 'div', attrs = {'class': 'list_name'})
         except:
             pass
@@ -1121,7 +1118,7 @@ class tvshows:
 
         control.content(syshandle, 'tvshows')
         control.directory(syshandle, cacheToDisc=True)
-        views.setView('tvshows', {'skin.confluence': 500})
+        views.setView('tvshows', {'skin.estuary': 55, 'skin.confluence': 500})
 
 
     def addDirectory(self, items, queue=False):
@@ -1163,6 +1160,7 @@ class tvshows:
             except:
                 pass
 
+        control.content(syshandle, 'addons')
         control.directory(syshandle, cacheToDisc=True)
 
 
