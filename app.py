@@ -62,11 +62,17 @@ def tvshows_navigator():
                 'tvdb': show['tvdb']
             })
             show['_swaks_label'] = show['title']
-    elif 'tvshowtitle' in args:
-        if 'season' in args:
-            title, year, imdb, tvdb, season = args['tvshowtitle'], args['year'], args['imdb'], args['tvdb'], args['season']
+    else:
+        if 'season' in args or 'cal' in args:
             e = episodes.episodes()
-            data = e.get(title, year, imdb, tvdb, season)
+            if 'season' in args:
+                title, year, imdb, tvdb, season = args['tvshowtitle'], args['year'], args['imdb'], args['tvdb'], args['season']
+                data = e.get(title, year, imdb, tvdb, season)
+            else:
+                data = e.calendar(args['cal'])
+            try: multi = [i['tvshowtitle'] for i in data]
+            except: multi = []
+            multi = len([x for y,x in enumerate(multi) if x not in multi[:y]]) > 1
             for item in data:
                 meta = dict((k,v) for k, v in item.iteritems() if not v == '0')
                 meta.update({'mediatype': 'episode'})
@@ -94,6 +100,8 @@ def tvshows_navigator():
                 })
                 item['_swaks_label'] = item.get('label', item['title'])
                 item['_swaks_label'] = '%sx%02d . %s' % (item['season'], int(item['episode']), item['_swaks_label'])
+                if multi:
+                    item['_swaks_label'] = '%s - %s' % (item['tvshowtitle'], item['_swaks_label'])
         else:
             title, year, imdb, tvdb = args['tvshowtitle'], args['year'], args['imdb'], args['tvdb']
             data = episodes.seasons().get(title, year, imdb, tvdb, False)

@@ -584,7 +584,7 @@ class episodes:
                 self.list = cache.get(self.tvmaze_list, 1, url, False)
 
 
-            self.episodeDirectory(self.list)
+            # self.episodeDirectory(self.list)
             return self.list
         except:
             pass
@@ -605,18 +605,21 @@ class episodes:
 
 
     def calendars(self, idx=True):
-        m = control.lang(32060).encode('utf-8').split('|')
+        m = "January|February|March|April|May|June|July|August|September|October|November|December"
+        m = m.encode('utf-8').split('|')
         try: months = [(m[0], 'January'), (m[1], 'February'), (m[2], 'March'), (m[3], 'April'), (m[4], 'May'), (m[5], 'June'), (m[6], 'July'), (m[7], 'August'), (m[8], 'September'), (m[9], 'October'), (m[10], 'November'), (m[11], 'December')]
         except: months = []
 
-        d = control.lang(32061).encode('utf-8').split('|')
+        d = "Monday|Tuesday|Wednesday|Thursday|Friday|Saturday|Sunday"
+        d = d.encode('utf-8').split('|')
         try: days = [(d[0], 'Monday'), (d[1], 'Tuesday'), (d[2], 'Wednesday'), (d[3], 'Thursday'), (d[4], 'Friday'), (d[5], 'Saturday'), (d[6], 'Sunday')]
         except: days = []
 
         for i in range(0, 30):
             try:
                 name = (self.datetime - datetime.timedelta(days = i))
-                name = (control.lang(32062) % (name.strftime('%A'), name.strftime('%d %B'))).encode('utf-8')
+                name_format = "<strong>%s</strong> : %s"
+                name = (name_format % (name.strftime('%A'), name.strftime('%d %B'))).encode('utf-8')
                 for m in months: name = name.replace(m[1], m[0])
                 for d in days: name = name.replace(d[1], d[0])
                 try: name = name.encode('utf-8')
