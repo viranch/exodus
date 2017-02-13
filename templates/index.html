@@ -7,35 +7,35 @@
     <ul>
         <li>Movies
             <ul>
-                <li><a href="/movies?url=trending">People Watching</a></li>
-                <li><a href="/movies?url=popular">Most Popular</a></li>
-                <li><a href="/movies?url=views">Most Voted</a></li>
-                <li><a href="/movies?url=boxoffice">Box Office</a></li>
-                <li><a href="/movies?url=oscars">Oscar Winners</a></li>
-                <li><a href="/movies?url=theaters">In Theaters</a></li>
-                <li><a href="/movies?url=featured">New Movies</a></li>
+                <li><a href="/movies/?url=trending">People Watching</a></li>
+                <li><a href="/movies/?url=popular">Most Popular</a></li>
+                <li><a href="/movies/?url=views">Most Voted</a></li>
+                <li><a href="/movies/?url=boxoffice">Box Office</a></li>
+                <li><a href="/movies/?url=oscars">Oscar Winners</a></li>
+                <li><a href="/movies/?url=theaters">In Theaters</a></li>
+                <li><a href="/movies/?url=featured">New Movies</a></li>
                 <li>-------</li>
             {% for genre in movie_genres %}
             <li>
-                <a href="/movies?genre={{ genre['url'] }}">{{ genre['name'] }}</a>
+                <a href="/movies/?genre={{ genre['url'] }}">{{ genre['name'] }}</a>
             </li>
             {% endfor %}
             </ul>
         </li>
         <li>TV Shows
             <ul>
-                <li><a href="/tvshows?url=trending">People Watching</a></li>
-                <li><a href="/tvshows?url=popular">Most Popular</a></li>
-                <li><a href="/tvshows?url=rating">Highly Rated</a></li>
-                <li><a href="/tvshows?url=views">Most Voted</a></li>
-                <li><a href="/tvshows?url=airing">Airing today</a></li>
-                <li><a href="/tvshows?url=premiere">New TV Shows</a></li>
-                <li><a href="/tvshows?cal=added">New Episodes</a></li>
-                <li><a href="/tvshows?cals">TV Calendar</a></li>
+                <li><a href="/tvshows/?url=trending">People Watching</a></li>
+                <li><a href="/tvshows/?url=popular">Most Popular</a></li>
+                <li><a href="/tvshows/?url=rating">Highly Rated</a></li>
+                <li><a href="/tvshows/?url=views">Most Voted</a></li>
+                <li><a href="/tvshows/?url=airing">Airing today</a></li>
+                <li><a href="/tvshows/?url=premiere">New TV Shows</a></li>
+                <li><a href="/tvshows/?cal=added">New Episodes</a></li>
+                <li><a href="/tvshows/?cals">TV Calendar</a></li>
                 <li>-------</li>
             {% for genre in tvshow_genres %}
             <li>
-                <a href="/tvshows?genre={{ genre['url'] }}">{{ genre['name'] }}</a>
+                <a href="/tvshows/?genre={{ genre['url'] }}">{{ genre['name'] }}</a>
             </li>
             {% endfor %}
             </ul>

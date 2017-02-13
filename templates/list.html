@@ -8,7 +8,7 @@
         {% for item in items %}
             {% set uri = '' %}
             {% if 'play_qs' in item %}
-                {% set uri = 'play' %}
+                {% set uri = 'play/' %}
             {% endif %}
             <li>
                 <a href="{{ uri }}?{{ item.get('href_qs', item.get('play_qs')) }}">
