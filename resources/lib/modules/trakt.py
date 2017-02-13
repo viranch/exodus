@@ -118,9 +118,9 @@ def authTrakt():
 
 
 def getTraktCredentialsInfo():
-    user = control.setting('trakt.user').strip()
-    token = control.setting('trakt.token')
-    refresh = control.setting('trakt.refresh')
+    user = '' #control.setting('trakt.user').strip()
+    token = '' #control.setting('trakt.token')
+    refresh = '' #control.setting('trakt.refresh')
     if (user == '' or token == '' or refresh == ''): return False
     return True
 
