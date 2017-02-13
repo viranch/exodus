@@ -26,7 +26,7 @@ try:
 except:
     from pysqlite2 import dbapi2 as database
 
-from resources.lib.modules import control
+# from resources.lib.modules import control
 from resources.lib.modules import cleantitle
 from resources.lib.modules import client
 from resources.lib.modules import proxy
@@ -46,7 +46,7 @@ class source:
         try:
             download = True
 
-            data = os.path.join(control.dataPath, 'provider.movie25.db')
+            data = os.path.join('/tmp/swaks', 'provider.movie25.db')
             data_link = 'http://offshoregit.com/extest/provider.movie25.zip'
 
             try: download = abs(datetime.datetime.fromtimestamp(os.path.getmtime(data)) - (datetime.datetime.now())) > datetime.timedelta(days=7)
@@ -55,7 +55,7 @@ class source:
             if download == True:
                 r = client.request(data_link)
                 zip = zipfile.ZipFile(StringIO.StringIO(r))
-                zip.extractall(control.dataPath)
+                zip.extractall('/tmp/swaks')
                 zip.close()
 
             dbcon = database.connect(data)
