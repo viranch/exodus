@@ -116,4 +116,5 @@ def play():
         item['_swaks_label'] = item['label']
     return render_template('list.html', items=data)
 
-app.run()
+if __name__ == '__main__':
+    app.run()
