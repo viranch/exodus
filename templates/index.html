@@ -6,6 +6,9 @@
 <body>
     <ul>
         <li>Movies
+            <form action="/movies/" method="get">
+                <input type="text" name="search" placeholder="Search..">
+            </form>
             <ul>
                 <li><a href="/movies/?url=trending">People Watching</a></li>
                 <li><a href="/movies/?url=popular">Most Popular</a></li>
@@ -23,6 +26,9 @@
             </ul>
         </li>
         <li>TV Shows
+            <form action="/tvshows/" method="get">
+                <input type="text" name="search" placeholder="Search..">
+            </form>
             <ul>
                 <li><a href="/tvshows/?url=trending">People Watching</a></li>
                 <li><a href="/tvshows/?url=popular">Most Popular</a></li>

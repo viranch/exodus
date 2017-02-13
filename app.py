@@ -19,6 +19,8 @@ def movies_navigator():
     url = args.get('url')
     if 'genre' in args:
         url = m.genre_link % args['genre']
+    elif 'search' in args:
+        url = m.search_link + urllib.quote_plus(args['search'])
 
     data = m.get(url, idx=False)
     for movie in data:
@@ -35,11 +37,13 @@ def movies_navigator():
 def tvshows_navigator():
     args = request.args
     data = []
-    if 'genre' in args or 'url' in args:
+    if 'genre' in args or 'url' in args or 'search' in args:
         t = tvshows.tvshows()
         url = args.get('url')
         if 'genre' in args:
             url = t.genre_link % args['genre']
+        elif 'search' in args:
+            url = t.search_link + urllib.quote_plus(args['search'])
 
         data = t.get(url, False)
         for show in data:
