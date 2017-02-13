@@ -45,7 +45,7 @@ def tvshows_navigator():
         elif 'search' in args:
             url = t.search_link + urllib.quote_plus(args['search'])
 
-        data = t.get(url, False)
+        data = t.get(url, idx=False)
         for show in data:
             show['href_qs'] = urllib.urlencode({
                 'tvshowtitle': show['originaltitle'],
