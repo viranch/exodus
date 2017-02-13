@@ -130,11 +130,10 @@ class movies:
 
             elif u in self.imdb_link:
                 self.list = cache.get(self.imdb_list, 24, url)
-                if idx == True: self.list = [i for i in self.list if not i['poster'] == '0']
-                # if idx == True: self.worker() ; self.list = [i for i in self.list if not i['poster'] == '0']
+                if idx == True: self.worker() ; self.list = [i for i in self.list if not i['poster'] == '0']
 
 
-            # if idx == True: self.movieDirectory(self.list)
+            if idx == True: self.movieDirectory(self.list)
             return self.list
         except:
             raise

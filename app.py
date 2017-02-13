@@ -20,7 +20,7 @@ def movies_navigator():
     if 'genre' in args:
         url = m.genre_link % args['genre']
 
-    data = m.get(url)
+    data = m.get(url, idx=False)
     for movie in data:
         movie['play_qs'] = urllib.urlencode({
             'title': movie['title'],
