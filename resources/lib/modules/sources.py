@@ -23,7 +23,7 @@ import sys,re,json,urllib,urlparse,random,datetime,time
 
 from resources.lib.modules import trakt
 from resources.lib.modules import cache
-from resources.lib.modules import control
+# from resources.lib.modules import control
 from resources.lib.modules import cleantitle
 from resources.lib.modules import client
 from resources.lib.modules import debrid
@@ -45,13 +45,14 @@ class sources:
         self.sources = []
 
 
-    def play(self, title, year, imdb, tvdb, season, episode, tvshowtitle, premiered, meta, select):
+    def play(self, title, year, imdb, tvdb=None, season=None, episode=None, tvshowtitle=None, premiered=None, meta=None, select=None):
         try:
             url = None
 
-            control.moderator()
+            # control.moderator()
 
             items = self.getSources(title, year, imdb, tvdb, season, episode, tvshowtitle, premiered)
+            return items
 
             select = control.setting('hosts.mode') if select == None else select
 
@@ -289,9 +290,9 @@ class sources:
 
     def getSources(self, title, year, imdb, tvdb, season, episode, tvshowtitle, premiered, timeout=30):
 
-        progressDialog = control.progressDialog if control.setting('progress.dialog') == '0' else control.progressDialogBG
-        progressDialog.create(control.addonInfo('name'), '')
-        progressDialog.update(0)
+        # progressDialog = control.progressDialog if control.setting('progress.dialog') == '0' else control.progressDialogBG
+        # progressDialog.create(control.addonInfo('name'), '')
+        # progressDialog.update(0)
 
         self.prepareSources()
 
@@ -333,31 +334,32 @@ class sources:
 
         [i.start() for i in threads]
 
-        string1 = control.lang(32404).encode('utf-8')
-        string2 = control.lang(32405).encode('utf-8')
-        string3 = control.lang(32406).encode('utf-8')
+        string1 = 'Time elapsed: %s seconds' #control.lang(32404).encode('utf-8')
+        string2 = '%s seconds' #control.lang(32405).encode('utf-8')
+        string3 = 'Remaining providers: %s' #control.lang(32406).encode('utf-8')
 
-        try: timeout = int(control.setting('scrapers.timeout.1'))
+        try: timeout = 30 #int(control.setting('scrapers.timeout.1'))
         except: pass
 
         for i in range(0, (timeout * 2) + 60):
             try:
-                if xbmc.abortRequested == True: return sys.exit()
+                # if xbmc.abortRequested == True: return sys.exit()
 
                 try: info = [sourcelabelDict[x.getName()] for x in threads if x.is_alive() == True]
                 except: info = []
 
                 timerange = int(i * 0.5)
 
-                try:
-                    if progressDialog.iscanceled(): break
-                except:
-                    pass
+                # try:
+                #     if progressDialog.iscanceled(): break
+                # except:
+                #     pass
                 try:
                     string4 = string1 % str(timerange)
                     if len(info) > 5: string5 = string3 % str(len(info))
                     else: string5 = string3 % str(info).translate(None, "[]'")
-                    progressDialog.update(int((100 / float(len(threads))) * len([x for x in threads if x.is_alive() == False])), str(string4), str(string5))
+                    # progressDialog.update(int((100 / float(len(threads))) * len([x for x in threads if x.is_alive() == False])), str(string4), str(string5))
+                    print int((100 / float(len(threads))) * len([x for x in threads if x.is_alive() == False])), str(string4), str(string5)
                 except:
                     pass
 
@@ -382,9 +384,9 @@ class sources:
 
     def prepareSources(self):
         try:
-            control.makeFile(control.dataPath)
+            # control.makeFile(control.dataPath)
 
-            self.sourceFile = control.providercacheFile
+            self.sourceFile = '/tmp/swaks/providers.13.db' #control.providercacheFile
 
             dbcon = database.connect(self.sourceFile)
             dbcur = dbcon.cursor()
@@ -541,12 +543,12 @@ class sources:
 
 
     def sourcesFilter(self):
-        provider = control.setting('hosts.sort.provider')
+        provider = 'false' #control.setting('hosts.sort.provider')
 
-        quality = control.setting('hosts.quality')
+        quality = '0' #control.setting('hosts.quality')
         if quality == '': quality = '0'
 
-        captcha = control.setting('hosts.captcha')
+        captcha = 'true' #control.setting('hosts.captcha')
 
         random.shuffle(self.sources)
 
@@ -842,7 +844,7 @@ class sources:
 
     def getLanguage(self):
         langDict = {'English': ['en'], 'German': ['de'], 'German+English': ['en', 'de'], 'French': ['fr'], 'French+English': ['en', 'fr']}
-        name = control.setting('providers.lang')
+        name = 'English' #control.setting('providers.lang')
         try: lang = langDict[name]
         except: lang = ['en']
         return lang
@@ -850,7 +852,7 @@ class sources:
 
     def getLocalTitle(self, title, imdb, content):
         langDict = {'German': 'de', 'German+English': 'de', 'French': 'fr', 'French+English': 'fr'}
-        name = control.setting('providers.lang')
+        name = 'English' #control.setting('providers.lang')
         try: lang = langDict[name]
         except: return title
         if content == 'movie': t = trakt.getMovieTranslation(imdb, lang)

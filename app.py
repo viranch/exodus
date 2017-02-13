@@ -4,7 +4,7 @@ from flask import Flask, render_template, request
 from resources.lib.indexers import movies
 from resources.lib.indexers import tvshows
 from resources.lib.indexers import episodes
-from resources.lib.sources import sources
+from resources.lib.modules import sources
 
 app = Flask(__name__)
 
@@ -109,9 +109,11 @@ def tvshows_navigator():
 @app.route('/movies/play/')
 @app.route('/tvshows/play/')
 def play():
-    # args = dict((k,v) for k, v in request.args.iteritems())
-    args = request.args
-    # print sources().play()
-    return 'Hi'
+    args = dict(request.args.iteritems())
+    data = sources.sources().play(**args)
+    for item in data:
+        item['href_qs'] = urllib.urlencode(dict(item.iteritems()))
+        item['_swaks_label'] = item['label']
+    return render_template('list.html', items=data)
 
 app.run()

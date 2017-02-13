@@ -23,7 +23,7 @@ import re, urllib, urlparse, json, base64
 from resources.lib.modules import cleantitle
 from resources.lib.modules import client
 from resources.lib.modules import directstream
-from resources.lib.modules import control
+# from resources.lib.modules import control
 
 class source:
     def __init__(self):
@@ -35,8 +35,8 @@ class source:
         self.part_link = 'service/get_video_part'
 
         self.login_link = 'service/login'
-        self.user = control.setting('seriesever.user')
-        self.password = control.setting('seriesever.pass')
+        self.user = '' #control.setting('seriesever.user')
+        self.password = '' #control.setting('seriesever.pass')
 
 
     def tvshow(self, imdb, tvdb, tvshowtitle, localtvshowtitle, year):

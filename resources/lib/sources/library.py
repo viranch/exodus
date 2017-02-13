@@ -21,7 +21,7 @@
 
 import urllib,urlparse,json
 
-from resources.lib.modules import control
+# from resources.lib.modules import control
 from resources.lib.modules import cleantitle
 
 
