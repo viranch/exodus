@@ -111,10 +111,12 @@ def tvshows_navigator():
 def play():
     args = dict(request.args.iteritems())
     data = sources.sources().play(**args)
+    url = None
     for item in data:
-        item['href_qs'] = urllib.urlencode(dict(item.iteritems()))
-        item['_swaks_label'] = item['label']
-    return render_template('list.html', items=data)
+        print item.get('label')
+        url = sources.sources().sourcesResolve(item)
+        if url: break
+    return render_template('player.html', url=url, item=args)
 
 if __name__ == '__main__':
     app.run()
