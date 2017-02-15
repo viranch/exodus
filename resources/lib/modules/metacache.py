@@ -24,13 +24,14 @@ import time,hashlib
 try: from sqlite3 import dbapi2 as database
 except: from pysqlite2 import dbapi2 as database
 
-from resources.lib.modules import control
+# from resources.lib.modules import control
 
 
 def fetch(items, lang, user):
     try:
         t2 = int(time.time())
-        dbcon = database.connect(control.metacacheFile)
+        # dbcon = database.connect(control.metacacheFile)
+        dbcon = database.connect('/tmp/swaks/meta.5.db')
         dbcur = dbcon.cursor()
     except:
         return items

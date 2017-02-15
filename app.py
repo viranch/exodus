@@ -22,7 +22,7 @@ def movies_navigator():
     elif 'search' in args:
         url = m.search_link + urllib.quote_plus(args['search'])
 
-    data = m.get(url, idx=False)
+    data = m.get(url)
     for movie in data:
         movie['play_qs'] = urllib.urlencode({
             'title': movie['title'],
@@ -45,7 +45,7 @@ def tvshows_navigator():
         elif 'search' in args:
             url = t.search_link + urllib.quote_plus(args['search'])
 
-        data = t.get(url, idx=False)
+        data = t.get(url)
         for show in data:
             show['href_qs'] = urllib.urlencode({
                 'tvshowtitle': show['originaltitle'],

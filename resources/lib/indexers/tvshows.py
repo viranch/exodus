@@ -25,7 +25,7 @@ from resources.lib.modules import cleangenre
 # from resources.lib.modules import control
 from resources.lib.modules import client
 from resources.lib.modules import cache
-# from resources.lib.modules import metacache
+from resources.lib.modules import metacache
 # from resources.lib.modules import playcount
 from resources.lib.modules import workers
 # from resources.lib.modules import views
@@ -135,7 +135,7 @@ class tvshows:
                 if idx == True: self.worker()
 
 
-            if idx == True: self.tvshowDirectory(self.list)
+            # if idx == True: self.tvshowDirectory(self.list)
             return self.list
         except:
             raise

@@ -25,7 +25,7 @@ from resources.lib.modules import cleantitle
 # from resources.lib.modules import control
 from resources.lib.modules import client
 from resources.lib.modules import cache
-# from resources.lib.modules import metacache
+from resources.lib.modules import metacache
 # from resources.lib.modules import playcount
 from resources.lib.modules import workers
 # from resources.lib.modules import views
@@ -133,7 +133,7 @@ class movies:
                 if idx == True: self.worker() ; self.list = [i for i in self.list if not i['poster'] == '0']
 
 
-            if idx == True: self.movieDirectory(self.list)
+            # if idx == True: self.movieDirectory(self.list)
             return self.list
         except:
             raise
