@@ -31,7 +31,7 @@ def movies_navigator():
         })
         movie['_swaks_label'] = '%s (%s)' % (movie['title'], movie['year'])
 
-    return render_template('list.html', items=data)
+    return render_template('list.html', urlencode=urllib.urlencode, items=data)
 
 @app.route('/tvshows/')
 def tvshows_navigator():
@@ -104,7 +104,7 @@ def tvshows_navigator():
                 })
                 item['_swaks_label'] = 'Season %s' % item['season']
 
-    return render_template('list.html', items=data)
+    return render_template('list.html', urlencode=urllib.urlencode, items=data)
 
 @app.route('/movies/play/')
 @app.route('/tvshows/play/')

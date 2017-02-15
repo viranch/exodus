@@ -16,6 +16,13 @@
                 </a>
             </li>
         {% endfor %}
+        {% set next_url = items[0].get('next') %}
+        {% if next_url %}
+            <li></li>
+            <li>
+                <a href="?{{ urlencode({'url': next_url}) }}">More</a>
+            </li>
+        {% endif %}
     </ul>
 </body>
 </html>
