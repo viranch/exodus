@@ -79,7 +79,8 @@ def insert(meta):
 
 def local(items, link, poster, fanart):
     try:
-        dbcon = database.connect(control.metaFile())
+        # dbcon = database.connect(control.metaFile())
+        dbcon = database.connect('/tmp/swaks/script.exodus.metadata_meta.db')
         dbcur = dbcon.cursor()
         args = [i['imdb'] for i in items]
         dbcur.execute('SELECT * FROM mv WHERE imdb IN (%s)'  % ', '.join(list(map(lambda arg:  "'%s'" % arg, args))))
