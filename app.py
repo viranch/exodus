@@ -1,5 +1,5 @@
 import urllib
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, jsonify
 
 from resources.lib.indexers import movies
 from resources.lib.indexers import tvshows
@@ -7,6 +7,10 @@ from resources.lib.indexers import episodes
 from resources.lib.modules import sources
 
 app = Flask(__name__)
+
+@app.route('/webui/')
+def webui():
+    return render_template('webui.html')
 
 @app.route('/')
 def index():
@@ -30,8 +34,12 @@ def movies_navigator():
             'imdb': movie['imdb'],
         })
         movie['_swaks_label'] = '%s (%s)' % (movie['title'], movie['year'])
+        movie['_type'] = 'movie'
 
-    return render_template('list.html', urlencode=urllib.urlencode, items=data)
+    if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+        return jsonify(data)
+    else:
+        return render_template('list.html', urlencode=urllib.urlencode, items=data)
 
 @app.route('/tvshows/')
 def tvshows_navigator():
@@ -54,6 +62,7 @@ def tvshows_navigator():
                 'tvdb': show['tvdb']
             })
             show['_swaks_label'] = show['title']
+            show['_type'] = 'tvshow'
     elif 'cals' in args:
         data = episodes.episodes().calendars(idx=False)
         for item in data:
@@ -104,7 +113,10 @@ def tvshows_navigator():
                 })
                 item['_swaks_label'] = 'Season %s' % item['season']
 
-    return render_template('list.html', urlencode=urllib.urlencode, items=data)
+    if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+        return jsonify(data)
+    else:
+        return render_template('list.html', urlencode=urllib.urlencode, items=data)
 
 @app.route('/movies/play/')
 @app.route('/tvshows/play/')

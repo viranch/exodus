@@ -1,0 +1,288 @@
+<html lang="en" data-cast-api-enabled="true">
+
+<head>
+    <title>swaks.tv</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <!-- <link rel="stylesheet" href="/static/css/main.a109f1161666500d059634cd580c6ab8.css"> -->
+    <!-- <link rel="stylesheet" href="/static/css/main.v3.3081889be516a1954b6d242eb524f81b.css"> -->
+    <link rel="stylesheet" href="/static/css/main.e187b1fcf1064efc005b298ce9aa9f83.css">
+    <link rel="stylesheet" href="/static/css/main.v3.25d72847aab48bb504fc86c3ebffe94a.css">
+    <link rel="stylesheet" href="/static/css/style.css">
+    <link rel="shortcut icon" href="favicon.ico">
+    <link rel="mask-icon" href="favicon-mask.svg" color="#cc7b19">
+    <link rel="apple-touch-icon-precomposed" href="/web/img/desktop/ios/icon-iphone.png">
+    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="/web/img/desktop/ios/icon-ipad.png">
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="/web/img/desktop/ios/icon-iphone@2x.png">
+    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/web/img/desktop/ios/icon-ipad@2x.png">
+    <link rel="apple-touch-startup-image" media="(device-width: 320px)" href="/web/img/desktop/ios/startup-iphone-portrait.png">
+    <link rel="apple-touch-startup-image" media="(device-width: 320px) and (-webkit-device-pixel-ratio: 2)" href="/web/img/desktop/ios/startup-iphone-portrait@2x.png">
+    <link rel="apple-touch-startup-image" media="(device-width: 320px) and (device-height: 568px) and (-webkit-device-pixel-ratio: 2)" href="/web/img/desktop/ios/startup-iphone5-portrait@2x.png">
+    <link rel="apple-touch-startup-image" media="(device-width: 768px) and (orientation: portrait)" href="/web/img/desktop/ios/startup-ipad-portrait.png">
+    <link rel="apple-touch-startup-image" media="(device-width: 768px) and (orientation: landscape)" href="/web/img/desktop/ios/startup-ipad-landscape.png">
+    <link rel="apple-touch-startup-image" media="(device-width: 1536px) and (orientation: portrait) and (-webkit-device-pixel-ratio: 2)" href="/web/img/desktop/ios/startup-ipad-portrait@2x.png">
+    <link rel="apple-touch-startup-image" media="(device-width: 1536px)  and (orientation: landscape) and (-webkit-device-pixel-ratio: 2)" href="/web/img/desktop/ios/startup-ipad-landscape@2x.png">
+    <script src="//www.gstatic.com/cv/js/sender/v1/cast_sender.js"></script>
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+    <style type="text/css">
+        :root #content > #center > .dose > .dosesingle,
+        :root #content > #right > .dose > .dosesingle {
+            display: none !important;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="plex" class="application show-nav-bar show-action-bar show-side-bar show-breadcrumb-bar">
+        <div class="alert alert-status transition-out"><i class="alert-icon glyphicon cardio"></i> <span class="status">Library scan complete: Extra information may still be downloading from the Internet</span> </div>
+        <div class="nav-bar">
+            <ul class="nav nav-bar-nav" id="navigation-nav">
+                <li><a class="back-btn" href="#"><i class="glyphicon chevron-left"></i></a></li>
+                <li><a class="home-btn" href="#"><i class="glyphicon home"></i></a></li>
+            </ul>
+            <div class="nav-bar-search-container">
+                <div data-reactroot="" class="QuickSearch-container-18Zgf resetFont-resetFont-ekCtc">
+                    <div class="QuickSearchInput-container-3P9xh resetFont-resetFont-ekCtc"><i class="plex-icon-search-560 QuickSearchInput-searchIcon-GS8nv" aria-hidden="true"></i>
+                        <input type="text" class="QuickSearchInput-searchInput-1r44V" autocomplete="off" spellcheck="false">
+                    </div>
+                </div>
+            </div>
+            <ul class="nav nav-bar-nav nav-bar-right" id="cast-nav">
+                <li id="primary-player-dropdown" class="nav-dropdown dropdown">
+                    <a class="dropdown-toggle " href="#primary-player-dropdown" data-toggle="dropdown"> <i class="plex-icon-companion-cast"></i><i class="caret-icon"></i> </a>
+                    <ul class="dropdown-menu pull-right">
+                        <li>
+                            <a class="cast-player-btn" href="#"> <span class="dropdown-truncated-label">Cast...</span> </a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+            <div class="modal-container">
+                <div data-reactroot="">
+                    <!-- react-empty: 2 -->
+                    <!-- react-empty: 3 -->
+                </div>
+            </div>
+        </div>
+        <div class="background-container">
+            <div class="background transition-out2" data-bind="attr: {style:'background-image: url(&quot;'+background()+'&quot;);'}"></div>
+        </div>
+        <div id="content" class="scroll-container dark-scrollbar" style="left:240px;">
+            <!-- ko if: loading -->
+            <div class="loading"></div>
+            <!-- /ko -->
+            <!-- ko if: !loading() -->
+                <!-- ko if: selected_movie -->
+                    <!-- ko with: selected_movie -->
+            <div class="details-container">
+                <div class="movie-details-row details-row">
+                    <div class="details-title-container">
+                        <h1 class="item-title" data-bind="text: title"></h1>
+                        <h2 class="item-year" data-bind="text: year"></h2>
+                    </div>
+                    <div class="details-metadata-container">
+                        <div class="movie-details-metadata-container">
+                            <div class="details-progress-container hidden">
+                                <div class="item-progress details-progress"></div>
+                            </div>
+                            <div class="metadata-right pull-right">
+                                <div class="item-genre metadata-tags" data-bind="text: genre">
+                                    <!-- <a class="pivot-link" href="#">Drama</a>, <a class="pivot-link" href="#">Science Fiction</a> -->
+                                </div>
+                                <div class="rating-container">
+                                    <span class="rating star-rating" data-bind="foreach: ui_stars">
+                                        <span class="star">
+                                            <i data-bind="attr: {class: 'star-icon glyphicon ' + $data}"></i>
+                                            <span class="empty-icon"></span>
+                                        </span>
+                                        <!-- <span class="star">
+                                            <i class="star-icon glyphicon star"></i>
+                                            <span class="empty-icon"></span>
+                                        </span>
+                                        <span class="star">
+                                            <i class="star-icon glyphicon star"></i>
+                                            <span class="empty-icon"></span>
+                                        </span>
+                                        <span class="star">
+                                            <i class="star-icon glyphicon dislikes"></i>
+                                            <span class="empty-icon"></span>
+                                        </span>
+                                        <span class="star">
+                                            <i class="star-icon glyphicon dislikes"></i>
+                                            <span class="empty-icon"></span>
+                                        </span> -->
+                                    </span>
+                                </div>
+                                <!-- <div class="content-rating-flag-container"><img class="content-rating-flag loaded" src="blob:http://127.0.0.1:32400/925c40cf-7b0a-48f4-8a1e-8352b622e248"></div> -->
+                            </div>
+                            <p class="metadata-labels">
+                                <span class="item-duration metadata-duration" data-bind="text: ui_duration"></span>
+                            </p>
+                            <div class="item-director metadata-tags">
+                                <span class="metadata-label">Director</span>
+                                <span class="metadata-tag-list" data-bind="text: ui_directors"></span>
+                            </div>
+                            <div class="item-writer metadata-tags">
+                                <span class="metadata-label">Writer</span>
+                                <span class="metadata-tag-list" data-bind="text: ui_writers"></span>
+                            </div>
+                            <div class="item-cast metadata-tags">
+                                <span class="metadata-label">Cast</span>
+                                <span class="metadata-tag-list" data-bind="text: ui_cast"></span>
+                            </div>
+                            <div class="summary-container">
+                                <div class="summary">
+                                    <p class="item-summary metadata-summary">
+                                        <p data-bind="text: plot"></p>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="details-poster-container">
+                        <a class="media-poster-container play-btn" href="#">
+                            <div class="movie-poster item-poster media-poster loaded" data-bind="attr: {style: 'background-image: url(&quot;'+ui_poster+'&quot;);'}">
+                                <div class="media-poster-overlay"></div>
+                                <div class="media-poster-overlay-icons"> <i class="media-poster-overlay-icon glyphicon play"></i> </div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+                    <!-- /ko -->
+                <!-- /ko -->
+                <!-- ko if: selected_tvshow -->
+                <!-- /ko -->
+                <!-- ko if: selected_season -->
+                <!-- /ko -->
+                <!-- ko if: selected_episode -->
+                <!-- /ko -->
+                <!-- ko ifnot: selected_movie() || selected_tvshow() || selected_season() || selected_episode() -->
+            <div class="section-container">
+                <div class="section-list-container">
+                    <div class="section-loading-container bottom hidden">
+                        <div class="loading loading-inline"></div>
+                    </div>
+                    <h4 class="empty-message text-muted text-center"> <span class="empty-default"> The library has no content yet.  Click <a href="#" class="add-to-library-link">here</a> to add content to the library.  </span> <span class="empty-refreshing"> The library is still being refreshed. Hang on while we look for your content. </span> <span class="empty-filter"> There is no content matching your active filter. </span> <span class="empty-folder"> There is no content in the selected folder. </span> </h4>
+
+                    <ul class="tile-list virtual-list media-tile-list" style="height: 281px;">
+                        <!-- ko foreach: items -->
+                        <li class="poster-item media-tile-list-item movie show-subtitle" style1="position: absolute; transform: translate3d(0px, 0px, 0px);">
+                            <a class="media-poster-container" href="#" data-bind="attr: {onclick: 'showMovie('+$index()+')'}">
+                                <div class="media-poster loaded" data-bind="attr: {style: 'background-image: url(&quot;'+ui_poster+'&quot;);'}">
+                                    <div class="media-poster-overlay"></div>
+                                    <div class="media-poster-overlay-icons with-actions"> <i class="analyzing-icon media-poster-overlay-icon glyphicon magic hidden"></i> <i class="matching-icon media-poster-overlay-icon glyphicon search hidden"></i> <i class="metadata-icon media-poster-overlay-icon glyphicon tags hidden"></i> <i class="trash-icon media-poster-overlay-icon glyphicon bin warning hidden"></i> </div>
+                                    <div class="media-poster-actions ">
+                                        <!--button data-qa-id="metadataPosterPlayButton" aria-role="button" class="MetadataPosterCardOverlay-playButton-12XyM absoluteCenter-absoluteCenter-3-Tjr PlayButton-playButton-auoLt MetadataPosterCardOverlay-button-3gK0Y Link-link-2wZEE Link-default-1sSkX" type="button">
+                                            <div class="MetadataPosterCardOverlay-playCircle-Lk-_9 PlayButton-playCircle-1aLOj MetadataPosterCardOverlay-centerCircle-3H7Xg absoluteCenter-absoluteCenter-3-Tjr">
+                                                <i class="plex-icon-play-560 PlayButton-playIcon-3FLXQ" aria-hidden="true"></i>
+                                            </div>
+                                        </button-->
+                                        <button class="play-btn media-poster-btn btn-link" tabindex="-1"><i class="glyphicon play"></i></button>
+                                    </div> <span class="media-count-badge badge badge-lg hidden">1</span> <span class="unwatched-count-badge badge badge-lg hidden"></span> <span class="video-badge badge badge-round hidden"> <i class="glyphicon facetime-video"></i> </span>
+                                    <div class="media-progress">
+                                        <div class="hidden">
+                                            <div class="media-progress-track"></div>
+                                            <div class="media-progress-pct"></div>
+                                        </div>
+                                    </div>
+                                    <div class="loading loading-inline"></div>
+                                </div> <span class="unwatched-icon hidden"></span>
+                                <div class="media-title media-heading" data-bind="text: title"></div>
+                                <div class="media-subtitle-1 media-heading secondary" data-bind="text: year"></div>
+                                <div class="media-subtitle-2 media-heading secondary hidden"></div>
+                                <div class="media-context media-heading secondary"></div>
+                                <div class="media-sort media-heading secondary"> </div>
+                                <div class="media-subtitle-1-fill media-heading hidden"></div>
+                                <div class="media-subtitle-2-fill media-heading hidden"></div>
+                            </a>
+                        </li>
+                        <!-- /ko -->
+                        <!-- ko if: next_page_url -->
+                        <li class="poster-item media-tile-list-item movie show-subtitle" style1="position: absolute; transform: translate3d(0px, 0px, 0px);">
+                            <a class="media-poster-container" onclick="loadMore()" href="#">
+                                <div class="media-poster loaded" data-bind="attr: {style: 'background-image: url(&quot;/static/images/exodus_next.png&quot;);'}">
+                                    <div class="media-poster-overlay-icons with-actions"> <i class="analyzing-icon media-poster-overlay-icon glyphicon magic hidden"></i> <i class="matching-icon media-poster-overlay-icon glyphicon search hidden"></i> <i class="metadata-icon media-poster-overlay-icon glyphicon tags hidden"></i> <i class="trash-icon media-poster-overlay-icon glyphicon bin warning hidden"></i> </div>
+                                    <span class="media-count-badge badge badge-lg hidden">1</span> <span class="unwatched-count-badge badge badge-lg hidden"></span> <span class="video-badge badge badge-round hidden"> <i class="glyphicon facetime-video"></i> </span>
+                                    <div class="media-progress">
+                                        <div class="hidden">
+                                            <div class="media-progress-track"></div>
+                                            <div class="media-progress-pct"></div>
+                                        </div>
+                                    </div>
+                                    <div class="loading loading-inline" id="next-spinner"></div>
+                                </div> <span class="unwatched-icon hidden"></span>
+                                <div class="media-title media-heading"><em>Load more</em></div>
+                                <div class="media-subtitle-1 media-heading secondary"></div>
+                                <div class="media-subtitle-2 media-heading secondary hidden"></div>
+                                <div class="media-context media-heading secondary"></div>
+                                <div class="media-sort media-heading secondary"> </div>
+                                <div class="media-subtitle-1-fill media-heading hidden"></div>
+                                <div class="media-subtitle-2-fill media-heading hidden"></div>
+                            </a>
+                        </li>
+                        <!-- /ko -->
+                    </ul>
+                </div>
+            </div>
+                <!-- /ko -->
+            <!-- /ko -->
+        </div>
+        <div class="scroll-shadow transition-out"></div>
+        <div class="section-side-bar-container">
+            <div class="side-bar" style="left:0px;">
+                <div class="side-bar-page main-page dark-scrollbar">
+                    <div class="section-sort-container">
+                        <h5>Movies</h5>
+                        <div class="section-sort-list-container">
+                            <ul class="list side-bar-list" id="movie-browse">
+                                <li><a class="sort-btn btn-gray" href="#" data-url="/movies/?url=trending"> People Watching </a> </li>
+                                <li><a class="sort-btn btn-gray" href="#" data-url="/movies/?url=popular"> Most Popular </a> </li>
+                                <li><a class="sort-btn btn-gray" href="#" data-url="/movies/?url=views"> Most Voted </a> </li>
+                                <li><a class="sort-btn btn-gray" href="#" data-url="/movies/?url=boxoffice"> Box Office </a> </li>
+                                <li><a class="sort-btn btn-gray" href="#" data-url="/movies/?url=oscars"> Oscar Winners </a> </li>
+                                <li><a class="sort-btn btn-gray" href="#" data-url="/movies/?url=theaters"> In Theaters </a> </li>
+                                <li><a class="sort-btn btn-gray" href="#" data-url="/movies/?url=featured"> New Movies </a> </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="section-sort-container">
+                        <h5>TV Shows</h5>
+                        <div class="section-sort-list-container">
+                            <ul class="list side-bar-list" id="tvshow-browse">
+                                <li><a class="sort-btn btn-gray" href="#" data-url="/tvshows/?url=trending"> People Watching </a> </li>
+                                <li><a class="sort-btn btn-gray" href="#" data-url="/tvshows/?url=popular"> Most Popular </a> </li>
+                                <li><a class="sort-btn btn-gray" href="#" data-url="/tvshows/?url=rating"> Highly rated </a> </li>
+                                <li><a class="sort-btn btn-gray" href="#" data-url="/tvshows/?url=views"> Most Voted </a> </li>
+                                <li><a class="sort-btn btn-gray" href="#" data-url="/tvshows/?url=airing"> Airing today </a> </li>
+                                <li><a class="sort-btn btn-gray" href="#" data-url="/tvshows/?url=premiere"> New TV Shows </a> </li>
+                                <li><a class="sort-btn btn-gray" href="#" data-url="/tvshows/?url=trending"> New Movies </a> </li>
+                                <li><a class="sort-btn btn-gray" href="#" data-url="/tvshows/?cal=added"> New Episodes </a> </li>
+                                <li><a class="sort-btn btn-gray" href="#" data-url="/tvshows/?cals"> TV Calendar </a> </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="action-bar alpha-bar hidden" style="line-height: 0px;">
+            <ul class="list alpha-bar-list">
+                <li class="alpha-bar-list-item"><a class="btn-gray" href="#">A</a> </li>
+                <li class="alpha-bar-list-item"><a class="btn-gray" href="#">B</a> </li>
+                <li class="alpha-bar-list-item"><a class="btn-gray" href="#">F</a> </li>
+                <li class="alpha-bar-list-item"><a class="btn-gray" href="#">U</a> </li>
+            </ul>
+        </div>
+    </div>
+    <script src="/static/js/zxcvbn.7fa98b9d2c711573dfa0.js"></script>
+    <script>
+        webpackJsonp([3], []);
+    </script>
+    <script src="/static/js/vendors.c09098160e871c86b7fd.js"></script>
+    <!-- <script src="/static/js/main.cebf76f79cfade3e2998.js"></script> -->
+    <script src="/static/js/knockout-3.4.1.js"></script>
+    <script src="/static/js/app.js"></script>
+</body>
+
+</html>
