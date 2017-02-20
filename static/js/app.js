@@ -139,6 +139,14 @@ $(document).ready(function() {
       });
   });
 
+  $('a.back-btn').click(function() {
+    ko_data.selected_movie(null);
+    ko_data.selected_tvshow(null);
+    ko_data.selected_season(null);
+    ko_data.selected_episode(null);
+    ko_data.background('');
+  });
+
   resetUi();
   ko.applyBindings(ko_data);
 });
