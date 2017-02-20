@@ -77,7 +77,7 @@ function resetUi() {
 function loadMore() {
   $('#next-spinner').show();
   var current_view = ko_data.items()[0]._type + 's';
-  var url = current_view + '/?url=' + encodeURIComponent(ko_data.next_page_url());
+  var url = '/' + current_view + '/?url=' + encodeURIComponent(ko_data.next_page_url());
   $.ajax(url)
     .done(function(items) {
       if (current_view == 'movies') {
