@@ -8,6 +8,9 @@ var ko_data = {
   selected_episode: ko.observable(null),
   background: ko.observable('')
 };
+ko_data.selected_media = ko.computed(function() {
+  return ko_data.selected_movie() || ko_data.selected_tvshow() || ko_data.selected_season() || ko_data.selected_episode();
+});
 
 function resetUi() {
   ko_data.items.removeAll();

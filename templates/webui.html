@@ -68,7 +68,7 @@
         <div class="background-container">
             <div class="background transition-out2" data-bind="attr: {style:'background-image: url(&quot;'+background()+'&quot;);'}"></div>
         </div>
-        <div id="content" class="scroll-container dark-scrollbar" style="left:240px;">
+        <div id="content" class="scroll-container dark-scrollbar" data-bind="attr: {style: selected_media() ? 'left:0px;' : 'left:240px;'}">
             <!-- ko if: loading -->
             <div class="loading"></div>
             <!-- /ko -->
@@ -142,7 +142,7 @@
                 <!-- /ko -->
                 <!-- ko if: selected_episode -->
                 <!-- /ko -->
-                <!-- ko ifnot: selected_movie() || selected_tvshow() || selected_season() || selected_episode() -->
+                <!-- ko ifnot: selected_media -->
             <div class="section-container">
                 <div class="section-list-container">
                     <div class="section-loading-container bottom hidden">
@@ -214,7 +214,7 @@
             <!-- /ko -->
         </div>
         <div class="scroll-shadow transition-out"></div>
-        <div class="section-side-bar-container">
+        <div class="section-side-bar-container" data-bind="ifnot: selected_media">
             <div class="side-bar" style="left:0px;">
                 <div class="side-bar-page main-page dark-scrollbar">
                     <div class="section-sort-container">
