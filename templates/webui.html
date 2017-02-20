@@ -138,6 +138,83 @@
                     <!-- /ko -->
                 <!-- /ko -->
                 <!-- ko if: selected_tvshow -->
+                    <!-- ko with: selected_tvshow -->
+            <div class="details-container">
+                <div class="show-details-row details-row">
+                    <div class="details-title-container">
+                        <h1 class="item-title" data-bind="text: title"></h1>
+                        <h2 class="item-year" data-bind="text: year"></h2>
+                    </div>
+                    <div class="details-metadata-container">
+                        <div class="show-details-metadata-container">
+                            <div class="metadata-right pull-right">
+                                <div class="item-genre metadata-tags" data-bind="text: genre">
+                                    <!-- <a class="pivot-link" href="#">Comedy</a>, <a class="pivot-link" href="#">Crime</a> -->
+                                </div>
+                            </div>
+                            <p class="metadata-labels">
+                                <span class="item-duration metadata-duration" data-bind="text: ui_duration"></span>
+                                <span class="rating-container rating-container-inline">
+                                    <span class="rating star-rating" data-bind="foreach: ui_stars">
+                                        <span class="star">
+                                            <i data-bind="attr: {class: 'star-icon glyphicon ' + $data}"></i>
+                                            <span class="empty-icon"></span>
+                                        </span>
+                                        <!-- <span class="star"><i class="star-icon glyphicon star"></i><span class="empty-icon"></span></span><span class="star"><i class="star-icon glyphicon star"></i><span class="empty-icon"></span></span><span class="star"><i class="star-icon glyphicon star"></i><span class="empty-icon"></span></span><span class="star"><i class="star-icon glyphicon dislikes"></i><span class="empty-icon"></span></span> -->
+                                    </span>
+                                </span>
+                                <!-- <span class="content-rating-flag-container content-rating-flag-container-inline"><img class="show-content-rating content-rating-flag loaded" src="blob:http://127.0.0.1:32400/13d418c5-d2d8-4c53-9c6b-670cfccaea34"></span> -->
+                            </p>
+                            <div class="summary-container">
+                                <div class="summary">
+                                    <p class="item-summary metadata-summary">
+                                        <p data-bind="text: plot"></p>
+                                    </p>
+                                    <!--div class="summary-divider hidden">
+                                        <button type="button" class="summary-divider-btn">More</button>
+                                    </div-->
+                                </div>
+                            </div>
+                            <!-- <div class="studio-flag-container"><img class="show-studio studio-flag loaded" src="blob:http://127.0.0.1:32400/0aa0b61b-7e70-4420-9566-08cb538af4ef"></div> -->
+                        </div>
+                        <div class="season-list-container details-list-region">
+                            <ul class="tile-list media-tile-list season-tile-list" data-bind="foreach: $parent.tvshow_seasons">
+                                <li class="poster-item media-tile-list-item season">
+                                    <a class="media-poster-container" href="#">
+                                        <div class="media-poster loaded" data-bind="attr: {style: 'background-image: url(&quot;'+ui_poster+'&quot;);'}">
+                                            <div class="media-poster-overlay"></div>
+                                            <div class="media-poster-actions ">
+                                                <button class="play-btn media-poster-btn btn-link" tabindex="-1"><i class="glyphicon play"></i></button>
+                                            </div>
+                                            <span class="unwatched-count-badge badge badge-lg hidden">0</span>
+                                        </div>
+                                        <div class="media-title media-heading">
+                                            <span>Season </span>
+                                            <span data-bind="text: season"></span>
+                                        </div>
+                                        <div class="media-subtitle-1 media-heading secondary" data-bind="text: year"></div>
+                                    </a>
+                                    <div class="media-actions-dropdown dropdown">
+                                        <div class="dropdown-toggle" data-toggle="dropdown"></div>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="details-poster-container">
+                        <a class="media-poster-container play-btn" href="#">
+                            <div class="show-poster item-poster media-poster loaded" data-bind="attr: {style: 'background-image: url(&quot;'+ui_poster+'&quot;);'}">
+                                <div class="media-poster-overlay"></div>
+                                <div class="media-poster-overlay-icons">
+                                    <i class="media-poster-overlay-icon glyphicon play"></i>
+                                </div>
+                                <span class="unwatched-count-badge details-unwatched-count-badge badge badge-lg hidden">0</span>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+                    <!-- /ko -->
                 <!-- /ko -->
                 <!-- ko if: selected_season -->
                 <!-- /ko -->
@@ -154,7 +231,7 @@
                     <ul class="tile-list virtual-list media-tile-list" style="height: 281px;">
                         <!-- ko foreach: items -->
                         <li class="poster-item media-tile-list-item movie show-subtitle" style1="position: absolute; transform: translate3d(0px, 0px, 0px);">
-                            <a class="media-poster-container" href="#" data-bind="attr: {onclick: 'showMovie('+$index()+')'}">
+                            <a class="media-poster-container" href="#" data-bind="attr: {onclick: 'showItem('+$index()+')'}">
                                 <div class="media-poster loaded" data-bind="attr: {style: 'background-image: url(&quot;'+ui_poster+'&quot;);'}">
                                     <div class="media-poster-overlay"></div>
                                     <div class="media-poster-overlay-icons with-actions"> <i class="analyzing-icon media-poster-overlay-icon glyphicon magic hidden"></i> <i class="matching-icon media-poster-overlay-icon glyphicon search hidden"></i> <i class="metadata-icon media-poster-overlay-icon glyphicon tags hidden"></i> <i class="trash-icon media-poster-overlay-icon glyphicon bin warning hidden"></i> </div>

@@ -6,7 +6,8 @@ var ko_data = {
   selected_tvshow: ko.observable(null),
   selected_season: ko.observable(null),
   selected_episode: ko.observable(null),
-  background: ko.observable('')
+  background: ko.observable(''),
+  tvshow_seasons: ko.observable([])
 };
 ko_data.selected_media = ko.computed(function() {
   var val = ko_data.selected_movie() || ko_data.selected_tvshow() || ko_data.selected_season() || ko_data.selected_episode();
@@ -19,7 +20,35 @@ ko_data.bg_animator = ko.computed(function() {
   if (!ko_data.background()) {
     $('.background').removeClass('transition-in').addClass('transition-out');
   }
+});
+ko_data.dummy_seasons = ko.computed(function() {
+  var tvshow = ko_data.selected_tvshow();
+  if (tvshow) {
+    ko_data.loading(true);
+    $.ajax('/tvshows/?'+serialize({
+      tvshowtitle: tvshow.originaltitle,
+      year: tvshow.year,
+      imdb: tvshow.imdb,
+      tvdb: tvshow.tvdb
+    }))
+      .done(function(seasons) {
+        ko_data.loading(false);
+        prepareSeasons(seasons);
+        ko_data.tvshow_seasons(seasons);
+      });
+  } else {
+    ko_data.tvshow_seasons([]);
+  }
 })
+
+function serialize(obj) {
+  var str = [];
+  for(var p in obj)
+    if (obj.hasOwnProperty(p)) {
+      str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
+    }
+  return str.join("&");
+}
 
 function resetUi() {
   ko_data.items.removeAll();
@@ -48,25 +77,30 @@ function loadMore() {
     });
 }
 
-function pickPoster(movie) {
-  var poster_keys = ['poster3', 'poster', 'poster2'];
+function pickPoster(item, poster_keys) {
   for (var y in poster_keys) {
     var key = poster_keys[y];
-    if (key in movie && movie[key] != '0') {
-      return movie[key];
+    if (key in item && item[key] != '0') {
+      return item[key];
     }
   }
 }
 
 function prepareMovies(movies) {
   for (var x in movies) {
-    movies[x].ui_poster = pickPoster(movies[x]);
+    movies[x].ui_poster = pickPoster(movies[x], ['poster3', 'poster', 'poster2']);
   }
 }
 
 function prepareTvshows(tvshows) {
   for (var x in tvshows) {
     tvshows[x].ui_poster = tvshows[x].poster;
+  }
+}
+
+function prepareSeasons(seasons) {
+  for (var x in seasons) {
+    seasons[x].ui_poster = pickPoster(seasons[x], ['thumb', 'poster']);
   }
 }
 
@@ -78,6 +112,15 @@ function showItems(items, reset) {
   }
   for (var x in items) {
     ko_data.items.push(items[x]);
+  }
+}
+
+function showItem(index) {
+  var item = ko_data.items()[index];
+  if (item._type == 'movie') {
+    showMovie(item);
+  } else if (item._type == 'tvshow') {
+    showTvShow(item);
   }
 }
 
@@ -98,15 +141,18 @@ function durationLabel(duration) {
   return label;
 }
 
-function showMovie(index) {
-  var movie = ko_data.items()[index];
-  movie.ui_duration = durationLabel(movie.duration);
-
-  var stars = Math.round(movie.rating/2);  // rating is out of 10, stars are out of 5
-  movie.ui_stars = [];
+function ratingStars(rating) {
+  var num_stars = Math.round(rating/2);  // rating is out of 10, stars are out of 5
+  var stars = [];
   for(var x=0; x<5; x++) {
-    movie.ui_stars.push(x < stars ? 'star' : 'dislikes');
+    stars.push(x < num_stars ? 'star' : 'dislikes');
   }
+  return stars;
+}
+
+function showMovie(movie) {
+  movie.ui_duration = durationLabel(movie.duration);
+  movie.ui_stars = ratingStars(movie.rating);
 
   var split_keys = ['genre', 'director', 'writer'];
   for (var x in split_keys) {
@@ -123,8 +169,16 @@ function showMovie(index) {
   }
   movie.ui_cast = cast.join(', ');
 
-  ko_data.selected_movie(ko_data.items()[index]);
+  ko_data.selected_movie(movie);
   ko_data.background(movie.fanart || movie.fanart2);
+}
+
+function showTvShow(tvshow) {
+  tvshow.ui_duration = durationLabel(tvshow.duration);
+  tvshow.ui_stars = ratingStars(tvshow.rating);
+
+  ko_data.selected_tvshow(tvshow);
+  ko_data.background(tvshow.fanart);
 }
 
 $(document).ready(function() {
