@@ -9,8 +9,17 @@ var ko_data = {
   background: ko.observable('')
 };
 ko_data.selected_media = ko.computed(function() {
-  return ko_data.selected_movie() || ko_data.selected_tvshow() || ko_data.selected_season() || ko_data.selected_episode();
+  var val = ko_data.selected_movie() || ko_data.selected_tvshow() || ko_data.selected_season() || ko_data.selected_episode();
+  var rm = val ? 'in' : 'out';
+  var add = val ? 'out' : 'in';
+  $('.section-side-bar-container > .side-bar').removeClass('transition-'+rm).addClass('transition-'+add);
+  return val;
 });
+ko_data.bg_animator = ko.computed(function() {
+  if (!ko_data.background()) {
+    $('.background').removeClass('transition-in').addClass('transition-out');
+  }
+})
 
 function resetUi() {
   ko_data.items.removeAll();
@@ -146,6 +155,13 @@ $(document).ready(function() {
     ko_data.selected_episode(null);
     ko_data.background('');
   });
+
+  $('#dummy-bg').on('load', function() {
+    $('.background')
+      .css('background-image', 'url("'+ko_data.background()+'")')
+      .removeClass('transition-out')
+      .addClass('transition-in');
+  })
 
   resetUi();
   ko.applyBindings(ko_data);
