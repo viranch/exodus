@@ -1,14 +1,29 @@
 var ko_data = {
   items: ko.observableArray(),
-  next_page_url: ko.observable(''),
   loading: ko.observable(false),
   selected_movie: ko.observable(null),
   selected_tvshow: ko.observable(null),
   selected_season: ko.observable(null),
   selected_episode: ko.observable(null),
-  background: ko.observable(''),
   tvshow_seasons: ko.observable([])
 };
+ko_data.next_page_url = ko.computed(function() {
+  var items = ko_data.items();
+  var len = items.length;
+  if (len > 0) {
+    return items[len-1].next || '';
+  } else {
+    return '';
+  }
+})
+ko_data.background = ko.computed(function() {
+  var item = ko_data.selected_movie() || ko_data.selected_tvshow();
+  if (item) {
+    return item.fanart || item.fanart2;
+  } else {
+    return '';
+  }
+})
 ko_data.selected_media = ko.computed(function() {
   var val = ko_data.selected_movie() || ko_data.selected_tvshow() || ko_data.selected_season() || ko_data.selected_episode();
   var rm = val ? 'in' : 'out';
@@ -52,13 +67,11 @@ function serialize(obj) {
 
 function resetUi() {
   ko_data.items.removeAll();
-  ko_data.next_page_url('');
   ko_data.loading(false);
   ko_data.selected_movie(null);
   ko_data.selected_tvshow(null);
   ko_data.selected_season(null);
   ko_data.selected_episode(null);
-  ko_data.background('');
 }
 
 function loadMore() {
@@ -106,7 +119,6 @@ function prepareSeasons(seasons) {
 
 function showItems(items, reset) {
   ko_data.loading(false);
-  ko_data.next_page_url(items[0].next || '')
   if (reset) {
     ko_data.items.removeAll();
   }
@@ -170,7 +182,6 @@ function showMovie(movie) {
   movie.ui_cast = cast.join(', ');
 
   ko_data.selected_movie(movie);
-  ko_data.background(movie.fanart || movie.fanart2);
 }
 
 function showTvShow(tvshow) {
@@ -178,7 +189,6 @@ function showTvShow(tvshow) {
   tvshow.ui_stars = ratingStars(tvshow.rating);
 
   ko_data.selected_tvshow(tvshow);
-  ko_data.background(tvshow.fanart);
 }
 
 $(document).ready(function() {
@@ -207,7 +217,6 @@ $(document).ready(function() {
     ko_data.selected_tvshow(null);
     ko_data.selected_season(null);
     ko_data.selected_episode(null);
-    ko_data.background('');
   });
 
   $('#dummy-bg').on('load', function() {
