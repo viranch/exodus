@@ -97,6 +97,7 @@ function pickPoster(item, poster_keys) {
       return item[key];
     }
   }
+  return '';
 }
 
 function prepareMovies(movies) {
@@ -107,7 +108,7 @@ function prepareMovies(movies) {
 
 function prepareTvshows(tvshows) {
   for (var x in tvshows) {
-    tvshows[x].ui_poster = tvshows[x].poster;
+    tvshows[x].ui_poster = pickPoster(tvshows[x], ['poster']);
   }
 }
 
