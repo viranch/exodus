@@ -2,6 +2,7 @@ var ko_data = {
   items: ko.observableArray(),
   loading: ko.observable(false),
   sidebar: ko.observable(''),
+  search_text: ko.observable(''),
   selected_movie: ko.observable(null),
   selected_tvshow: ko.observable(null),
   selected_season: ko.observable(null),
@@ -103,6 +104,43 @@ ko_data.tvshow_types = ko.observable([
   { name: 'New TV Shows', code: 'premiere' }
 ]);
 
+(function($){
+  $.fn.extend({
+    donetyping: function(callback, timeout){
+      timeout = timeout || 1e3; // 1 second default timeout
+      var timeoutReference,
+        doneTyping = function(el){
+          if (!timeoutReference) return;
+          timeoutReference = null;
+          callback.call(el);
+        };
+      return this.each(function(i,el){
+        var $el = $(el);
+        // Chrome Fix (Use keyup over keypress to detect backspace)
+        // thank you @palerdot
+        $el.is(':input') && $el.on('keyup keypress paste',function(e){
+          // This catches the backspace button in chrome, but also prevents
+          // the event from triggering too preemptively. Without this line,
+          // using tab/shift+tab will make the focused element fire the callback.
+          if (e.type=='keyup' && e.keyCode!=8) return;
+
+          // Check if timeout has been set. If it has, "reset" the clock and
+          // start over again.
+          if (timeoutReference) clearTimeout(timeoutReference);
+          timeoutReference = setTimeout(function(){
+            // if we made it here, our timeout has elapsed. Fire the
+            // callback
+            doneTyping(el);
+          }, timeout);
+        }).on('blur',function(){
+          // If we can, fire the event since we're leaving the field
+          doneTyping(el);
+        });
+      });
+    }
+  });
+})(jQuery);
+
 function serialize(obj) {
   var str = [];
   for(var p in obj)
@@ -177,6 +215,14 @@ function showItems(items, reset) {
   if (reset) {
     ko_data.items.removeAll();
   }
+
+  var media_type = items[0]._type;
+  if (media_type == 'movie') {
+    prepareMovies(items);
+  } else if (media_type == 'tvshow') {
+    prepareTvshows(items);
+  }
+
   for (var x in items) {
     ko_data.items.push(items[x]);
   }
@@ -262,6 +308,22 @@ $(document).ready(function() {
       .addClass('transition-in');
   });
 
+  $('.nav-bar-search-container input').donetyping(function() {
+    ko_data.search_text($(this).val());
+  }, 300);
+
+  $('.search-category').click(function() {
+    resetUi();
+    $('.search-results-container').hide();
+    ko_data.sidebar('');
+    ko_data.loading(true);
+    search_type = $(this).attr('data-search');
+    $.ajax('/'+search_type+'/?search=' + encodeURIComponent(ko_data.search_text()))
+      .done(function(items) {
+        showItems(items, true);
+      })
+  });
+
   resetUi();
   ko.applyBindings(ko_data);
 
@@ -275,7 +337,6 @@ $(document).ready(function() {
     ko_data.loading(true);
     $.ajax('/movies/?url=' + type_code)
       .done(function(movies) {
-        prepareMovies(movies);
         showItems(movies, true);
       });
   });
@@ -290,7 +351,6 @@ $(document).ready(function() {
     ko_data.loading(true);
     $.ajax('/tvshows/?url=' + type_code)
       .done(function(tvshows) {
-        prepareTvshows(tvshows);
         showItems(tvshows, true);
       });
   });
