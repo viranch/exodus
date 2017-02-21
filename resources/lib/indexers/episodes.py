@@ -61,7 +61,7 @@ class seasons:
 
         if idx == True:
             self.list = cache.get(self.tvdb_list, 24, tvshowtitle, year, imdb, tvdb, self.lang)
-            self.seasonDirectory(self.list)
+            # self.seasonDirectory(self.list)
             return self.list
         else:
             self.list = self.tvdb_list(tvshowtitle, year, imdb, tvdb, 'en')

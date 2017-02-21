@@ -102,7 +102,7 @@ def tvshows_navigator():
                     item['_swaks_label'] = '%s - %s' % (item['tvshowtitle'], item['_swaks_label'])
         else:
             title, year, imdb, tvdb = args['tvshowtitle'], args['year'], args['imdb'], args['tvdb']
-            data = episodes.seasons().get(title, year, imdb, tvdb, False)
+            data = episodes.seasons().get(title, year, imdb, tvdb)
             for item in data:
                 item['href_qs'] = urllib.urlencode({
                     'tvshowtitle': item['tvshowtitle'],
