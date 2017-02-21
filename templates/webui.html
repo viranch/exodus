@@ -341,29 +341,16 @@
                     <div class="section-sort-container">
                         <h5>Movies</h5>
                         <div class="section-sort-list-container">
-                            <ul class="list side-bar-list" id="movie-browse">
-                                <li><a class="sort-btn btn-gray" href="#" data-url="/movies/?url=trending"> People Watching </a> </li>
-                                <li><a class="sort-btn btn-gray" href="#" data-url="/movies/?url=popular"> Most Popular </a> </li>
-                                <li><a class="sort-btn btn-gray" href="#" data-url="/movies/?url=views"> Most Voted </a> </li>
-                                <li><a class="sort-btn btn-gray" href="#" data-url="/movies/?url=boxoffice"> Box Office </a> </li>
-                                <li><a class="sort-btn btn-gray" href="#" data-url="/movies/?url=oscars"> Oscar Winners </a> </li>
-                                <li><a class="sort-btn btn-gray" href="#" data-url="/movies/?url=theaters"> In Theaters </a> </li>
-                                <li><a class="sort-btn btn-gray" href="#" data-url="/movies/?url=featured"> New Movies </a> </li>
+                            <ul class="list side-bar-list" id="movie-browse" data-bind="foreach: movie_types">
+                                <li><a class="sort-btn btn-gray" href="#" data-bind="attr: {'data-code': code}, css: {selected: $parent.sidebar() == 'movie_'+code}, text: name"></a></li>
                             </ul>
                         </div>
                     </div>
                     <div class="section-sort-container">
                         <h5>TV Shows</h5>
                         <div class="section-sort-list-container">
-                            <ul class="list side-bar-list" id="tvshow-browse">
-                                <li><a class="sort-btn btn-gray" href="#" data-url="/tvshows/?url=trending"> People Watching </a> </li>
-                                <li><a class="sort-btn btn-gray" href="#" data-url="/tvshows/?url=popular"> Most Popular </a> </li>
-                                <li><a class="sort-btn btn-gray" href="#" data-url="/tvshows/?url=rating"> Highly rated </a> </li>
-                                <li><a class="sort-btn btn-gray" href="#" data-url="/tvshows/?url=views"> Most Voted </a> </li>
-                                <li><a class="sort-btn btn-gray" href="#" data-url="/tvshows/?url=airing"> Airing today </a> </li>
-                                <li><a class="sort-btn btn-gray" href="#" data-url="/tvshows/?url=premiere"> New TV Shows </a> </li>
-                                <li><a class="sort-btn btn-gray" href="#" data-url="/tvshows/?cal=added"> New Episodes </a> </li>
-                                <li><a class="sort-btn btn-gray" href="#" data-url="/tvshows/?cals"> TV Calendar </a> </li>
+                            <ul class="list side-bar-list" id="tvshow-browse" data-bind="foreach: tvshow_types">
+                                <li><a class="sort-btn btn-gray" href="#" data-bind="attr: {'data-code': code}, css: {selected: $parent.sidebar() == 'tvshow_'+code}, text: name"></a></li>
                             </ul>
                         </div>
                     </div>

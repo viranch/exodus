@@ -1,6 +1,7 @@
 var ko_data = {
   items: ko.observableArray(),
   loading: ko.observable(false),
+  sidebar: ko.observable(''),
   selected_movie: ko.observable(null),
   selected_tvshow: ko.observable(null),
   selected_season: ko.observable(null),
@@ -82,6 +83,25 @@ ko_data.selected_season.subscribe(function(season) {
     ko_data.season_episodes([]);
   }
 });
+
+// ko static data
+ko_data.movie_types = ko.observable([
+  { name: 'People Watching', code: 'trending' },
+  { name: 'Most Popular', code: 'popular' },
+  { name: 'Most Voted', code: 'views' },
+  { name: 'Box Office', code: 'boxoffice' },
+  { name: 'Oscar Winners', code: 'oscars' },
+  { name: 'In Theaters', code: 'theaters' },
+  { name: 'New Movies', code: 'featured' }
+]);
+ko_data.tvshow_types = ko.observable([
+  { name: 'People Watching', code: 'trending' },
+  { name: 'Most Popular', code: 'popular' },
+  { name: 'Highly rated', code: 'rating' },
+  { name: 'Most Voted', code: 'views' },
+  { name: 'Airing today', code: 'airing' },
+  { name: 'New TV Shows', code: 'premiere' }
+]);
 
 function serialize(obj) {
   var str = [];
@@ -231,26 +251,6 @@ function showSeason(index) {
 }
 
 $(document).ready(function() {
-  $('#movie-browse > li > a').click(function() {
-    resetUi();
-    ko_data.loading(true);
-    $.ajax($(this).attr('data-url'))
-      .done(function(movies) {
-        prepareMovies(movies);
-        showItems(movies, true);
-      });
-  });
-
-  $('#tvshow-browse > li > a').click(function() {
-    resetUi();
-    ko_data.loading(true);
-    $.ajax($(this).attr('data-url'))
-      .done(function(tvshows) {
-        prepareTvshows(tvshows);
-        showItems(tvshows, true);
-      });
-  });
-
   $('a.back-btn').click(function() {
     if (ko_data.selected_movie()) {
       ko_data.selected_movie(null);
@@ -270,8 +270,38 @@ $(document).ready(function() {
       .css('background-image', 'url("'+ko_data.background()+'")')
       .removeClass('transition-out')
       .addClass('transition-in');
-  })
+  });
 
   resetUi();
   ko.applyBindings(ko_data);
+
+  $('#movie-browse > li > a').click(function() {
+    if ($(this).hasClass('selected')) {
+      return true;
+    }
+    resetUi();
+    type_code = $(this).attr('data-code');
+    ko_data.sidebar('movie_' + type_code);
+    ko_data.loading(true);
+    $.ajax('/movies/?url=' + type_code)
+      .done(function(movies) {
+        prepareMovies(movies);
+        showItems(movies, true);
+      });
+  });
+
+  $('#tvshow-browse > li > a').click(function() {
+    if ($(this).hasClass('selected')) {
+      return true;
+    }
+    resetUi();
+    type_code = $(this).attr('data-code');
+    ko_data.sidebar('tvshow_' + type_code);
+    ko_data.loading(true);
+    $.ajax('/tvshows/?url=' + type_code)
+      .done(function(tvshows) {
+        prepareTvshows(tvshows);
+        showItems(tvshows, true);
+      });
+  });
 });
