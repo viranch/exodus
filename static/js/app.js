@@ -3,6 +3,9 @@ var ko_data = {
   loading: ko.observable(false),
   sidebar: ko.observable(''),
   search_text: ko.observable(''),
+  movie_genres: ko.observable([]),
+  tvshow_genres: ko.observable([]),
+
   selected_movie: ko.observable(null),
   selected_tvshow: ko.observable(null),
   selected_season: ko.observable(null),
@@ -287,6 +290,9 @@ function showSeason(index) {
 }
 
 $(document).ready(function() {
+  ko_data.movie_genres(movie_genres);
+  ko_data.tvshow_genres(tvshow_genres);
+
   $('a.back-btn').click(function() {
     if (ko_data.selected_movie()) {
       ko_data.selected_movie(null);
@@ -350,6 +356,34 @@ $(document).ready(function() {
     ko_data.sidebar('tvshow_' + type_code);
     ko_data.loading(true);
     $.ajax('/tvshows/?url=' + type_code)
+      .done(function(tvshows) {
+        showItems(tvshows, true);
+      });
+  });
+
+  $('#movie-genres > li > a').click(function() {
+    if ($(this).hasClass('selected')) {
+      return true;
+    }
+    resetUi();
+    genre = $(this).attr('data-genre');
+    ko_data.sidebar('m_g_' + genre);
+    ko_data.loading(true);
+    $.ajax('/movies/?genre=' + encodeURIComponent(genre))
+      .done(function(movies) {
+        showItems(movies, true);
+      });
+  });
+
+  $('#tvshow-genres > li > a').click(function() {
+    if ($(this).hasClass('selected')) {
+      return true;
+    }
+    resetUi();
+    genre = $(this).attr('data-genre');
+    ko_data.sidebar('t_g_' + genre);
+    ko_data.loading(true);
+    $.ajax('/tvshows/?genre=' + encodeURIComponent(genre))
       .done(function(tvshows) {
         showItems(tvshows, true);
       });

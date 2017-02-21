@@ -1,4 +1,4 @@
-import urllib
+import urllib,json
 from flask import Flask, render_template, request, jsonify
 
 from resources.lib.indexers import movies
@@ -10,7 +10,9 @@ app = Flask(__name__)
 
 @app.route('/webui/')
 def webui():
-    return render_template('webui.html')
+    movie_genres = json.dumps(movies.movies().genres())
+    tvshow_genres = json.dumps(tvshows.tvshows().genres())
+    return render_template('webui.html', movie_genres=movie_genres, tvshow_genres=tvshow_genres)
 
 @app.route('/')
 def index():
