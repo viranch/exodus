@@ -92,11 +92,12 @@
                                     <!-- <a class="pivot-link" href="#">Drama</a>, <a class="pivot-link" href="#">Science Fiction</a> -->
                                 </div>
                                 <div class="rating-container">
-                                    <span class="rating star-rating" data-bind="foreach: ui_stars">
+                                    <span class="rating star-rating">
                                         <span class="star">
-                                            <i data-bind="attr: {class: 'star-icon glyphicon ' + $data}"></i>
+                                            <i class="star-icon glyphicon star"></i>
                                             <span class="empty-icon"></span>
                                         </span>
+                                        &nbsp;<span data-bind="text: rating"></span>/10
                                     </span>
                                 </div>
                                 <!-- <div class="content-rating-flag-container"><img class="content-rating-flag loaded" src="blob:http://127.0.0.1:32400/925c40cf-7b0a-48f4-8a1e-8352b622e248"></div> -->
@@ -155,11 +156,12 @@
                             <p class="metadata-labels">
                                 <span class="item-duration metadata-duration" data-bind="text: ui_duration"></span>
                                 <span class="rating-container rating-container-inline">
-                                    <span class="rating star-rating" data-bind="foreach: ui_stars">
+                                    <span class="rating star-rating">
                                         <span class="star">
-                                            <i data-bind="attr: {class: 'star-icon glyphicon ' + $data}"></i>
+                                            <i class="star-icon glyphicon star"></i>
                                             <span class="empty-icon"></span>
                                         </span>
+                                        &nbsp;<span data-bind="text: rating"></span>/10
                                     </span>
                                 </span>
                                 <!-- <span class="content-rating-flag-container content-rating-flag-container-inline"><img class="show-content-rating content-rating-flag loaded" src="blob:http://127.0.0.1:32400/13d418c5-d2d8-4c53-9c6b-670cfccaea34"></span> -->

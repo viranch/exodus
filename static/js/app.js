@@ -156,6 +156,7 @@ function prepareMovies(movies) {
 function prepareTvshows(tvshows) {
   for (var x in tvshows) {
     tvshows[x].ui_poster = pickPoster(tvshows[x], ['poster']);
+    tvshows[x].rating = Math.round(tvshows[x].rating*10)/10;
   }
 }
 
@@ -207,18 +208,8 @@ function durationLabel(duration) {
   return label;
 }
 
-function ratingStars(rating) {
-  var num_stars = Math.round(rating/2);  // rating is out of 10, stars are out of 5
-  var stars = [];
-  for(var x=0; x<5; x++) {
-    stars.push(x < num_stars ? 'star' : 'dislikes');
-  }
-  return stars;
-}
-
 function showMovie(movie) {
   movie.ui_duration = durationLabel(movie.duration);
-  movie.ui_stars = ratingStars(movie.rating);
 
   var split_keys = ['genre', 'director', 'writer'];
   for (var x in split_keys) {
@@ -240,7 +231,6 @@ function showMovie(movie) {
 
 function showTvShow(tvshow) {
   tvshow.ui_duration = durationLabel(tvshow.duration);
-  tvshow.ui_stars = ratingStars(tvshow.rating);
 
   ko_data.selected_tvshow(tvshow);
 }
