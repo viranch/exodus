@@ -8,6 +8,8 @@ var ko_data = {
   tvshow_seasons: ko.observable([]),
   season_episodes: ko.observable([])
 };
+
+// ko computed data
 ko_data.next_page_url = ko.computed(function() {
   var items = ko_data.items();
   var len = items.length;
@@ -16,7 +18,8 @@ ko_data.next_page_url = ko.computed(function() {
   } else {
     return '';
   }
-})
+});
+
 ko_data.background = ko.computed(function() {
   var item = ko_data.selected_movie() || ko_data.selected_tvshow();
   if (item) {
@@ -24,7 +27,8 @@ ko_data.background = ko.computed(function() {
   } else {
     return '';
   }
-})
+});
+
 ko_data.selected_media = ko.computed(function() {
   var val = ko_data.selected_movie() || ko_data.selected_tvshow() || ko_data.selected_season() || ko_data.selected_episode();
   var rm = val ? 'in' : 'out';
@@ -32,13 +36,15 @@ ko_data.selected_media = ko.computed(function() {
   $('.section-side-bar-container > .side-bar').removeClass('transition-'+rm).addClass('transition-'+add);
   return val;
 });
-ko_data.bg_animator = ko.computed(function() {
-  if (!ko_data.background()) {
+
+// ko subscriptions
+ko_data.background.subscribe(function(bg) {
+  if (!bg) {
     $('.background').removeClass('transition-in').addClass('transition-out');
   }
 });
-ko_data.dummy_seasons = ko.computed(function() {
-  var tvshow = ko_data.selected_tvshow();
+
+ko_data.selected_tvshow.subscribe(function(tvshow) {
   if (tvshow) {
     ko_data.loading(true);
     $.ajax('/tvshows/?'+serialize({
@@ -56,8 +62,8 @@ ko_data.dummy_seasons = ko.computed(function() {
     ko_data.tvshow_seasons([]);
   }
 });
-ko_data.dummy_episodes = ko.computed(function() {
-  var season = ko_data.selected_season();
+
+ko_data.selected_season.subscribe(function(season) {
   if (season) {
     ko_data.loading(true);
     $.ajax('/tvshows/?'+serialize({
