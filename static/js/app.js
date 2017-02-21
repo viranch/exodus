@@ -47,14 +47,14 @@ ko_data.dummy_seasons = ko.computed(function() {
       tvdb: tvshow.tvdb
     }))
       .done(function(seasons) {
-        ko_data.loading(false);
         prepareSeasons(seasons);
+        ko_data.loading(false);
         ko_data.tvshow_seasons(seasons);
       });
   } else {
     ko_data.tvshow_seasons([]);
   }
-})
+});
 
 function serialize(obj) {
   var str = [];
