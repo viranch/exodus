@@ -137,7 +137,7 @@
             </div>
                     <!-- /ko -->
                 <!-- /ko -->
-                <!-- ko if: selected_tvshow -->
+                <!-- ko if: selected_tvshow() && !selected_season() -->
                     <!-- ko with: selected_tvshow -->
             <div class="details-container">
                 <div class="show-details-row details-row">
@@ -179,7 +179,7 @@
                         <div class="season-list-container details-list-region">
                             <ul class="tile-list media-tile-list season-tile-list" data-bind="foreach: $parent.tvshow_seasons">
                                 <li class="poster-item media-tile-list-item season">
-                                    <a class="media-poster-container" href="#">
+                                    <a class="media-poster-container" href="#" data-bind="attr: {onclick: 'showSeason('+$index()+')'}">
                                         <div class="media-poster loaded" data-bind="attr: {style: 'background-image: url(&quot;'+ui_poster+'&quot;);'}">
                                             <div class="media-poster-overlay"></div>
                                             <div class="media-poster-actions ">
@@ -216,6 +216,50 @@
                     <!-- /ko -->
                 <!-- /ko -->
                 <!-- ko if: selected_season -->
+                    <!-- ko with: selected_season -->
+            <div class="details-container">
+                <div class="season-details-row details-row">
+                    <div class="details-title-container">
+                        <h1><a class="show-title btn-metadata-link" href="#" data-bind="text: tvshowtitle"></a></h1>
+                        <h2 class="season-title">Season <span data-bind="text: season"></span></h2>
+                    </div>
+                    <div class="details-metadata-container">
+                        <div class="media-actions-container title"></div>
+                        <div class="summary-container">
+                            <div class="summary hidden">
+                                <p class="item-summary metadata-summary hidden"></p>
+                                <div class="summary-divider hidden">
+                                    <button type="button" class="summary-divider-btn">More</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="episode-list-container details-list-region">
+                            <ul class="tile-list media-tile-list episode-tile-list" data-bind="foreach: $parent.season_episodes">
+                                <li class="poster-item media-tile-list-item episode-tile-list-item episode">
+                                    <a class="media-poster-container " href="#">
+                                        <div class="media-poster loaded" data-bind="attr: {style: 'background-image: url(&quot;'+ui_poster+'&quot;);'}">
+                                            <div class="media-poster-overlay"></div>
+                                            <div class="media-poster-actions">
+                                                <button class="play-btn media-poster-btn btn-link" tabindex="-1"><i class="glyphicon play"></i></button>
+                                            </div>
+                                            <span class="media-count-badge badge badge-lg hidden">1</span>
+                                            <div class="media-progress">
+                                                <div class="hidden">
+                                                    <div class="media-progress-track"></div>
+                                                    <div class="media-progress-pct"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="media-title media-heading" data-bind="text: title"></div>
+                                        <div class="media-subtitle-1 media-heading secondary">Episode <span data-bind="text: episode"></span></div>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+                    <!-- /ko -->
                 <!-- /ko -->
                 <!-- ko if: selected_episode -->
                 <!-- /ko -->

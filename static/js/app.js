@@ -5,7 +5,8 @@ var ko_data = {
   selected_tvshow: ko.observable(null),
   selected_season: ko.observable(null),
   selected_episode: ko.observable(null),
-  tvshow_seasons: ko.observable([])
+  tvshow_seasons: ko.observable([]),
+  season_episodes: ko.observable([])
 };
 ko_data.next_page_url = ko.computed(function() {
   var items = ko_data.items();
@@ -53,6 +54,26 @@ ko_data.dummy_seasons = ko.computed(function() {
       });
   } else {
     ko_data.tvshow_seasons([]);
+  }
+});
+ko_data.dummy_episodes = ko.computed(function() {
+  var season = ko_data.selected_season();
+  if (season) {
+    ko_data.loading(true);
+    $.ajax('/tvshows/?'+serialize({
+      tvshowtitle: season.tvshowtitle,
+      year: season.year,
+      imdb: season.imdb,
+      tvdb: season.tvdb,
+      season: season.season
+    }))
+      .done(function(episodes) {
+        prepareEpisodes(episodes);
+        ko_data.loading(false);
+        ko_data.season_episodes(episodes);
+      });
+  } else {
+    ko_data.season_episodes([]);
   }
 });
 
@@ -115,6 +136,12 @@ function prepareTvshows(tvshows) {
 function prepareSeasons(seasons) {
   for (var x in seasons) {
     seasons[x].ui_poster = pickPoster(seasons[x], ['thumb', 'poster']);
+  }
+}
+
+function prepareEpisodes(episodes) {
+  for (var x in episodes) {
+    episodes[x].ui_poster = pickPoster(episodes[x], ['thumb', 'fanart']);
   }
 }
 
@@ -192,6 +219,11 @@ function showTvShow(tvshow) {
   ko_data.selected_tvshow(tvshow);
 }
 
+function showSeason(index) {
+  var item = ko_data.tvshow_seasons()[index];
+  ko_data.selected_season(item);
+}
+
 $(document).ready(function() {
   $('#movie-browse > li > a').click(function() {
     resetUi();
@@ -214,10 +246,17 @@ $(document).ready(function() {
   });
 
   $('a.back-btn').click(function() {
-    ko_data.selected_movie(null);
-    ko_data.selected_tvshow(null);
-    ko_data.selected_season(null);
-    ko_data.selected_episode(null);
+    if (ko_data.selected_movie()) {
+      ko_data.selected_movie(null);
+    } else if (ko_data.selected_season()) {
+      ko_data.season_episodes([]);
+      ko_data.selected_season(null);
+    } else if (ko_data.selected_tvshow()) {
+      ko_data.tvshow_seasons([]);
+      ko_data.selected_tvshow(null);
+    } else {
+      ko_data.selected_episode(null);
+    }
   });
 
   $('#dummy-bg').on('load', function() {
