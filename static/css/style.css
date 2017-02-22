@@ -23,3 +23,10 @@
 .media-poster-container {
     cursor: pointer;
 }
+
+h4.season-nav {
+    float: right;
+    font-size: 19px;
+    margin-left: 5px;
+    margin-right: 5px;
+}

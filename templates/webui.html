@@ -231,7 +231,17 @@
                 <div class="season-details-row details-row">
                     <div class="details-title-container">
                         <h1><a class="show-title btn-metadata-link" href="#" data-bind="text: tvshowtitle"></a></h1>
+                        <h4 class="season-nav">
+                            <a class="btn-gray" href="#" data-bind="css: {disabled: !ui_next}, attr: {onclick: ui_next ? 'nextSeason('+ui_index+')' : ''}">
+                                <i class="glyphicon chevron-right"></i>
+                            </a>
+                        </h4>
                         <h2 class="season-title">Season <span data-bind="text: season"></span></h2>
+                        <h4 class="season-nav">
+                            <a class="btn-gray" href="#" data-bind="css: {disabled: !ui_prev}, attr: {onclick: ui_prev ? 'prevSeason('+ui_index+')' : ''}">
+                                <i class="glyphicon chevron-left"></i>
+                            </a>
+                        </h4>
                     </div>
                     <div class="details-metadata-container">
                         <div class="media-actions-container title"></div>

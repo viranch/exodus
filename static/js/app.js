@@ -204,6 +204,9 @@ function prepareTvshows(tvshows) {
 function prepareSeasons(seasons) {
   for (var x in seasons) {
     seasons[x].ui_poster = pickPoster(seasons[x], ['thumb', 'poster']);
+    seasons[x].ui_index = x;
+    seasons[x].ui_prev = (x > 0);
+    seasons[x].ui_next = (x < seasons.length - 1);
   }
 }
 
@@ -287,6 +290,13 @@ function showTvShow(tvshow) {
 function showSeason(index) {
   var item = ko_data.tvshow_seasons()[index];
   ko_data.selected_season(item);
+}
+
+function prevSeason(index) {
+  return showSeason(index-1);
+}
+function nextSeason(index) {
+  return showSeason(index+1);
 }
 
 $(document).ready(function() {
