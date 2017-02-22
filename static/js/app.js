@@ -212,10 +212,12 @@ function prepareTvshows(tvshows) {
 
 function prepareSeasons(seasons) {
   for (var x in seasons) {
-    seasons[x].ui_poster = pickPoster(seasons[x], ['thumb', 'poster']);
-    seasons[x].ui_index = x;
-    seasons[x].ui_prev = (x > 0);
-    seasons[x].ui_next = (x < seasons.length - 1);
+    var season = seasons[x];
+    season.ui_poster = pickPoster(season, ['thumb', 'poster']);
+    season.ui_index = x;
+    season.ui_prev = (x > 0);
+    season.ui_next = (x < seasons.length - 1);
+    season.ui_year = (new Date(season.premiered)).getFullYear();
   }
 }
 
