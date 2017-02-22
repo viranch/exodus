@@ -1,3 +1,5 @@
+import data_setup
+
 import urllib,json
 from flask import Flask, render_template, request, jsonify, abort
 
