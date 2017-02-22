@@ -352,7 +352,7 @@
                         <h5>Movies</h5>
                         <div class="section-sort-list-container">
                             <ul class="list side-bar-list" id="movie-browse" data-bind="foreach: movie_types">
-                                <li><a class="sort-btn btn-gray" href="#" data-bind="attr: {'data-code': code}, css: {selected: $parent.sidebar() == 'movie_'+code}, text: name"></a></li>
+                                <li><a class="sort-btn btn-gray" href="#" data-bind="attr: {'data-category': code}, css: {selected: $parent.sidebar() == 'movie_'+code}, text: name"></a></li>
                             </ul>
                         </div>
                     </div>
@@ -360,7 +360,7 @@
                         <h5>TV Shows</h5>
                         <div class="section-sort-list-container">
                             <ul class="list side-bar-list" id="tvshow-browse" data-bind="foreach: tvshow_types">
-                                <li><a class="sort-btn btn-gray" href="#" data-bind="attr: {'data-code': code}, css: {selected: $parent.sidebar() == 'tvshow_'+code}, text: name"></a></li>
+                                <li><a class="sort-btn btn-gray" href="#" data-bind="attr: {'data-category': code}, css: {selected: $parent.sidebar() == 'tvshow_'+code}, text: name"></a></li>
                             </ul>
                         </div>
                     </div>
