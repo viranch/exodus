@@ -307,6 +307,14 @@ $(document).ready(function() {
     }
   });
 
+  $('a.home-btn').click(function() {
+    ko_data.selected_movie(null);
+    ko_data.season_episodes([]);
+    ko_data.selected_season(null);
+    ko_data.tvshow_seasons([]);
+    ko_data.selected_tvshow(null);
+  });
+
   $('#dummy-bg').on('load', function() {
     $('.background')
       .css('background-image', 'url("'+ko_data.background()+'")')
