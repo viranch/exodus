@@ -190,7 +190,16 @@ function pickPoster(item, poster_keys) {
 
 function prepareMovies(movies) {
   for (var x in movies) {
-    movies[x].ui_poster = pickPoster(movies[x], ['poster3', 'poster', 'poster2']);
+    var movie = movies[x];
+    movie.ui_poster = pickPoster(movie, ['poster3', 'poster', 'poster2']);
+    movie.play = function() {
+      var m = $(this)[0];
+      window.open('/play?' + serialize({
+        title: m.title,
+        year: m.year,
+        imdb: m.imdb
+      }));
+    };
   }
 }
 
@@ -212,7 +221,21 @@ function prepareSeasons(seasons) {
 
 function prepareEpisodes(episodes) {
   for (var x in episodes) {
-    episodes[x].ui_poster = pickPoster(episodes[x], ['thumb', 'fanart']);
+    var episode = episodes[x];
+    episode.ui_poster = pickPoster(episode, ['thumb', 'fanart']);
+    episode.play = function() {
+      var e = $(this)[0];
+      window.open('/play?' + serialize({
+        title: e.title,
+        year: e.year,
+        imdb: e.imdb,
+        tvdb: e.tvdb,
+        season: e.season,
+        episode: e.episode,
+        tvshowtitle: e.tvshowtitle,
+        premiered: e.premiered
+      }));
+    }
   }
 }
 

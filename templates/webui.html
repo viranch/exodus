@@ -135,7 +135,7 @@
                         </div>
                     </div>
                     <div class="details-poster-container">
-                        <a class="media-poster-container play-btn" href="#">
+                        <a class="media-poster-container play-btn" data-bind="click: play" href="#">
                             <div class="movie-poster item-poster media-poster loaded" data-bind="style: {'background-image': 'url(&quot;'+ui_poster+'&quot;)'}">
                                 <div class="media-poster-overlay"></div>
                                 <div class="media-poster-overlay-icons"> <i class="media-poster-overlay-icon glyphicon play"></i> </div>
@@ -192,10 +192,10 @@
                                     <a class="media-poster-container" href="#" data-bind="attr: {onclick: 'showSeason('+$index()+')'}">
                                         <div class="media-poster loaded" data-bind="style: {'background-image': 'url(&quot;'+ui_poster+'&quot;)'}">
                                             <div class="media-poster-overlay"></div>
-                                            <div class="media-poster-actions ">
+                                            <!-- <div class="media-poster-actions ">
                                                 <button class="play-btn media-poster-btn btn-link" tabindex="-1"><i class="glyphicon play"></i></button>
                                             </div>
-                                            <span class="unwatched-count-badge badge badge-lg hidden">0</span>
+                                            <span class="unwatched-count-badge badge badge-lg hidden">0</span> -->
                                         </div>
                                         <div class="media-title media-heading">
                                             <span>Season </span>
@@ -211,15 +211,15 @@
                         </div>
                     </div>
                     <div class="details-poster-container">
-                        <a class="media-poster-container play-btn" href="#">
+                        <div>
                             <div class="show-poster item-poster media-poster loaded" data-bind="style: {'background-image': 'url(&quot;'+ui_poster+'&quot;)'}">
-                                <div class="media-poster-overlay"></div>
+                                <!--div class="media-poster-overlay"></div>
                                 <div class="media-poster-overlay-icons">
                                     <i class="media-poster-overlay-icon glyphicon play"></i>
                                 </div>
-                                <span class="unwatched-count-badge details-unwatched-count-badge badge badge-lg hidden">0</span>
+                                <span class="unwatched-count-badge details-unwatched-count-badge badge badge-lg hidden">0</span-->
                             </div>
-                        </a>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -256,10 +256,16 @@
                         <div class="episode-list-container details-list-region">
                             <ul class="tile-list media-tile-list episode-tile-list" data-bind="foreach: $parent.season_episodes">
                                 <li class="poster-item media-tile-list-item episode-tile-list-item episode">
-                                    <a class="media-poster-container " href="#">
+                                    <a class="media-poster-container" href="#" data-bind="click: play">
                                         <div class="media-poster loaded" data-bind="style: {'background-image': 'url(&quot;'+ui_poster+'&quot;)'}">
-                                            <div class="media-poster-overlay"></div>
-                                            <div class="media-poster-actions">
+                                            <div class="media-poster-overlay">
+                                                <button aria-role="button" class="MetadataPosterCardOverlay-playButton-12XyM absoluteCenter-absoluteCenter-3-Tjr PlayButton-playButton-auoLt MetadataPosterCardOverlay-button-3gK0Y Link-link-2wZEE Link-default-1sSkX" type="button" data-bind="click: play, clickBubble: false">
+                                                    <div class="MetadataPosterCardOverlay-playCircle-Lk-_9 PlayButton-playCircle-1aLOj MetadataPosterCardOverlay-centerCircle-3H7Xg absoluteCenter-absoluteCenter-3-Tjr">
+                                                        <i class="plex-icon-play-560 PlayButton-playIcon-3FLXQ" aria-hidden="true"></i>
+                                                    </div>
+                                                </button>
+                                            </div>
+                                            <!-- <div class="media-poster-actions">
                                                 <button class="play-btn media-poster-btn btn-link" tabindex="-1"><i class="glyphicon play"></i></button>
                                             </div>
                                             <span class="media-count-badge badge badge-lg hidden">1</span>
@@ -268,7 +274,7 @@
                                                     <div class="media-progress-track"></div>
                                                     <div class="media-progress-pct"></div>
                                                 </div>
-                                            </div>
+                                            </div> -->
                                         </div>
                                         <div class="media-title media-heading" data-bind="text: title"></div>
                                         <div class="media-subtitle-1 media-heading secondary">Episode <span data-bind="text: episode"></span></div>
@@ -280,8 +286,6 @@
                 </div>
             </div>
                     <!-- /ko -->
-                <!-- /ko -->
-                <!-- ko if: selected_episode -->
                 <!-- /ko -->
                 <!-- ko ifnot: selected_media -->
             <div class="section-container">
@@ -296,16 +300,18 @@
                         <li class="poster-item media-tile-list-item movie show-subtitle" style1="position: absolute; transform: translate3d(0px, 0px, 0px);">
                             <a class="media-poster-container" href="#" data-bind="attr: {onclick: 'showItem('+$index()+')'}">
                                 <div class="media-poster loaded" data-bind="style: {'background-image': 'url(&quot;'+ui_poster+'&quot;)'}">
-                                    <div class="media-poster-overlay"></div>
-                                    <div class="media-poster-overlay-icons with-actions"> <i class="analyzing-icon media-poster-overlay-icon glyphicon magic hidden"></i> <i class="matching-icon media-poster-overlay-icon glyphicon search hidden"></i> <i class="metadata-icon media-poster-overlay-icon glyphicon tags hidden"></i> <i class="trash-icon media-poster-overlay-icon glyphicon bin warning hidden"></i> </div>
-                                    <div class="media-poster-actions ">
-                                        <!--button data-qa-id="metadataPosterPlayButton" aria-role="button" class="MetadataPosterCardOverlay-playButton-12XyM absoluteCenter-absoluteCenter-3-Tjr PlayButton-playButton-auoLt MetadataPosterCardOverlay-button-3gK0Y Link-link-2wZEE Link-default-1sSkX" type="button">
+                                    <div class="media-poster-overlay">
+                                        <!-- ko if: _type == 'movie' -->
+                                        <button aria-role="button" class="MetadataPosterCardOverlay-playButton-12XyM absoluteCenter-absoluteCenter-3-Tjr PlayButton-playButton-auoLt MetadataPosterCardOverlay-button-3gK0Y Link-link-2wZEE Link-default-1sSkX" type="button" data-bind="click: play, clickBubble: false">
                                             <div class="MetadataPosterCardOverlay-playCircle-Lk-_9 PlayButton-playCircle-1aLOj MetadataPosterCardOverlay-centerCircle-3H7Xg absoluteCenter-absoluteCenter-3-Tjr">
                                                 <i class="plex-icon-play-560 PlayButton-playIcon-3FLXQ" aria-hidden="true"></i>
                                             </div>
-                                        </button-->
+                                        </button>
+                                        <!-- /ko -->
+                                    </div>
+                                    <!-- <div class="media-poster-actions ">
                                         <button class="play-btn media-poster-btn btn-link" tabindex="-1"><i class="glyphicon play"></i></button>
-                                    </div> <span class="media-count-badge badge badge-lg hidden">1</span> <span class="unwatched-count-badge badge badge-lg hidden"></span> <span class="video-badge badge badge-round hidden"> <i class="glyphicon facetime-video"></i> </span>
+                                    </div> <span class="media-count-badge badge badge-lg hidden">1</span> <span class="unwatched-count-badge badge badge-lg hidden"></span> <span class="video-badge badge badge-round hidden"> <i class="glyphicon facetime-video"></i> </span> -->
                                     <div class="media-progress">
                                         <div class="hidden">
                                             <div class="media-progress-track"></div>

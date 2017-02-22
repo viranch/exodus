@@ -24,6 +24,31 @@
     cursor: pointer;
 }
 
+.MetadataPosterCardOverlay-playButton-12XyM {
+    -webkit-transform: translate(-50%,-50%) scale(.9);
+    transform: translate(0%,0%) scale(.9);
+}
+
+.media-poster-overlay:hover .MetadataPosterCardOverlay-playButton-12XyM {
+    -webkit-transform: translate(-50%,-50%) scale(1);
+    transform: translate(0%,0%) scale(1);
+}
+
+.media-poster-overlay:hover .MetadataPosterCardOverlay-button-3gK0Y {
+    opacity: 1;
+    -webkit-transform: translateY(0);
+    transform: translateY(0);
+}
+
+.MetadataPosterCardOverlay-centerCircle-3H7Xg {
+    top: 0% !important;
+    left: 0% !important;
+}
+
+.PlayButton-playIcon-3FLXQ {
+    top: 33%;
+}
+
 h4.season-nav {
     float: right;
     font-size: 19px;

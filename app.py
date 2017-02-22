@@ -72,11 +72,15 @@ def get_season_episodes():
 def play():
     args = dict(request.args.iteritems())
     data = sources.sources().play(**args)
+
     url = None
     for item in data:
         print item.get('label')
         url = sources.sources().sourcesResolve(item)
         if url: break
+    if url is None:
+        abort(404)
+
     return render_template('player.html', url=url, item=args)
 
 
