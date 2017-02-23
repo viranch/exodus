@@ -181,7 +181,7 @@
                         <div class="season-list-container details-list-region">
                             <ul class="tile-list media-tile-list season-tile-list" data-bind="foreach: $parent.tvshow_seasons">
                                 <li class="poster-item media-tile-list-item season">
-                                    <a class="media-poster-container" href="#" data-bind="attr: {onclick: 'showSeason('+$index()+')'}">
+                                    <a class="media-poster-container" href="#" data-bind="click: show">
                                         <div class="media-poster loaded" data-bind="style: {'background-image': 'url(&quot;'+ui_poster+'&quot;)'}">
                                             <div class="media-poster-overlay">
                                                 <button aria-role="button" class="MetadataPosterCardOverlay-playButton-12XyM absoluteCenter-absoluteCenter-3-Tjr PlayButton-playButton-auoLt MetadataPosterCardOverlay-button-3gK0Y Link-link-2wZEE Link-default-1sSkX" type="button" data-bind="click: play, clickBubble: false">
@@ -289,7 +289,7 @@
                     <ul class="tile-list virtual-list media-tile-list" style="height: 281px;">
                         <!-- ko foreach: items -->
                         <li class="poster-item media-tile-list-item movie show-subtitle" style1="position: absolute; transform: translate3d(0px, 0px, 0px);">
-                            <a class="media-poster-container" href="#" data-bind="attr: {onclick: 'showItem('+$index()+')'}">
+                            <a class="media-poster-container" href="#" data-bind="click: show">
                                 <div class="media-poster loaded" data-bind="style: {'background-image': 'url(&quot;'+ui_poster+'&quot;)'}">
                                     <div class="media-poster-overlay">
                                         <button aria-role="button" class="MetadataPosterCardOverlay-playButton-12XyM absoluteCenter-absoluteCenter-3-Tjr PlayButton-playButton-auoLt MetadataPosterCardOverlay-button-3gK0Y Link-link-2wZEE Link-default-1sSkX" type="button" data-bind="click: play, clickBubble: false">

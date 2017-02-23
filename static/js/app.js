@@ -190,6 +190,27 @@ function prepareMovies(movies) {
   for (var x in movies) {
     var movie = movies[x];
     movie.ui_poster = pickPoster(movie, ['poster3', 'poster', 'poster2']);
+    movie.show = function() {
+      var m = $(this)[0];
+      m.ui_duration = durationLabel(m.duration);
+
+      var split_keys = ['genre', 'director', 'writer'];
+      for (var x in split_keys) {
+        var key = split_keys[x];
+        m['ui_' + key + 's'] = m[key].split(' / ').join(', ');
+      }
+
+      var cast = [];
+      for (var x in movie.cast) {
+        for (var y in m.cast[x]) {
+          var name = m.cast[x][y];
+          if (name) cast.push(name);
+        }
+      }
+      m.ui_cast = cast.join(', ');
+
+      ko_data.selected_movie(m);
+    };
     movie.play = function() {
       var m = $(this)[0];
       window.open('/play?' + serialize({
@@ -206,6 +227,11 @@ function prepareTvshows(tvshows) {
     var tvshow = tvshows[x];
     tvshow.ui_poster = pickPoster(tvshow, ['poster']);
     tvshow.rating = Math.round(tvshow.rating*10)/10;
+    tvshow.show = function() {
+      var t = $(this)[0];
+      t.ui_duration = durationLabel(t.duration);
+      ko_data.selected_tvshow(t);
+    };
     tvshow.play = function() {
       var t = $(this)[0];
       window.open('/play?' + serialize({
@@ -226,6 +252,9 @@ function prepareSeasons(seasons) {
     season.ui_prev = (x > 0);
     season.ui_next = (x < seasons.length - 1);
     season.ui_year = (new Date(season.premiered)).getFullYear();
+    season.show = function() {
+      showSeason($(this)[0]);
+    };
     season.play = function() {
       var s = $(this)[0];
       window.open('/play?' + serialize({
@@ -277,15 +306,6 @@ function showItems(items, reset) {
   }
 }
 
-function showItem(index) {
-  var item = ko_data.items()[index];
-  if (item._type == 'movie') {
-    showMovie(item);
-  } else if (item._type == 'tvshow') {
-    showTvShow(item);
-  }
-}
-
 function durationLabel(duration) {
   duration = Number(duration);
   var hours = Math.floor(duration / 60),
@@ -303,43 +323,12 @@ function durationLabel(duration) {
   return label;
 }
 
-function showMovie(movie) {
-  movie.ui_duration = durationLabel(movie.duration);
-
-  var split_keys = ['genre', 'director', 'writer'];
-  for (var x in split_keys) {
-    var key = split_keys[x];
-    movie['ui_' + key + 's'] = movie[key].split(' / ').join(', ');
-  }
-
-  var cast = [];
-  for (var x in movie.cast) {
-    for (var y in movie.cast[x]) {
-      var name = movie.cast[x][y];
-      if (name) cast.push(name);
-    }
-  }
-  movie.ui_cast = cast.join(', ');
-
-  ko_data.selected_movie(movie);
-}
-
-function showTvShow(tvshow) {
-  tvshow.ui_duration = durationLabel(tvshow.duration);
-
-  ko_data.selected_tvshow(tvshow);
-}
-
-function showSeason(index) {
-  var item = ko_data.tvshow_seasons()[index];
-  ko_data.selected_season(item);
-}
-
+showSeason = ko_data.selected_season;
 function prevSeason(index) {
-  return showSeason(index-1);
+  return showSeason(ko_data.tvshow_seasons()[index-1]);
 }
 function nextSeason(index) {
-  return showSeason(index+1);
+  return showSeason(ko_data.tvshow_seasons()[index+1]);
 }
 
 $(document).ready(function() {
