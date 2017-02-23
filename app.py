@@ -71,6 +71,16 @@ def get_season_episodes():
 @app.route('/tvshows/play/')
 def play():
     args = dict(request.args.iteritems())
+
+    if 'tvdb' in args and 'episode' not in args:
+        args['episode'] = '1'
+        args.setdefault('season', '1')
+        items = episodes.episodes().get(args['tvshowtitle'], args['year'], args['imdb'], args['tvdb'], args['season'])
+        item = next(i for i in items if i['episode'] == args['episode'])
+        if item:
+            args['title'] = item['title']
+            args['premiered'] = item['premiered']
+
     data = sources.sources().play(**args)
 
     url = None

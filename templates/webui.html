@@ -183,7 +183,13 @@
                                 <li class="poster-item media-tile-list-item season">
                                     <a class="media-poster-container" href="#" data-bind="attr: {onclick: 'showSeason('+$index()+')'}">
                                         <div class="media-poster loaded" data-bind="style: {'background-image': 'url(&quot;'+ui_poster+'&quot;)'}">
-                                            <div class="media-poster-overlay"></div>
+                                            <div class="media-poster-overlay">
+                                                <button aria-role="button" class="MetadataPosterCardOverlay-playButton-12XyM absoluteCenter-absoluteCenter-3-Tjr PlayButton-playButton-auoLt MetadataPosterCardOverlay-button-3gK0Y Link-link-2wZEE Link-default-1sSkX" type="button" data-bind="click: play, clickBubble: false">
+                                                    <div class="MetadataPosterCardOverlay-playCircle-Lk-_9 PlayButton-playCircle-1aLOj MetadataPosterCardOverlay-centerCircle-3H7Xg absoluteCenter-absoluteCenter-3-Tjr">
+                                                        <i class="plex-icon-play-560 PlayButton-playIcon-3FLXQ" aria-hidden="true"></i>
+                                                    </div>
+                                                </button>
+                                            </div>
                                             <!-- <div class="media-poster-actions ">
                                                 <button class="play-btn media-poster-btn btn-link" tabindex="-1"><i class="glyphicon play"></i></button>
                                             </div>
@@ -286,13 +292,11 @@
                             <a class="media-poster-container" href="#" data-bind="attr: {onclick: 'showItem('+$index()+')'}">
                                 <div class="media-poster loaded" data-bind="style: {'background-image': 'url(&quot;'+ui_poster+'&quot;)'}">
                                     <div class="media-poster-overlay">
-                                        <!-- ko if: _type == 'movie' -->
                                         <button aria-role="button" class="MetadataPosterCardOverlay-playButton-12XyM absoluteCenter-absoluteCenter-3-Tjr PlayButton-playButton-auoLt MetadataPosterCardOverlay-button-3gK0Y Link-link-2wZEE Link-default-1sSkX" type="button" data-bind="click: play, clickBubble: false">
                                             <div class="MetadataPosterCardOverlay-playCircle-Lk-_9 PlayButton-playCircle-1aLOj MetadataPosterCardOverlay-centerCircle-3H7Xg absoluteCenter-absoluteCenter-3-Tjr">
                                                 <i class="plex-icon-play-560 PlayButton-playIcon-3FLXQ" aria-hidden="true"></i>
                                             </div>
                                         </button>
-                                        <!-- /ko -->
                                     </div>
                                     <!-- <div class="media-poster-actions ">
                                         <button class="play-btn media-poster-btn btn-link" tabindex="-1"><i class="glyphicon play"></i></button>
