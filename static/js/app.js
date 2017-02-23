@@ -9,7 +9,6 @@ var ko_data = {
   selected_movie: ko.observable(null),
   selected_tvshow: ko.observable(null),
   selected_season: ko.observable(null),
-  selected_episode: ko.observable(null),
   tvshow_seasons: ko.observable([]),
   season_episodes: ko.observable([])
 };
@@ -35,7 +34,7 @@ ko_data.background = ko.computed(function() {
 });
 
 ko_data.selected_media = ko.computed(function() {
-  var val = ko_data.selected_movie() || ko_data.selected_tvshow() || ko_data.selected_season() || ko_data.selected_episode();
+  var val = ko_data.selected_movie() || ko_data.selected_tvshow() || ko_data.selected_season();
   var rm = val ? 'in' : 'out';
   var add = val ? 'out' : 'in';
   $('.section-side-bar-container > .side-bar').removeClass('transition-'+rm).addClass('transition-'+add);
@@ -159,7 +158,6 @@ function resetUi() {
   ko_data.selected_movie(null);
   ko_data.selected_tvshow(null);
   ko_data.selected_season(null);
-  ko_data.selected_episode(null);
 }
 
 function loadMore() {
@@ -340,8 +338,6 @@ $(document).ready(function() {
     } else if (ko_data.selected_tvshow()) {
       ko_data.tvshow_seasons([]);
       ko_data.selected_tvshow(null);
-    } else {
-      ko_data.selected_episode(null);
     }
   });
 
