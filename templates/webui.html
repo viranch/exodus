@@ -78,12 +78,8 @@
             <div class="background"></div>
         </div>
         <div id="content" class="scroll-container dark-scrollbar" data-bind="style: {left: selected_media() ? '0px' : '240px'}">
-            <!-- ko if: loading -->
-            <div class="loading"></div>
-            <!-- /ko -->
-            <!-- ko if: !loading() -->
-                <!-- ko if: selected_movie -->
-                    <!-- ko with: selected_movie -->
+            <div class="loading" data-bind="visible: loading"></div>
+            <!-- ko ifnot: loading -->
             <div class="details-container" data-bind="visible: selected_movie, with: selected_movie" style="display:none;">
                 <div class="movie-details-row details-row">
                     <div class="details-title-container">
@@ -144,10 +140,6 @@
                     </div>
                 </div>
             </div>
-                    <!-- /ko -->
-                <!-- /ko -->
-                <!-- ko if: selected_tvshow() && !selected_season() -->
-                    <!-- ko with: selected_tvshow -->
             <div class="details-container" data-bind="visible: selected_tvshow() && !selected_season(), with: selected_tvshow" style="display:none;">
                 <div class="show-details-row details-row">
                     <div class="details-title-container">
@@ -223,10 +215,6 @@
                     </div>
                 </div>
             </div>
-                    <!-- /ko -->
-                <!-- /ko -->
-                <!-- ko if: selected_season -->
-                    <!-- ko with: selected_season -->
             <div class="details-container" data-bind="visible: selected_season, with: selected_season" style="display:none;">
                 <div class="season-details-row details-row">
                     <div class="details-title-container">
@@ -285,9 +273,6 @@
                     </div>
                 </div>
             </div>
-                    <!-- /ko -->
-                <!-- /ko -->
-                <!-- ko ifnot: selected_media -->
             <div class="section-container" data-bind="visible: !selected_media()" style="display:none;">
                 <div class="section-list-container">
                     <div class="section-loading-container bottom hidden">
@@ -357,7 +342,6 @@
                     </ul>
                 </div>
             </div>
-                <!-- /ko -->
             <!-- /ko -->
         </div>
         <div class="scroll-shadow transition-out"></div>
