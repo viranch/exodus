@@ -327,6 +327,7 @@ function nextSeason(index) {
 $(document).ready(function() {
   ko_data.movie_genres(movie_genres);
   ko_data.tvshow_genres(tvshow_genres);
+  ko.applyBindings(ko_data);
 
   $('a.back-btn').click(function() {
     if (ko_data.selected_movie()) {
@@ -372,9 +373,6 @@ $(document).ready(function() {
         showItems(items, true);
       });
   });
-
-  resetUi();
-  ko.applyBindings(ko_data);
 
   sidebar_done = function(items) { showItems(items, true); }
 
