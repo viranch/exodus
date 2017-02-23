@@ -333,19 +333,15 @@ $(document).ready(function() {
     if (ko_data.selected_movie()) {
       ko_data.selected_movie(null);
     } else if (ko_data.selected_season()) {
-      ko_data.season_episodes([]);
       ko_data.selected_season(null);
     } else if (ko_data.selected_tvshow()) {
-      ko_data.tvshow_seasons([]);
       ko_data.selected_tvshow(null);
     }
   });
 
   $('a.home-btn').click(function() {
     ko_data.selected_movie(null);
-    ko_data.season_episodes([]);
     ko_data.selected_season(null);
-    ko_data.tvshow_seasons([]);
     ko_data.selected_tvshow(null);
   });
 
