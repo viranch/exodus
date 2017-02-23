@@ -329,6 +329,8 @@ $(document).ready(function() {
   ko_data.tvshow_genres(tvshow_genres);
   ko.applyBindings(ko_data);
 
+  $('#search-input').focus();
+
   $('a.back-btn').click(function() {
     if (ko_data.selected_movie()) {
       ko_data.selected_movie(null);
