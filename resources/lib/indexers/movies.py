@@ -672,7 +672,7 @@ class movies:
 
             url = self.imdb_info_link % imdb
 
-            item = client.request(url, timeout='10')
+            item = client.cached_request(url, timeout='10')
             item = json.loads(item)
 
             title = item['Title']
@@ -753,7 +753,7 @@ class movies:
 
 
             artmeta = True
-            art = client.request(self.fanart_tv_art_link % imdb, headers=self.fanart_tv_headers, timeout='10', error=True)
+            art = client.cached_request(self.fanart_tv_art_link % imdb, headers=self.fanart_tv_headers, timeout='10', error=True)
             try: art = json.loads(art)
             except: artmeta = False
 
@@ -799,7 +799,7 @@ class movies:
             try:
                 if self.tm_user == '': raise Exception()
 
-                art2 = client.request(self.tm_art_link % imdb, timeout='10', error=True)
+                art2 = client.cached_request(self.tm_art_link % imdb, timeout='10', error=True)
                 art2 = json.loads(art2)
             except:
                 pass

@@ -776,7 +776,7 @@ class tvshows:
             if imdb == '0':
                 url = self.imdb_by_query % (urllib.quote_plus(self.list[i]['title']), self.list[i]['year'])
 
-                imdb = client.request(url, timeout='10')
+                imdb = client.cached_request(url, timeout='10')
                 try: imdb = json.loads(imdb)['imdbID']
                 except: imdb = '0'
 
@@ -786,7 +786,7 @@ class tvshows:
             if tvdb == '0' and not imdb == '0':
                 url = self.tvdb_by_imdb % imdb
 
-                result = client.request(url, timeout='10')
+                result = client.cached_request(url, timeout='10')
 
                 try: tvdb = client.parseDOM(result, 'seriesid')[0]
                 except: tvdb = '0'
@@ -804,7 +804,7 @@ class tvshows:
 
                 years = [str(self.list[i]['year']), str(int(self.list[i]['year'])+1), str(int(self.list[i]['year'])-1)]
 
-                tvdb = client.request(url, timeout='10')
+                tvdb = client.cached_request(url, timeout='10')
                 tvdb = re.sub(r'[^\x00-\x7F]+', '', tvdb)
                 tvdb = client.replaceHTMLCodes(tvdb)
                 tvdb = client.parseDOM(tvdb, 'Series')
@@ -818,7 +818,7 @@ class tvshows:
 
 
             url = self.tvdb_info_link % tvdb
-            item = client.request(url, timeout='10')
+            item = client.cached_request(url, timeout='10')
             if item == None: raise Exception()
 
             if imdb == '0':
@@ -929,7 +929,7 @@ class tvshows:
                 artmeta = True
                 if self.fanart_tv_user == '': raise Exception()
 
-                art = client.request(self.fanart_tv_art_link % tvdb, headers=self.fanart_tv_headers, timeout='10', error=True)
+                art = client.cached_request(self.fanart_tv_art_link % tvdb, headers=self.fanart_tv_headers, timeout='10', error=True)
                 try: art = json.loads(art)
                 except: artmeta = False
             except:

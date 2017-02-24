@@ -20,9 +20,21 @@
 
 
 import re,sys,cookielib,urllib,urllib2,urlparse,gzip,StringIO,HTMLParser,time,random,base64
+import inspect
 
 from resources.lib.modules import cache
 from resources.lib.modules import workers
+
+
+def build_args(url, close=True, redirect=True, error=False, proxy=None, post=None, headers=None, mobile=False, XHR=False, limit=None, referer=None, cookie=None, output='', timeout='30'):
+    frame = inspect.currentframe()
+    args, _, _, values = inspect.getargvalues(frame)
+    return [values[arg] for arg in args]
+
+
+def cached_request(*args, **kwargs):
+    request_args = build_args(*args, **kwargs)
+    return cache.get(request, 24, *request_args)
 
 
 def request(url, close=True, redirect=True, error=False, proxy=None, post=None, headers=None, mobile=False, XHR=False, limit=None, referer=None, cookie=None, output='', timeout='30'):
