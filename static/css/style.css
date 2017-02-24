@@ -1,5 +1,11 @@
+.nav-bar {
+    background-color: rgba(0,0,0,.7);
+    box-shadow: inherit;
+}
+
 #navigation-nav {
     padding-top: 13px;
+    height: 60px;
 }
 
 #cast-nav {
@@ -27,6 +33,34 @@
 
 .search-category {
     height: auto;
+}
+
+.side-bar {
+    background-color: rgba(0,0,0,.15);
+    background-image: inherit;
+    -webkit-font-smoothing: antialiased;
+}
+
+.side-bar-page {
+    padding-left: 0px;
+    padding-right: 5px;
+}
+
+.section-sort-container > h5 {
+    color: hsla(0,0%,100%,.3);
+    padding-left: 25px;
+}
+
+.side-bar-list > li > a {
+    color: hsla(0,0%,100%,.7);
+    transition: color .2s;
+    border-radius: 0 4px 4px 0;
+    padding-left: 25px;
+}
+
+.side-bar-list > li > a:hover {
+    color: #fff;
+    background-color: hsla(0,0%,100%,.08);
 }
 
 .media-poster-container {

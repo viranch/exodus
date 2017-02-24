@@ -43,6 +43,7 @@ ko_data.selected_media = ko.computed(function() {
 ko_data.background.subscribe(function(bg) {
   if (!bg) {
     $('.background').removeClass('transition-in').addClass('transition-out');
+    $('.background-bg').show();
   }
 });
 
@@ -394,6 +395,7 @@ $(document).ready(function() {
   });
 
   $('#dummy-bg').on('load', function() {
+    $('.background-bg').hide();
     $('.background')
       .css('background-image', 'url("'+ko_data.background()+'")')
       .removeClass('transition-out')
