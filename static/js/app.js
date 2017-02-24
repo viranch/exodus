@@ -219,6 +219,9 @@ function prepareMovies(movies) {
 
       ko_data.selected_movie(m);
     };
+    movie.open_imdb = function() {
+      window.open('http://www.imdb.com/title/' + $(this)[0].imdb + '/');
+    };
     movie.play = function() {
       var m = $(this)[0];
       window.open('/play?' + serialize({
@@ -255,6 +258,9 @@ function prepareTvshows(tvshows) {
       t.ui_cast = cast.join(', ');
 
       ko_data.selected_tvshow(t);
+    };
+    tvshow.open_imdb = function() {
+      window.open('http://www.imdb.com/title/' + $(this)[0].imdb + '/');
     };
     tvshow.play = function() {
       var t = $(this)[0];
