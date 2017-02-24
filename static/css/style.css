@@ -6,6 +6,15 @@
     padding-top: 18px;
 }
 
+.scroll-shadow {
+    left: 0px !important;
+    top: 58px !important;
+}
+
+#content {
+    top: 60px !important;
+}
+
 .section-sort-list-container .QuickSearch-container-18Zgf {
     width: auto;
     height: auto;
