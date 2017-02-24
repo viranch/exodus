@@ -86,7 +86,7 @@ ko_data.selected_season.subscribe(function(season) {
 });
 
 // ko static data
-ko_data.sidebar_items = ko.observableArray([
+ko_data.sidebar_items = [
   {
     title: 'Movies',
     items: [
@@ -112,7 +112,7 @@ ko_data.sidebar_items = ko.observableArray([
     ],
     api: '/api/tvshows/{}'
   }
-]);
+];
 
 (function($){
   $.fn.extend({
