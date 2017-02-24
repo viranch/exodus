@@ -209,7 +209,7 @@ function prepareMovies(movies) {
       }
 
       var cast = [];
-      for (var x in movie.cast) {
+      for (var x in m.cast) {
         for (var y in m.cast[x]) {
           var name = m.cast[x][y];
           if (name) cast.push(name);
