@@ -238,6 +238,22 @@ function prepareTvshows(tvshows) {
     tvshow.show = function() {
       var t = $(this)[0];
       t.ui_duration = durationLabel(t.duration);
+
+      var split_keys = ['genre'];
+      for (var x in split_keys) {
+        var key = split_keys[x];
+        t['ui_' + key + 's'] = t[key].split(' / ').join(', ');
+      }
+
+      var cast = [];
+      for (var x in t.cast) {
+        for (var y in t.cast[x]) {
+          var name = t.cast[x][y];
+          if (name) cast.push(name);
+        }
+      }
+      t.ui_cast = cast.join(', ');
+
       ko_data.selected_tvshow(t);
     };
     tvshow.play = function() {
