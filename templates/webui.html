@@ -351,36 +351,14 @@
         <div class="scroll-shadow transition-out"></div>
         <div class="section-side-bar-container">
             <div class="side-bar transition-out" style="left:0px;">
-                <div class="side-bar-page main-page dark-scrollbar">
+                <div class="side-bar-page main-page dark-scrollbar" data-bind="foreach: sidebar_items">
                     <div class="section-sort-container">
-                        <h5>Movies</h5>
+                        <h5 data-bind="text: title"></h5>
                         <div class="section-sort-list-container">
-                            <ul class="list side-bar-list" id="movie-browse" data-bind="foreach: movie_types">
-                                <li><a class="sort-btn btn-gray" href="#" data-bind="attr: {'data-category': code}, css: {selected: $parent.sidebar() == 'movie_'+code}, text: name"></a></li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="section-sort-container">
-                        <h5>TV Shows</h5>
-                        <div class="section-sort-list-container">
-                            <ul class="list side-bar-list" id="tvshow-browse" data-bind="foreach: tvshow_types">
-                                <li><a class="sort-btn btn-gray" href="#" data-bind="attr: {'data-category': code}, css: {selected: $parent.sidebar() == 'tvshow_'+code}, text: name"></a></li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="section-sort-container">
-                        <h5>Movie Genres</h5>
-                        <div class="section-sort-list-container">
-                            <ul class="list side-bar-list" id="movie-genres" data-bind="foreach: movie_genres">
-                                <li><a class="sort-btn btn-gray" href="#" data-bind="attr: {'data-genre': url}, css: {selected: $parent.sidebar() == 'm_g_'+url}, text: name"></a></li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="section-sort-container">
-                        <h5>TV Show Genres</h5>
-                        <div class="section-sort-list-container">
-                            <ul class="list side-bar-list" id="tvshow-genres" data-bind="foreach: tvshow_genres">
-                                <li><a class="sort-btn btn-gray" href="#" data-bind="attr: {'data-genre': url}, css: {selected: $parent.sidebar() == 't_g_'+url}, text: name"></a></li>
+                            <ul class="list side-bar-list" data-bind="foreach: items">
+                                <li>
+                                    <a class="sort-btn btn-gray" href="#" data-bind="attr: {'data-code': code, 'data-api': $parent.api}, css: {selected: $root.sidebar() == $parent.api+code}, text: name"></a>
+                                </li>
                             </ul>
                         </div>
                     </div>

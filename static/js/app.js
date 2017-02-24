@@ -3,8 +3,6 @@ var ko_data = {
   loading: ko.observable(false),
   sidebar: ko.observable(''),
   search_text: ko.observable(''),
-  movie_genres: ko.observable([]),
-  tvshow_genres: ko.observable([]),
 
   selected_movie: ko.observable(null),
   selected_tvshow: ko.observable(null),
@@ -88,22 +86,32 @@ ko_data.selected_season.subscribe(function(season) {
 });
 
 // ko static data
-ko_data.movie_types = ko.observable([
-  { name: 'People Watching', code: 'trending' },
-  { name: 'Most Popular', code: 'popular' },
-  { name: 'Most Voted', code: 'views' },
-  { name: 'Box Office', code: 'boxoffice' },
-  { name: 'Oscar Winners', code: 'oscars' },
-  { name: 'In Theaters', code: 'theaters' },
-  { name: 'New Movies', code: 'featured' }
-]);
-ko_data.tvshow_types = ko.observable([
-  { name: 'People Watching', code: 'trending' },
-  { name: 'Most Popular', code: 'popular' },
-  { name: 'Highly rated', code: 'rating' },
-  { name: 'Most Voted', code: 'views' },
-  { name: 'Airing today', code: 'airing' },
-  { name: 'New TV Shows', code: 'premiere' }
+ko_data.sidebar_items = ko.observableArray([
+  {
+    title: 'Movies',
+    items: [
+      { name: 'People Watching', code: 'trending' },
+      { name: 'Most Popular', code: 'popular' },
+      { name: 'Most Voted', code: 'views' },
+      { name: 'Box Office', code: 'boxoffice' },
+      { name: 'Oscar Winners', code: 'oscars' },
+      { name: 'In Theaters', code: 'theaters' },
+      { name: 'New Movies', code: 'featured' }
+    ],
+    api: '/api/movies/{}'
+  },
+  {
+    title: 'TV Shows',
+    items: [
+      { name: 'People Watching', code: 'trending' },
+      { name: 'Most Popular', code: 'popular' },
+      { name: 'Highly rated', code: 'rating' },
+      { name: 'Most Voted', code: 'views' },
+      { name: 'Airing today', code: 'airing' },
+      { name: 'New TV Shows', code: 'premiere' }
+    ],
+    api: '/api/tvshows/{}'
+  }
 ]);
 
 (function($){
@@ -289,7 +297,6 @@ function prepareEpisodes(episodes) {
 }
 
 function showItems(items, reset) {
-  ko_data.loading(false);
   if (reset) {
     ko_data.items.removeAll();
   }
@@ -301,6 +308,7 @@ function showItems(items, reset) {
     prepareTvshows(items);
   }
 
+  ko_data.loading(false);
   for (var x in items) {
     ko_data.items.push(items[x]);
   }
@@ -332,8 +340,17 @@ function nextSeason(index) {
 }
 
 $(document).ready(function() {
-  ko_data.movie_genres(movie_genres);
-  ko_data.tvshow_genres(tvshow_genres);
+  genre_mapf = function(g){ return {name: g.name, code: g.url}; };
+  ko_data.sidebar_items.push({
+    title: 'Movie Genres',
+    items: movie_genres.map(genre_mapf),
+    api: '/api/movies/genre/{}'
+  });
+  ko_data.sidebar_items.push({
+    title: 'TV Genres',
+    items: tvshow_genres.map(genre_mapf),
+    api: '/api/tvshows/genre/{}'
+  });
   ko.applyBindings(ko_data);
 
   $('#search-input').focus();
@@ -365,61 +382,27 @@ $(document).ready(function() {
     ko_data.search_text($(this).val());
   }, 300);
 
+  sidebar_done = function(items) { showItems(items, true); }
+
   $('.search-category').click(function() {
     resetUi();
     $('.search-results-container').hide();
     ko_data.sidebar('');
     ko_data.loading(true);
     search_type = $(this).attr('data-search');
-    $.ajax('/api/'+search_type+'/search/' + encodeURIComponent(ko_data.search_text()))
-      .done(function(items) {
-        showItems(items, true);
-      });
+    $.ajax('/api/'+search_type+'/search/' + encodeURIComponent(ko_data.search_text())).done(sidebar_done);
   });
 
-  sidebar_done = function(items) { showItems(items, true); }
-
-  $('#movie-browse > li > a').click(function() {
+  $('ul.side-bar-list > li > a').click(function() {
     if ($(this).hasClass('selected')) {
       return true;
     }
     resetUi();
-    category = $(this).attr('data-category');
-    ko_data.sidebar('movie_' + category);
     ko_data.loading(true);
-    $.ajax('/api/movies/' + category).done(sidebar_done);
-  });
-
-  $('#tvshow-browse > li > a').click(function() {
-    if ($(this).hasClass('selected')) {
-      return true;
-    }
-    resetUi();
-    category = $(this).attr('data-category');
-    ko_data.sidebar('tvshow_' + category);
-    ko_data.loading(true);
-    $.ajax('/api/tvshows/' + category).done(sidebar_done);
-  });
-
-  $('#movie-genres > li > a').click(function() {
-    if ($(this).hasClass('selected')) {
-      return true;
-    }
-    resetUi();
-    genre = $(this).attr('data-genre');
-    ko_data.sidebar('m_g_' + genre);
-    ko_data.loading(true);
-    $.ajax('/api/movies/genre/' + encodeURIComponent(genre)).done(sidebar_done);
-  });
-
-  $('#tvshow-genres > li > a').click(function() {
-    if ($(this).hasClass('selected')) {
-      return true;
-    }
-    resetUi();
-    genre = $(this).attr('data-genre');
-    ko_data.sidebar('t_g_' + genre);
-    ko_data.loading(true);
-    $.ajax('/api/tvshows/genre/' + encodeURIComponent(genre)).done(sidebar_done);
+    var code = $(this).attr('data-code');
+    var api = $(this).attr('data-api');
+    ko_data.sidebar(api + code);
+    var api_ep = api.replace('{}', encodeURIComponent(code));
+    $.ajax(api_ep).done(sidebar_done);
   });
 });
