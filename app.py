@@ -81,7 +81,7 @@ def play():
             args['title'] = item['title']
             args['premiered'] = item['premiered']
 
-    data = sources.sources().play(**args)
+    data = sources.sources().getSources(**args)
 
     url = None
     for item in data:
