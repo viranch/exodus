@@ -354,7 +354,7 @@
             <!-- /ko -->
         </div>
         <div class="section-side-bar-container">
-            <div class="side-bar transition-out" style="left:0px;">
+            <div class="side-bar transition-out" style="left:0px;" data-bind="css: {'transition-in': !selected_media(), 'transition-out': selected_media}">
                 <div class="side-bar-page main-page dark-scrollbar" data-bind="foreach: sidebar_items">
                     <div class="section-sort-container">
                         <h5 data-bind="text: title"></h5>

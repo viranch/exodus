@@ -31,12 +31,8 @@ ko_data.background = ko.computed(function() {
   }
 });
 
-ko_data.selected_media = ko.computed(function() {
-  var val = ko_data.selected_movie() || ko_data.selected_tvshow();
-  var rm = val ? 'in' : 'out';
-  var add = val ? 'out' : 'in';
-  $('.section-side-bar-container > .side-bar').removeClass('transition-'+rm).addClass('transition-'+add);
-  return val;
+ko_data.selected_media = ko.computed(function(val) {
+  return ko_data.selected_movie() || ko_data.selected_tvshow();
 });
 
 // ko subscriptions
