@@ -66,6 +66,30 @@ def get_season_episodes():
     return jsonify(data or [])
 
 
+@app.route('/api/sources')
+def get_sources():
+    args = dict(request.args.iteritems())
+
+    if 'tvdb' in args and 'episode' not in args:
+        args['episode'] = '1'
+        args.setdefault('season', '1')
+        items = episodes.episodes().get(args['tvshowtitle'], args['year'], args['imdb'], args['tvdb'], args['season'])
+        item = next(i for i in items if i['episode'] == args['episode'])
+        if item:
+            args['title'] = item['title']
+            args['premiered'] = item['premiered']
+
+    data = sources.sources().getSources(**args)
+    return jsonify(data)
+
+
+@app.route('/api/resolve', methods=['POST'])
+def sources_resolve():
+    item = json.loads(request.data)
+    data = {'url': sources.sources().sourcesResolve(item)}
+    return jsonify(data)
+
+
 @app.route('/play/')
 @app.route('/movies/play/')
 @app.route('/tvshows/play/')

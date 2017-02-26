@@ -8,7 +8,13 @@ var ko_data = {
   selected_tvshow: ko.observable(null),
   selected_season: ko.observable(null),
   tvshow_seasons: ko.observable([]),
-  season_episodes: ko.observable([])
+  season_episodes: ko.observable([]),
+
+  show_modal: ko.observable(false),
+  modal_loading_index: ko.observable(-1),
+  video_sources: ko.observable([]),
+  show_player: ko.observable(false),
+  buffering: ko.observable(false),
 };
 
 // ko computed data
@@ -110,6 +116,18 @@ ko_data.sidebar_items = [
     api: '/api/tvshows/{}'
   }
 ];
+
+ko_data.toggle_play = function() {
+  var player = $('.video-player');
+  var vid = $('#html-video')[0];
+  if(player.hasClass('paused')) {
+    vid.play();
+    player.removeClass('paused');
+  } else {
+    player.addClass('paused');
+    vid.pause();
+  }
+};
 
 (function($){
   $.fn.extend({
@@ -221,11 +239,21 @@ function prepareMovies(movies) {
     };
     movie.play = function() {
       var m = $(this)[0];
-      window.open('/play?' + serialize({
+      m.show();
+      ko_data.show_player(true);
+      ko_data.buffering(true);
+      var url = '/api/sources?' + serialize({
         title: m.title,
         year: m.year,
         imdb: m.imdb
-      }));
+      });
+      $.ajax(url).done(function(sources) {
+        prepareSources(sources);
+        ko_data.video_sources(sources);
+        ko_data.buffering(false);
+        ko_data.show_modal(true);
+        resolveSource(0);
+      });
     };
   }
 }
@@ -284,13 +312,14 @@ function prepareSeasons(seasons) {
     };
     season.play = function() {
       var s = $(this)[0];
-      window.open('/play?' + serialize({
+      var url = '/play?' + serialize({
         tvshowtitle: s.tvshowtitle,
         year: s.year,
         imdb: s.imdb,
         tvdb: s.tvdb,
         season: s.season
-      }));
+      });
+      window.open(url);
     };
   }
 }
@@ -312,6 +341,13 @@ function prepareEpisodes(episodes) {
         premiered: e.premiered
       }));
     };
+  }
+}
+
+function prepareSources(sources) {
+  for (var x in sources) {
+    var source = sources[x];
+    source.label = (source.provider + ' | ' + source.source).toUpperCase() + ' (' + source.quality + ')';
   }
 }
 
@@ -356,6 +392,35 @@ function prevSeason(index) {
 }
 function nextSeason(index) {
   return showSeason(ko_data.tvshow_seasons()[index+1]);
+}
+
+function resolveSource(index) {
+  ko_data.modal_loading_index(index);
+  var source = ko_data.video_sources()[index];
+  if (source) {
+    $.ajax({
+      url: '/api/resolve',
+      type: 'post',
+      dataType: 'json',
+      data: JSON.stringify(source),
+      contentType: 'application/json; charset=utf-8',
+    }).done(function(data) {
+        var url = data.url;
+        if (!url) {
+          resolveSource(index+1);
+        } else {
+          play(url);
+        }
+      });
+  } else {
+    ko_data.show_modal(false);
+    $('.video-player').addClass('error');
+  }
+}
+
+function play(url) {
+  ko_data.show_modal(false);
+  $('video').attr('src', url)[0].play();
 }
 
 $(document).ready(function() {
