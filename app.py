@@ -79,7 +79,7 @@ def get_sources():
             args['title'] = item['title']
             args['premiered'] = item['premiered']
 
-    data = sources.sources().getSources(**args)
+    data = sources.sources().play(**args)
     return jsonify(data)
 
 
@@ -105,7 +105,7 @@ def play():
             args['title'] = item['title']
             args['premiered'] = item['premiered']
 
-    data = sources.sources().getSources(**args)
+    data = sources.sources().play(**args)
 
     url = None
     for item in data:
