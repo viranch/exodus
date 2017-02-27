@@ -411,27 +411,17 @@
                                 <span class="video-title" data-bind="text: selected_media().title"></span>
                             </div>
                             <div class="player-dropdowns-container video-controls-right">
-                                <button class="player-close-btn btn-link"><i class="glyphicon remove-2"></i></button>
-                                <button class="btn-link share-btn pull-left hidden"><i class="glyphicon share"></i></button>
-                                <button class="btn-link recommend-btn pull-left hidden"><i class="glyphicon share-alt"></i></button>
-                                <span id="player-quality-dropdown" class="dropdown">
-                                    <button class="btn-link dropdown-toggle" href="#player-quality-dropdown" data-toggle="dropdown">
-                                        <i class="glyphicon adjust-alt"></i>
+                                <span id="player-primary-player-dropdown" class="dropdown">
+                                    <button class="btn-link cast-btn " href="#">
+                                        <i class="plex-icon-companion-cast"></i>
                                     </button>
                                     <ul class="dropdown-menu pull-right">
                                         <li>
-                                            <a class="selected" data-index="-1" href="#">
-                                                Original
-                                                <i class="player-dropdown-selected-icon selected-icon glyphicon ok-2"></i>
+                                            <a class="cast-player-btn" href="#">
+                                                <span class="dropdown-truncated-label">Cast...</span>
                                             </a>
                                         </li>
                                     </ul>
-                                </span>
-                                <span id="audio-dropdown-list" class="dropdown hidden">
-                                    <button class="btn-link dropdown-toggle" href="#player-audio-dropdown" data-toggle="dropdown">
-                                        <i class="plex-icon-audio"></i>
-                                    </button>
-                                    <ul class="dropdown-menu pull-right"></ul>
                                 </span>
                                 <span id="subtitles-dropdown-list" class="dropdown">
                                     <button class="btn-link dropdown-toggle" href="#player-subtitles-dropdown" data-toggle="dropdown">
@@ -445,18 +435,20 @@
                                         </li>
                                     </ul>
                                 </span>
-                                <span id="player-primary-player-dropdown" class="dropdown">
-                                    <button class="btn-link cast-btn " href="#">
-                                        <i class="plex-icon-companion-cast"></i>
+                                <span id="player-quality-dropdown" class="dropdown">
+                                    <button class="btn-link dropdown-toggle" href="#player-quality-dropdown" data-toggle="dropdown">
+                                        <i class="glyphicon adjust-alt"></i>
                                     </button>
                                     <ul class="dropdown-menu pull-right">
                                         <li>
-                                            <a class="cast-player-btn" href="#">
-                                                <span class="dropdown-truncated-label">Cast...</span>
+                                            <a class="selected" data-index="-1" href="#">
+                                                Original
+                                                <i class="player-dropdown-selected-icon selected-icon glyphicon ok-2"></i>
                                             </a>
                                         </li>
                                     </ul>
                                 </span>
+                                <button class="player-close-btn btn-link"><i class="glyphicon remove-2"></i></button>
                             </div>
                         </div>
                         <div class="player-primary-player-name-container">
@@ -479,7 +471,7 @@
                                 <button class="play-btn btn-link hidden">
                                     <i class="glyphicon play"></i>
                                 </button>
-                                <button class="pause-btn btn-link">
+                                <button class="pause-btn btn-link hidden">
                                     <i class="glyphicon pause"></i>
                                 </button>
                                 <button class="next-btn btn-link hidden disabled">
@@ -517,12 +509,12 @@
                                         <div class="player-seek-bar player-slider">
                                             <div class="player-slider-track">
                                                 <div class="player-slider-buffer" style="width: 0%;"></div>
-                                                <div class="player-slider-progress" style="width: 3.95606%;"></div>
+                                                <div class="player-slider-progress" style="width: 0%;"></div>
                                             </div>
                                             <div class="player-slider-thumb" style="left: 3.95606%;"></div>
                                         </div>
                                     </div>
-                                    <span class="player-duration">1:35:33</span>
+                                    <span class="player-duration"></span>
                                 </div>
                             </div>
                         </div>

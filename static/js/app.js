@@ -88,6 +88,31 @@ ko_data.selected_season.subscribe(function(season) {
   }
 });
 
+ko_data.show_player.subscribe(function(show) {
+  if (!show) {
+    return;
+  }
+  setTimeout(function() {
+    $('video').on('timeupdate', function() {
+      var vid = $(this)[0];
+      var progress = (vid.currentTime*100)/vid.duration;
+      $('.player-seek-bar .player-slider-progress').css('width', progress+'%');
+      $('.player-seek-bar .player-slider-thumb').css('left', progress+'%');
+      $('.player-position').text(videoDuration(vid.currentTime));
+    }).on('loadedmetadata', function() {
+      $('.player-duration').text(videoDuration($(this)[0].duration));
+    }).on('play', function() {
+      $('.video-player').removeClass('paused');
+      $('.video-controls-left > .play-btn').addClass('hidden');
+      $('.video-controls-left > .pause-btn').removeClass('hidden');
+    }).on('pause', function() {
+      $('.video-controls-left > .play-btn').removeClass('hidden');
+      $('.video-controls-left > .pause-btn').addClass('hidden');
+      $('.video-player').addClass('paused');
+    })
+  }, 1000);
+});
+
 // ko static data
 ko_data.sidebar_items = [
   {
@@ -118,15 +143,8 @@ ko_data.sidebar_items = [
 ];
 
 ko_data.toggle_play = function() {
-  var player = $('.video-player');
   var vid = $('#html-video')[0];
-  if(player.hasClass('paused')) {
-    vid.play();
-    player.removeClass('paused');
-  } else {
-    player.addClass('paused');
-    vid.pause();
-  }
+  vid.paused ? vid.play() : vid.pause();
 };
 
 (function($){
@@ -423,6 +441,23 @@ function play(url) {
   $('video').attr('src', url)[0].play();
 }
 
+function videoDuration(duration) {
+  var hours = Math.floor(duration/3600);
+  var mins = Math.floor((duration%3600)/60);
+  var secs = Math.round(duration%60);
+  var label = ''
+  if (hours > 0) {
+    label += hours + ':';
+  }
+  if (mins < 10 && label != '') {
+    mins = '0'+mins;
+  }
+  if (secs < 10) {
+    secs = '0'+secs;
+  }
+  return label + mins + ':' + secs;
+}
+
 $(document).ready(function() {
   genre_mapf = function(g){ return {name: g.name, code: g.url}; };
   ko_data.sidebar_items.push({
@@ -435,6 +470,7 @@ $(document).ready(function() {
     items: tvshow_genres.map(genre_mapf),
     api: '/api/tvshows/genre/{}'
   });
+  ko.options.deferUpdates = true;
   ko.applyBindings(ko_data);
 
   $('#search-input').focus();

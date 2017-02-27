@@ -130,6 +130,26 @@ h4.season-nav {
     z-index: auto;
 }
 
+.video-controls-right {
+    padding-top: 15px;
+}
+
+.video-controls-right>.btn-link, .video-controls-right>.dropdown {
+    float: none;
+}
+
+.alert-paused>.glyphicon {
+    top: 27%;
+}
+
+.video-controls-overlay-bottom>.video-controls-left {
+    padding-top: 15px;
+}
+
+.player-volume-slider-container {
+    margin-top: 10px !important;
+}
+
 .dark-scrollbar::-webkit-scrollbar {
     width: 14px;
 }
