@@ -109,7 +109,22 @@ ko_data.show_player.subscribe(function(show) {
       $('.video-controls-left > .play-btn').removeClass('hidden');
       $('.video-controls-left > .pause-btn').addClass('hidden');
       $('.video-player').addClass('paused');
-    })
+    });
+
+    $('.enter-fullscreen-btn').click(function() {
+      var e = $('.video-player')[0];
+      var call = e.requestFullscreen || e.mozRequestFullscreen || e.webkitRequestFullscreen || e.msRequestFullscreen;
+      call.call(e);
+      $(this).addClass('hidden');
+      $('.exit-fullscreen-btn').removeClass('hidden');
+    });
+    $('.exit-fullscreen-btn').click(function() {
+      var e = document;
+      var call = e.exitFullscreen || e.mozExitFullscreen || e.webkitExitFullscreen || e.msExitFullscreen;
+      call.call(e);
+      $(this).addClass('hidden');
+      $('.enter-fullscreen-btn').removeClass('hidden');
+    });
   }, 1000);
 });
 
