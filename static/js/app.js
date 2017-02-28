@@ -16,6 +16,7 @@ var ko_data = {
   show_player: ko.observable(false),
   buffering: ko.observable(false),
   show_video: ko.observable(false),
+  volume_icon: ko.observable('volume-up'),
 };
 
 // ko computed data
@@ -169,13 +170,38 @@ ko_data.vid_bufferStart = function() {
 ko_data.vid_bufferStop = function() {
   ko_data.buffering(false);
 };
+ko_data.vid_volumechange = function() {
+  var video = $('#html-video')[0];
+  var vol = video.volume * !video.muted;
+  var volPct = vol*100;
+  $('.player-volume-slider .player-slider-progress').css('width', volPct+'%');
+  $('.player-volume-slider .player-slider-thumb').css('left', volPct+'%');
+  if (vol == 0) {
+    ko_data.volume_icon('mute');
+  } else if (vol < 0.5) {
+    ko_data.volume_icon('volume-down');
+  } else {
+    ko_data.volume_icon('volume-up');
+  }
+};
 
 ko_data.seek = function(data, event) {
   var seekBar = $('.player-seek-bar');
   var video = $('#html-video')[0];
   var seekPos = event.pageX - seekBar.offset().left;
-  var seekTime = video.duration * seekPos/seekBar.width();
-  video.currentTime = seekTime;
+  video.currentTime = video.duration * seekPos/seekBar.width();
+};
+
+ko_data.setVolume = function(data, event) {
+  var volBar = $('.player-volume-slider');
+  var video = $('#html-video')[0];
+  var volPos = event.pageX - volBar.offset().left;
+  video.volume = volPos/volBar.width();
+};
+
+ko_data.toggle_mute = function() {
+  var video = $('#html-video')[0];
+  video.muted = !video.muted;
 };
 
 (function($){

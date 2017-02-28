@@ -387,7 +387,7 @@
                         <div class="video-background">
                             <div class="video-background-image" data-bind="style: {'background-image': 'url(&quot;'+background()+'&quot;)'}"></div>
                         </div>
-                        <video id="html-video" class="html-video" data-bind="event: {timeupdate: vid_timeupdate, loadedmetadata: vid_loadedmetadata, play: vid_play, pause: vid_pause, seeking: vid_bufferStart, seeked: vid_bufferStop, loadstart: vid_bufferStart, canplay: vid_bufferStop, waiting: vid_bufferStart}, style: {'background-color': show_video() ? '#000':'inherit'}"></video>
+                        <video id="html-video" class="html-video" data-bind="event: {timeupdate: vid_timeupdate, loadedmetadata: vid_loadedmetadata, play: vid_play, pause: vid_pause, volumechange: vid_volumechange, seeking: vid_bufferStart, seeked: vid_bufferStop, loadstart: vid_bufferStart, canplay: vid_bufferStop, waiting: vid_bufferStart}, style: {'background-color': show_video() ? '#000':'inherit'}"></video>
                         <div class="video-subtitles-container"></div>
                         <div class="video-image-overlays-region">
                             <div class="video-image-overlays-container">
@@ -479,13 +479,11 @@
                                 </button>
                             </div>
                             <div class="player-dropups-container video-controls-right">
-                                <button class="volume-btn btn-link btn-link-lg high">
-                                    <i class="glyphicon volume-up"></i>
-                                    <i class="glyphicon volume-down"></i>
-                                    <i class="glyphicon mute"></i>
+                                <button class="volume-btn btn-link btn-link-lg high" data-bind="click: toggle_mute">
+                                    <i class="glyphicon" data-bind="css: volume_icon"></i>
                                 </button>
                                 <div class="player-volume-slider-container">
-                                    <div class="player-volume-slider player-slider">
+                                    <div class="player-volume-slider player-slider" data-bind="click: setVolume">
                                         <div class="player-slider-track">
                                             <div class="player-slider-progress" style="width: 100%;"></div>
                                         </div>
