@@ -38,7 +38,7 @@
 </head>
 
 <body>
-    <div id="plex" class="application show-nav-bar show-action-bar show-side-bar show-breadcrumb-bar" data-bind="css: { 'show-video-player': show_player }">
+    <div id="plex" class="application show-nav-bar show-action-bar show-side-bar show-breadcrumb-bar" data-bind="css: { 'show-video-player': show_player }, event: {mouseup: dragStop}">
         <div class="alert alert-status transition-out"><i class="alert-icon glyphicon cardio"></i> <span class="status">Library scan complete: Extra information may still be downloading from the Internet</span> </div>
         <div class="nav-bar">
             <ul class="nav nav-bar-nav" id="navigation-nav">
@@ -483,7 +483,7 @@
                                     <i class="glyphicon" data-bind="css: volume_icon"></i>
                                 </button>
                                 <div class="player-volume-slider-container">
-                                    <div class="player-volume-slider player-slider" data-bind="click: setVolume">
+                                    <div class="player-volume-slider player-slider" data-bind="event: {mousedown: startVolumeDrag, mousemove: dragVolumeBar}">
                                         <div class="player-slider-track">
                                             <div class="player-slider-progress" style="width: 100%;"></div>
                                         </div>

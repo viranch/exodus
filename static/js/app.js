@@ -19,6 +19,10 @@ var ko_data = {
   volume_icon: ko.observable('volume-up'),
 };
 
+var dragging = {
+  volume: false,
+};
+
 // ko computed data
 ko_data.next_page_url = ko.computed(function() {
   var items = ko_data.items();
@@ -192,11 +196,21 @@ ko_data.seek = function(data, event) {
   video.currentTime = video.duration * seekPos/seekBar.width();
 };
 
-ko_data.setVolume = function(data, event) {
-  var volBar = $('.player-volume-slider');
-  var video = $('#html-video')[0];
-  var volPos = event.pageX - volBar.offset().left;
-  video.volume = volPos/volBar.width();
+ko_data.dragStop = function() {
+  for (var x in dragging) {
+    dragging[x] = false;
+  }
+};
+
+ko_data.startVolumeDrag = function(data, event) {
+  dragging.volume = true;
+  setVolume(event.pageX);
+};
+
+ko_data.dragVolumeBar = function(data, event) {
+  if (dragging.volume) {
+    setVolume(event.pageX);
+  }
 };
 
 ko_data.toggle_mute = function() {
@@ -256,6 +270,14 @@ function resetUi() {
   ko_data.selected_movie(null);
   ko_data.selected_tvshow(null);
   ko_data.selected_season(null);
+}
+
+function setVolume(pageX) {
+  var volBar = $('.player-volume-slider');
+  var video = $('#html-video')[0];
+  var volPos = pageX - volBar.offset().left;
+  var volume = volPos/volBar.width();
+  video.volume = Math.max(Math.min(volume, 1), 0);
 }
 
 function loadMore() {
