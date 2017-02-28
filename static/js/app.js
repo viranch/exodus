@@ -161,6 +161,12 @@ ko_data.vid_pause = function() {
   $('.video-controls-left > .pause-btn').addClass('hidden');
   $('.video-player').addClass('paused');
 };
+ko_data.vid_bufferStart = function() {
+  ko_data.buffering(true);
+};
+ko_data.vid_bufferStop = function() {
+  ko_data.buffering(false);
+};
 
 ko_data.seek = function(data, event) {
   var seekBar = $('.player-seek-bar');
