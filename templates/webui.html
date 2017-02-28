@@ -387,7 +387,7 @@
                         <div class="video-background">
                             <div class="video-background-image" data-bind="style: {'z-index': buffering() ? 1 : 0, 'background-image': 'url(&quot;'+background()+'&quot;)'}"></div>
                         </div>
-                        <video id="html-video" class="html-video" src=""></video>
+                        <video id="html-video" class="html-video" data-bind="event: {timeupdate: vid_timeupdate, loadedmetadata: vid_loadedmetadata, play: vid_play, pause: vid_pause}"></video>
                         <div class="video-subtitles-container"></div>
                         <div class="video-image-overlays-region">
                             <div class="video-image-overlays-container">
@@ -492,10 +492,10 @@
                                         <div class="player-slider-thumb" style="left: 100%;"></div>
                                     </div>
                                 </div>
-                                <button class="enter-fullscreen-btn fullscreen-btn btn-link">
+                                <button class="enter-fullscreen-btn fullscreen-btn btn-link" data-bind="click: enterFullscreen">
                                     <i class="glyphicon resize-full"></i>
                                 </button>
-                                <button class="exit-fullscreen-btn fullscreen-btn btn-link hidden">
+                                <button class="exit-fullscreen-btn fullscreen-btn btn-link hidden" data-bind="click: exitFullscreen">
                                     <i class="glyphicon resize-small"></i>
                                 </button>
                                 <button class="minimize-btn btn-link hidden">

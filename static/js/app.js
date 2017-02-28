@@ -88,46 +88,6 @@ ko_data.selected_season.subscribe(function(season) {
   }
 });
 
-ko_data.show_player.subscribe(function(show) {
-  if (!show) {
-    return;
-  }
-  setTimeout(function() {
-    $('video').on('timeupdate', function() {
-      var vid = $(this)[0];
-      var progress = (vid.currentTime*100)/vid.duration;
-      $('.player-seek-bar .player-slider-progress').css('width', progress+'%');
-      $('.player-seek-bar .player-slider-thumb').css('left', progress+'%');
-      $('.player-position').text(videoDuration(vid.currentTime));
-    }).on('loadedmetadata', function() {
-      $('.player-duration').text(videoDuration($(this)[0].duration));
-    }).on('play', function() {
-      $('.video-player').removeClass('paused');
-      $('.video-controls-left > .play-btn').addClass('hidden');
-      $('.video-controls-left > .pause-btn').removeClass('hidden');
-    }).on('pause', function() {
-      $('.video-controls-left > .play-btn').removeClass('hidden');
-      $('.video-controls-left > .pause-btn').addClass('hidden');
-      $('.video-player').addClass('paused');
-    });
-
-    $('.enter-fullscreen-btn').click(function() {
-      var e = $('.video-player')[0];
-      var call = e.requestFullscreen || e.mozRequestFullscreen || e.webkitRequestFullscreen || e.msRequestFullscreen;
-      call.call(e);
-      $(this).addClass('hidden');
-      $('.exit-fullscreen-btn').removeClass('hidden');
-    });
-    $('.exit-fullscreen-btn').click(function() {
-      var e = document;
-      var call = e.exitFullscreen || e.mozExitFullscreen || e.webkitExitFullscreen || e.msExitFullscreen;
-      call.call(e);
-      $(this).addClass('hidden');
-      $('.enter-fullscreen-btn').removeClass('hidden');
-    });
-  }, 1000);
-});
-
 // ko static data
 ko_data.sidebar_items = [
   {
@@ -157,9 +117,49 @@ ko_data.sidebar_items = [
   }
 ];
 
+// ko functions - so we don't have to handle
+//   DOM elements coming and going
 ko_data.toggle_play = function() {
   var vid = $('#html-video')[0];
   vid.paused ? vid.play() : vid.pause();
+};
+
+ko_data.enterFullscreen = function() {
+  var e = $('.video-player')[0];
+  var call = e.requestFullscreen || e.mozRequestFullscreen || e.webkitRequestFullscreen || e.msRequestFullscreen;
+  call.call(e);
+  $('.enter-fullscreen-btn').addClass('hidden');
+  $('.exit-fullscreen-btn').removeClass('hidden');
+};
+
+ko_data.exitFullscreen = function() {
+  var e = document;
+  var call = e.exitFullscreen || e.mozExitFullscreen || e.webkitExitFullscreen || e.msExitFullscreen;
+  call.call(e);
+  $('.exit-fullscreen-btn').addClass('hidden');
+  $('.enter-fullscreen-btn').removeClass('hidden');
+};
+
+ko_data.vid_timeupdate = function() {
+  var vid = $('#html-video')[0];
+  var progress = (vid.currentTime*100)/vid.duration;
+  $('.player-seek-bar .player-slider-progress').css('width', progress+'%');
+  $('.player-seek-bar .player-slider-thumb').css('left', progress+'%');
+  $('.player-position').text(videoDuration(vid.currentTime));
+};
+ko_data.vid_loadedmetadata = function() {
+  var vid = $('#html-video')[0];
+  $('.player-duration').text(videoDuration(vid.duration));
+};
+ko_data.vid_play = function() {
+  $('.video-player').removeClass('paused');
+  $('.video-controls-left > .play-btn').addClass('hidden');
+  $('.video-controls-left > .pause-btn').removeClass('hidden');
+};
+ko_data.vid_pause = function() {
+  $('.video-controls-left > .play-btn').removeClass('hidden');
+  $('.video-controls-left > .pause-btn').addClass('hidden');
+  $('.video-player').addClass('paused');
 };
 
 (function($){
