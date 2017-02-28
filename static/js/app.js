@@ -15,6 +15,7 @@ var ko_data = {
   video_sources: ko.observable([]),
   show_player: ko.observable(false),
   buffering: ko.observable(false),
+  show_video: ko.observable(false),
 };
 
 // ko computed data
@@ -150,6 +151,7 @@ ko_data.vid_timeupdate = function() {
 ko_data.vid_loadedmetadata = function() {
   var vid = $('#html-video')[0];
   $('.player-duration').text(videoDuration(vid.duration));
+  ko_data.show_video(true);
 };
 ko_data.vid_play = function() {
   $('.video-player').removeClass('paused');

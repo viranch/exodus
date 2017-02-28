@@ -385,9 +385,9 @@
                 <div class="video-controls-container">
                     <div class="video-controls show-volume">
                         <div class="video-background">
-                            <div class="video-background-image" data-bind="style: {'z-index': buffering() ? 1 : 0, 'background-image': 'url(&quot;'+background()+'&quot;)'}"></div>
+                            <div class="video-background-image" data-bind="style: {'background-image': 'url(&quot;'+background()+'&quot;)'}"></div>
                         </div>
-                        <video id="html-video" class="html-video" data-bind="event: {timeupdate: vid_timeupdate, loadedmetadata: vid_loadedmetadata, play: vid_play, pause: vid_pause, seeking: vid_bufferStart, seeked: vid_bufferStop, loadstart: vid_bufferStart, canplay: vid_bufferStop, waiting: vid_bufferStart}"></video>
+                        <video id="html-video" class="html-video" data-bind="event: {timeupdate: vid_timeupdate, loadedmetadata: vid_loadedmetadata, play: vid_play, pause: vid_pause, seeking: vid_bufferStart, seeked: vid_bufferStop, loadstart: vid_bufferStart, canplay: vid_bufferStop, waiting: vid_bufferStart}, style: {'background-color': show_video() ? '#000':'inherit'}"></video>
                         <div class="video-subtitles-container"></div>
                         <div class="video-image-overlays-region">
                             <div class="video-image-overlays-container">
