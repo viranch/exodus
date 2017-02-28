@@ -162,6 +162,14 @@ ko_data.vid_pause = function() {
   $('.video-player').addClass('paused');
 };
 
+ko_data.seek = function(data, event) {
+  var seekBar = $('.player-seek-bar');
+  var video = $('#html-video')[0];
+  var seekPos = event.pageX - seekBar.offset().left;
+  var seekTime = video.duration * seekPos/seekBar.width();
+  video.currentTime = seekTime;
+};
+
 (function($){
   $.fn.extend({
     donetyping: function(callback, timeout){
