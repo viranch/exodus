@@ -12,6 +12,7 @@ var ko_data = {
 
   show_modal: ko.observable(false),
   modal_loading_index: ko.observable(-1),
+  modal_selected_index: ko.observable(-1),
   video_sources: ko.observable([]),
   show_player: ko.observable(false),
   buffering: ko.observable(false),
@@ -93,6 +94,11 @@ ko_data.selected_season.subscribe(function(season) {
     ko_data.season_episodes([]);
   }
 });
+
+ko_data.show_modal.subscribe(function(show) {
+  $('.modal').modal(show ? 'show' : 'hide');
+});
+ko_data.show_modal.extend({notify: 'always'});
 
 // ko static data
 ko_data.sidebar_items = [
@@ -216,6 +222,10 @@ ko_data.dragVolumeBar = function(data, event) {
 ko_data.toggle_mute = function() {
   var video = $('#html-video')[0];
   video.muted = !video.muted;
+};
+
+ko_data.closeModal = function() {
+  ko_data.show_modal(false);
 };
 
 (function($){
@@ -445,6 +455,12 @@ function prepareSources(sources) {
   for (var x in sources) {
     var source = sources[x];
     source.label = (source.provider + ' | ' + source.source).toUpperCase() + ' (' + source.quality + ')';
+    source.ui_failure = ko.observable(false);
+    source.ui_video_url = null;
+    source.play = function() {
+      idx = ko_data.video_sources().indexOf($(this)[0]);
+      resolveSource(idx, true);
+    };
   }
 }
 
@@ -491,10 +507,16 @@ function nextSeason(index) {
   return showSeason(ko_data.tvshow_seasons()[index+1]);
 }
 
-function resolveSource(index) {
+function resolveSource(index, sticky) {
   ko_data.modal_loading_index(index);
   var source = ko_data.video_sources()[index];
   if (source) {
+    if (source.ui_video_url) {
+      return resolutionSuccess(source.ui_video_url, index);
+    } else if (source.ui_failure()) {
+      return resolutionFailure(index, sticky);
+    }
+
     $.ajax({
       url: '/api/resolve',
       type: 'post',
@@ -503,10 +525,10 @@ function resolveSource(index) {
       contentType: 'application/json; charset=utf-8',
     }).done(function(data) {
         var url = data.url;
-        if (!url) {
-          resolveSource(index+1);
+        if (url) {
+          resolutionSuccess(url, index);
         } else {
-          play(url);
+          resolutionFailure(index, sticky);
         }
       });
   } else {
@@ -515,9 +537,31 @@ function resolveSource(index) {
   }
 }
 
+function resolutionSuccess(url, index) {
+  ko_data.video_sources()[index].ui_video_url = url;
+  if (index == ko_data.modal_loading_index()) {
+    ko_data.modal_loading_index(-1);
+    ko_data.modal_selected_index(index);
+    ko_data.show_modal(false);
+    play(url);
+  }
+}
+
+function resolutionFailure(index, sticky) {
+  ko_data.video_sources()[index].ui_failure(true);
+  if (sticky) {
+    return ko_data.modal_loading_index(-1);
+  } else {
+    return resolveSource(index+1);
+  }
+}
+
 function play(url) {
   ko_data.show_modal(false);
-  $('video').attr('src', url)[0].play();
+  var video = $('#html-video');
+  if (video.attr('src') != url) {
+    video.attr('src', url)[0].play();
+  }
 }
 
 function videoDuration(duration) {

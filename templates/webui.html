@@ -435,18 +435,10 @@
                                         </li>
                                     </ul>
                                 </span>
-                                <span id="player-quality-dropdown" class="dropdown">
-                                    <button class="btn-link dropdown-toggle" href="#player-quality-dropdown" data-toggle="dropdown">
+                                <span id="player-quality-dropdown">
+                                    <button class="btn-link" data-toggle="modal" data-target="#source-modal">
                                         <i class="glyphicon adjust-alt"></i>
                                     </button>
-                                    <ul class="dropdown-menu pull-right">
-                                        <li>
-                                            <a class="selected" data-index="-1" href="#">
-                                                Original
-                                                <i class="player-dropdown-selected-icon selected-icon glyphicon ok-2"></i>
-                                            </a>
-                                        </li>
-                                    </ul>
                                 </span>
                                 <button class="player-close-btn btn-link"><i class="glyphicon remove-2"></i></button>
                             </div>
@@ -532,14 +524,15 @@
     </script>
     <script src="/static/js/vendors.c09098160e871c86b7fd.js"></script>
     <!-- <script src="/static/js/main.cebf76f79cfade3e2998.js"></script> -->
+    <script src="/static/js/bootstrap.min.js"></script>
     <script src="/static/js/knockout-3.4.1.js"></script>
     <script src="/static/js/app.js"></script>
-    <div class="select-modal modal modal-sm fade out" aria-hidden="false" data-bind="css: {in: show_modal, out: !show_modal()}, style: {'z-index': show_modal() ? 1080 : -1080}">
-        <div class="modal-dialog">
-            <div class="modal-content">
+    <div class="select-modal modal modal-sm fade" tabindex="-1" role="dialog" data-bind="click: closeModal" id="source-modal" data-backdrop="false">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content" data-bind="clickBubble: false">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal"><i class="glyphicon remove-2"></i></button>
-                    <h4 class="modal-title"><i class="modal-icon glyphicon circle-arrow-right"></i> Resume</h4>
+                    <h4 class="modal-title"><i class="modal-icon glyphicon circle-arrow-right"></i> Sources</h4>
                 </div>
                 <div class="modal-body">
                     <ul class="list select-list" data-bind="foreach: video_sources">
@@ -547,8 +540,7 @@
                             <div class="before" data-bind="visible: $index() == $root.modal_loading_index()">
                                 <div class="loading"></div>
                             </div>
-                            <a class="offset" href="#" data-bind="text: label">
-                            </a>
+                            <a class="offset" href="#" data-bind="text: label, css: {error: ui_failure, selected: $index() == $root.modal_selected_index()}, click: play"></a>
                         </li>
                     </ul>
                 </div>
