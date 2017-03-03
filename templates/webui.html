@@ -496,12 +496,12 @@
                                 <div class="video-controls-center">
                                     <span class="player-position">0:00</span>
                                     <div class="seek-bar-container">
-                                        <div class="player-seek-bar player-slider" data-bind="click: seek">
+                                        <div class="player-seek-bar player-slider" data-bind="event: {mousedown: startSeekDrag, mousemove: dragSeekBar, mouseup: stopSeekDrag}">
                                             <div class="player-slider-track">
                                                 <div class="player-slider-buffer" style="width: 0%;"></div>
                                                 <div class="player-slider-progress" style="width: 0%;"></div>
                                             </div>
-                                            <div class="player-slider-thumb" style="left: 3.95606%;"></div>
+                                            <div class="player-slider-thumb" style="left: 0%;"></div>
                                         </div>
                                     </div>
                                     <span class="player-duration"></span>

@@ -22,6 +22,7 @@ var ko_data = {
 
 var dragging = {
   volume: false,
+  seek: false,
 };
 
 // ko computed data
@@ -154,9 +155,12 @@ ko_data.exitFullscreen = function() {
 
 ko_data.vid_timeupdate = function() {
   var vid = $('#html-video')[0];
-  var progress = (vid.currentTime*100)/vid.duration;
-  $('.player-seek-bar .player-slider-progress').css('width', progress+'%');
-  $('.player-seek-bar .player-slider-thumb').css('left', progress+'%');
+  if (!dragging.seek) {
+    var progress = (vid.currentTime*100)/vid.duration;
+    $('.player-seek-bar .player-slider-buffer').css('width', '0%');
+    $('.player-seek-bar .player-slider-progress').css('width', progress+'%');
+    $('.player-seek-bar .player-slider-thumb').css('left', progress+'%');
+  }
   $('.player-position').text(videoDuration(vid.currentTime));
 };
 ko_data.vid_loadedmetadata = function() {
@@ -195,13 +199,6 @@ ko_data.vid_volumechange = function() {
   }
 };
 
-ko_data.seek = function(data, event) {
-  var seekBar = $('.player-seek-bar');
-  var video = $('#html-video')[0];
-  var seekPos = event.pageX - seekBar.offset().left;
-  video.currentTime = video.duration * seekPos/seekBar.width();
-};
-
 ko_data.dragStop = function() {
   for (var x in dragging) {
     dragging[x] = false;
@@ -226,6 +223,31 @@ ko_data.toggle_mute = function() {
 
 ko_data.closeModal = function() {
   ko_data.show_modal(false);
+};
+
+ko_data.startSeekDrag = function(data, event) {
+  dragging.seek = true;
+};
+
+ko_data.dragSeekBar = function(data, event) {
+  // TODO: move tooltip (also TODO: show tooltip on mousein, hide on mouseout)
+  if (dragging.seek) {
+    // move thumb
+    var seekBar = $('.player-seek-bar');
+    var seekPos = event.pageX - seekBar.offset().left;
+    var seekPct = seekPos*100/seekBar.width();
+    $('.player-seek-bar .player-slider-buffer').css('width', seekPct+'%');
+    $('.player-seek-bar .player-slider-thumb').css('left', seekPct+'%');
+  }
+};
+
+ko_data.stopSeekDrag = function(data, event) {
+  dragging.seek = false;
+  // perform seek
+  var seekBar = $('.player-seek-bar');
+  var video = $('#html-video')[0];
+  var seekPos = event.pageX - seekBar.offset().left;
+  video.currentTime = video.duration * seekPos/seekBar.width();
 };
 
 (function($){
