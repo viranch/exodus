@@ -233,9 +233,7 @@ ko_data.dragSeekBar = function(data, event) {
   // TODO: move tooltip (also TODO: show tooltip on mousein, hide on mouseout)
   if (dragging.seek) {
     // move thumb
-    var seekBar = $('.player-seek-bar');
-    var seekPos = event.pageX - seekBar.offset().left;
-    var seekPct = seekPos*100/seekBar.width();
+    var seekPct = getSeekPosition(event.pageX) * 100;
     $('.player-seek-bar .player-slider-buffer').css('width', seekPct+'%');
     $('.player-seek-bar .player-slider-thumb').css('left', seekPct+'%');
   }
@@ -244,10 +242,8 @@ ko_data.dragSeekBar = function(data, event) {
 ko_data.stopSeekDrag = function(data, event) {
   dragging.seek = false;
   // perform seek
-  var seekBar = $('.player-seek-bar');
   var video = $('#html-video')[0];
-  var seekPos = event.pageX - seekBar.offset().left;
-  video.currentTime = video.duration * seekPos/seekBar.width();
+  video.currentTime = video.duration * getSeekPosition(event.pageX);
 };
 
 (function($){
@@ -310,6 +306,12 @@ function setVolume(pageX) {
   var volPos = pageX - volBar.offset().left;
   var volume = volPos/volBar.width();
   video.volume = Math.max(Math.min(volume, 1), 0);
+}
+
+function getSeekPosition(pageX) {
+  var seekBar = $('.player-seek-bar');
+  var seekPos = pageX - seekBar.offset().left;
+  return Math.max(Math.min(seekPos/seekBar.width(), 1), 0);
 }
 
 function loadMore() {
