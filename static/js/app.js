@@ -24,6 +24,7 @@ var ko_data = {
   volume_icon: ko.observable('volume-up'),
   showPrevBtn: ko.observable(false),
   showNextBtn: ko.observable(false),
+  videoTitle: ko.observable(''),
 };
 
 var dragging = {
@@ -573,6 +574,15 @@ function playMedia(media) {
   if (media.show) {
     media.show();
   }
+  var title = ko_data.selected_media().title;
+  var ep = ko_data.episode_idx();
+  if (ep > -1) {
+    if (ep.length == 1) {
+      ep = '0' + ep;
+    }
+    title += ' - ' + ko_data.season_idx() + 'x' + ep + ' - ' + media.title;
+  }
+  ko_data.videoTitle(title);
   ko_data.show_player(true);
   ko_data.buffering(true);
   var params = {};
