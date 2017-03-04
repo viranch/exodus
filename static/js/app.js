@@ -266,6 +266,11 @@ ko_data.vid_volumechange = function() {
     ko_data.volume_icon('volume-up');
   }
 };
+ko_data.vid_ended = function() {
+  if (ko_data.episode_idx() > 0) {
+    ko_data.playNext();
+  }
+};
 
 ko_data.dragStop = function() {
   for (var x in dragging) {
