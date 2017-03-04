@@ -589,13 +589,17 @@ function playMedia(media) {
   var attrs = [
     'title',
     'year',
-    'imdb',
-    'tvdb',
-    'season',
-    'episode',
-    'tvshowtitle',
-    'premiered'
+    'imdb'
   ];
+  if (ep > -1) {
+    attrs += [
+      'tvdb',
+      'season',
+      'episode',
+      'tvshowtitle',
+      'premiered'
+    ];
+  }
   for (var x in attrs) {
     var attr = attrs[x];
     if (media[attr]) {
