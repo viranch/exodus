@@ -383,7 +383,7 @@
         <div class="video-player dark-scrollbar video show-html-video" data-bind="css: {buffering: buffering}">
             <div class="video-container">
                 <div class="video-controls-container">
-                    <div class="video-controls show-volume">
+                    <div class="video-controls show-volume transition-out">
                         <div class="video-background">
                             <div class="video-background-image" data-bind="style: {'background-image': 'url(&quot;'+background()+'&quot;)'}"></div>
                         </div>
@@ -398,7 +398,7 @@
                         <div class="alert-player alert-paused">
                             <i class="glyphicon play"></i>
                         </div>
-                        <button class="video-overlay-btn" data-bind="click: toggle_play"></button>
+                        <button class="video-overlay-btn" data-bind="click: toggle_play, event: {mousemove: showControls}"></button>
                         <button class="player-close-btn btn-gray"><i class="glyphicon remove-2"></i></button>
                         <div class="video-error-message-container">
                             <div class="video-error-message-center">
@@ -406,7 +406,7 @@
                                 <div class="video-error-skip-message btn-link"></div>
                             </div>
                         </div>
-                        <div class="video-controls-overlay video-controls-overlay-top">
+                        <div class="video-controls-overlay video-controls-overlay-top" data-bind="event: {mouseenter: stickControls, mouseleave: unstickControls}">
                             <div class="video-controls-left">
                                 <span class="video-title" data-bind="text: selected_media().title"></span>
                             </div>
@@ -455,7 +455,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="video-controls-overlay video-controls-overlay-bottom">
+                        <div class="video-controls-overlay video-controls-overlay-bottom" data-bind="event: {mouseenter: stickControls, mouseleave: unstickControls}">
                             <div class="video-controls-left">
                                 <button class="previous-btn btn-link hidden disabled">
                                     <i class="glyphicon fast-backward"></i>

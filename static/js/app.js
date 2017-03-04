@@ -15,6 +15,7 @@ var ko_data = {
   modal_selected_index: ko.observable(-1),
   video_sources: ko.observable([]),
   show_player: ko.observable(false),
+  sticky_controls: ko.observable(false),
   buffering: ko.observable(false),
   show_video: ko.observable(false),
   volume_icon: ko.observable('volume-up'),
@@ -24,6 +25,8 @@ var dragging = {
   volume: false,
   seek: false,
 };
+
+var controlsTimeout;
 
 // ko computed data
 ko_data.next_page_url = ko.computed(function() {
@@ -132,6 +135,28 @@ ko_data.sidebar_items = [
 
 // ko functions - so we don't have to handle
 //   DOM elements coming and going
+ko_data.showControls = function() {
+  var controls = $('.video-controls');
+  if (controls.hasClass('transition-out')) {
+    controls.removeClass('transition-out').addClass('transition-in');
+  }
+  if (controlsTimeout) {
+    clearTimeout(controlsTimeout);
+  }
+  controlsTimeout = setTimeout(function() {
+    if (!ko_data.sticky_controls()) {
+      $('.video-controls').removeClass('transition-in').addClass('transition-out');
+    }
+  }, 2000);
+};
+
+ko_data.stickControls = function() {
+  ko_data.sticky_controls(true);
+};
+ko_data.unstickControls = function() {
+  ko_data.sticky_controls(false);
+};
+
 ko_data.toggle_play = function() {
   var vid = $('#html-video')[0];
   vid.paused ? vid.play() : vid.pause();
