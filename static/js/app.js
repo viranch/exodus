@@ -344,8 +344,15 @@ ko_data.playPrevious = function() {
 ko_data.playNext = function() {
   resetPlayer();
   if (ko_data.episode_idx() == ko_data.season_episodes().length - 1) {
-    ko_data.autoplay(0);
-    ko_data.tvshow_seasons()[ko_data.season_idx()+1].show();
+    var next_season_idx = ko_data.season_idx() + 1;
+    var seasons = ko_data.tvshow_seasons();
+    if (next_season_idx < seasons.length) {
+      ko_data.autoplay(0);
+      seasons[next_season_idx].show();
+    } else {
+      // nothing to play anymore
+      closePlayer();
+    }
   } else {
     ko_data.season_episodes()[ko_data.episode_idx()+1].play();
   }
