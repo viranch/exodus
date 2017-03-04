@@ -607,7 +607,8 @@ function resolveSource(index, sticky) {
       });
   } else {
     ko_data.show_modal(false);
-    $('.video-player').addClass('error');
+    //$('.video-player').addClass('error');
+    ko_data.closePlayer();
   }
 }
 
