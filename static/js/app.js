@@ -9,7 +9,9 @@ var ko_data = {
   selected_season: ko.observable(null),
   tvshow_seasons: ko.observable([]),
   season_episodes: ko.observable([]),
-  autoplay: ko.observable(false),
+  autoplay: ko.observable(null),
+  season_idx: ko.observable(-1),
+  episode_idx: ko.observable(-1),
 
   show_modal: ko.observable(false),
   modal_loading_index: ko.observable(-1),
@@ -20,6 +22,8 @@ var ko_data = {
   buffering: ko.observable(false),
   show_video: ko.observable(false),
   volume_icon: ko.observable('volume-up'),
+  showPrevBtn: ko.observable(false),
+  showNextBtn: ko.observable(false),
 };
 
 var dragging = {
@@ -74,8 +78,10 @@ ko_data.selected_tvshow.subscribe(function(tvshow) {
         prepareSeasons(seasons);
         ko_data.loading(false);
         ko_data.tvshow_seasons(seasons);
-        if (ko_data.autoplay()) {
-          seasons[0].show();
+        var ap = ko_data.autoplay();
+        if (ap != null) {
+          ap = (seasons.length + ap) % seasons.length;
+          seasons[ap].show();
         }
       });
   } else {
@@ -97,13 +103,29 @@ ko_data.selected_season.subscribe(function(season) {
         prepareEpisodes(episodes);
         ko_data.loading(false);
         ko_data.season_episodes(episodes);
-        if (ko_data.autoplay()) {
-          ko_data.autoplay(false);
-          episodes[0].play();
+        var ap = ko_data.autoplay();
+        if (ap != null) {
+          ko_data.autoplay(null);
+          ap = (episodes.length + ap) % episodes.length;
+          episodes[ap].play();
         }
       });
+    ko_data.season_idx(ko_data.tvshow_seasons().indexOf(season));
   } else {
     ko_data.season_episodes([]);
+  }
+});
+
+ko_data.episode_idx.subscribe(function(idx) {
+  if (idx < 0) {
+    ko_data.showPrevBtn(false);
+    ko_data.showNextBtn(false);
+  } else {
+    var season_idx = ko_data.season_idx();
+    ko_data.showPrevBtn(idx > 0 || season_idx > 0);
+    var episodes = ko_data.season_episodes().length;
+    var seasons = ko_data.tvshow_seasons().length;
+    ko_data.showNextBtn(idx < episodes-1 || season_idx < seasons-1);
   }
 });
 
@@ -304,6 +326,26 @@ ko_data.stopSeekDrag = function(data, event) {
   video.currentTime = video.duration * getSeekPosition(event.pageX);
 };
 
+ko_data.playPrevious = function(data, event) {
+  resetPlayer();
+  if (ko_data.episode_idx() == 0) {
+    ko_data.autoplay(-1); // we don't know previos season's last episode number yet, so autoplay last episode
+    ko_data.tvshow_seasons()[ko_data.season_idx()-1].show();
+  } else {
+    ko_data.season_episodes()[ko_data.episode_idx()-1].play();
+  }
+};
+
+ko_data.playNext = function(data, event) {
+  resetPlayer();
+  if (ko_data.episode_idx() == ko_data.season_episodes().length - 1) {
+    ko_data.autoplay(0);
+    ko_data.tvshow_seasons()[ko_data.season_idx()+1].show();
+  } else {
+    ko_data.season_episodes()[ko_data.episode_idx()+1].play();
+  }
+};
+
 (function($){
   $.fn.extend({
     donetyping: function(callback, timeout){
@@ -370,6 +412,21 @@ function getSeekPosition(pageX) {
   var seekBar = $('.player-seek-bar');
   var seekPos = pageX - seekBar.offset().left;
   return Math.max(Math.min(seekPos/seekBar.width(), 1), 0);
+}
+
+function resetPlayer() {
+  ko_data.modal_selected_index(-1);
+  ko_data.video_sources([]);
+
+  var video = $('#html-video');
+  video[0].play();
+  video.attr('src', '');
+  $('.player-seek-bar .player-slider-buffer').css('width', '0%');
+  $('.player-seek-bar .player-slider-progress').css('width', '0%');
+  $('.player-seek-bar .player-slider-thumb').css('left', '0%');
+  $('.player-duration').text('');
+
+  ko_data.show_video(false);
 }
 
 function loadMore() {
@@ -462,7 +519,7 @@ function prepareTvshows(tvshows) {
       window.open('http://www.imdb.com/title/' + $(this)[0].imdb + '/');
     };
     tvshow.play = function() {
-      ko_data.autoplay(true);
+      ko_data.autoplay(0);
       $(this)[0].show();
     };
   }
@@ -477,10 +534,11 @@ function prepareSeasons(seasons) {
     season.ui_next = (x < seasons.length - 1);
     season.ui_year = (new Date(season.premiered)).getFullYear();
     season.show = function() {
-      showSeason($(this)[0]);
+      var s = $(this)[0];
+      showSeason(s);
     };
     season.play = function() {
-      ko_data.autoplay(true);
+      ko_data.autoplay(0);
       $(this)[0].show();
     };
   }
@@ -491,7 +549,9 @@ function prepareEpisodes(episodes) {
     var episode = episodes[x];
     episode.ui_poster = pickPoster(episode, ['thumb', 'fanart']);
     episode.play = function() {
-      playMedia($(this)[0]);
+      var e = $(this)[0];
+      ko_data.episode_idx(ko_data.season_episodes().indexOf(e));
+      playMedia(e);
     };
   }
 }
