@@ -456,7 +456,7 @@
                         </div>
                         <div class="video-controls-overlay video-controls-overlay-bottom" data-bind="event: {mouseenter: stickControls, mouseleave: unstickControls}">
                             <div class="video-controls-left">
-                                <button class="previous-btn btn-link" data-bind="css: {hidden: episode_idx < 0}, attr: {disabled: !showPrevBtn()}, click: playPrevious">
+                                <button class="previous-btn btn-link" data-bind="css: {hidden: episode_idx() < 0}, attr: {disabled: !showPrevBtn()}, click: playPrevious">
                                     <i class="glyphicon fast-backward"></i>
                                 </button>
                                 <button class="play-btn btn-link hidden" data-bind="click: toggle_play">
@@ -465,7 +465,7 @@
                                 <button class="pause-btn btn-link hidden" data-bind="click: toggle_play">
                                     <i class="glyphicon pause"></i>
                                 </button>
-                                <button class="next-btn btn-link" data-bind="css: {hidden: episode_idx < 0}, attr: {disabled: !showNextBtn()}, click: playNext">
+                                <button class="next-btn btn-link" data-bind="css: {hidden: episode_idx() < 0}, attr: {disabled: !showNextBtn()}, click: playNext">
                                     <i class="glyphicon fast-forward"></i>
                                 </button>
                             </div>
