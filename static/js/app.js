@@ -114,6 +114,7 @@ ko_data.selected_season.subscribe(function(season) {
     ko_data.season_idx(ko_data.tvshow_seasons().indexOf(season));
   } else {
     ko_data.season_episodes([]);
+    ko_data.season_idx(-1);
   }
 });
 
@@ -199,6 +200,7 @@ ko_data.closePlayer = function() {
   ko_data.sticky_controls(false);
   ko_data.buffering(false);
   ko_data.show_video(false);
+  ko_data.episode_idx(-1);
 };
 
 ko_data.toggle_play = function() {
