@@ -300,7 +300,7 @@ ko_data.hideScrub = function() {
   $('.player-scrub-preview').addClass('hidden');
 };
 
-ko_data.startSeekDrag = function(data, event) {
+ko_data.startSeekDrag = function() {
   dragging.seek = true;
 };
 
@@ -326,7 +326,7 @@ ko_data.stopSeekDrag = function(data, event) {
   video.currentTime = video.duration * getSeekPosition(event.pageX);
 };
 
-ko_data.playPrevious = function(data, event) {
+ko_data.playPrevious = function() {
   resetPlayer();
   if (ko_data.episode_idx() == 0) {
     ko_data.autoplay(-1); // we don't know previos season's last episode number yet, so autoplay last episode
@@ -336,7 +336,7 @@ ko_data.playPrevious = function(data, event) {
   }
 };
 
-ko_data.playNext = function(data, event) {
+ko_data.playNext = function() {
   resetPlayer();
   if (ko_data.episode_idx() == ko_data.season_episodes().length - 1) {
     ko_data.autoplay(0);
