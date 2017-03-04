@@ -49,7 +49,7 @@ ko_data.background = ko.computed(function() {
   }
 });
 
-ko_data.selected_media = ko.computed(function(val) {
+ko_data.selected_media = ko.computed(function() {
   return ko_data.selected_movie() || ko_data.selected_tvshow();
 });
 
