@@ -157,6 +157,19 @@ ko_data.unstickControls = function() {
   ko_data.sticky_controls(false);
 };
 
+ko_data.closePlayer = function() {
+  ko_data.exitFullscreen();
+  ko_data.show_player(false);
+
+  // reset stuff
+  ko_data.modal_loading_index(-1);
+  ko_data.modal_selected_index(-1);
+  ko_data.video_sources([]);
+  ko_data.sticky_controls(false);
+  ko_data.buffering(false);
+  ko_data.show_video(false);
+};
+
 ko_data.toggle_play = function() {
   var vid = $('#html-video')[0];
   vid.paused ? vid.play() : vid.pause();

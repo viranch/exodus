@@ -399,7 +399,6 @@
                             <i class="glyphicon play"></i>
                         </div>
                         <button class="video-overlay-btn" data-bind="click: toggle_play, event: {mousemove: showControls}"></button>
-                        <button class="player-close-btn btn-gray"><i class="glyphicon remove-2"></i></button>
                         <div class="video-error-message-container">
                             <div class="video-error-message-center">
                                 <div class="video-error-message">There was a problem playing this item.</div>
@@ -440,7 +439,7 @@
                                         <i class="glyphicon adjust-alt"></i>
                                     </button>
                                 </span>
-                                <button class="player-close-btn btn-link"><i class="glyphicon remove-2"></i></button>
+                                <button class="player-close-btn btn-link" data-bind="click: closePlayer"><i class="glyphicon remove-2"></i></button>
                             </div>
                         </div>
                         <div class="player-primary-player-name-container">
