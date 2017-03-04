@@ -419,6 +419,7 @@ function resetPlayer() {
   ko_data.video_sources([]);
 
   var video = $('#html-video');
+  video[0].currentTime = 0;
   video[0].play();
   video.attr('src', '');
   $('.player-seek-bar .player-slider-buffer').css('width', '0%');
