@@ -447,10 +447,10 @@
                             <span class="primary-player-name hidden"></span>
                         </div>
                         <div class="player-scrub-preview-container">
-                            <div class="player-scrub-preview hidden" style="left: 1181px;">
-                                <img class="player-scrub-preview-thumbnail hidden">
+                            <div class="player-scrub-preview">
+                                <img class="player-scrub-preview-thumbnail">
                                 <div class="tooltip top player-scrub-preview-tooltip">
-                                    <div class="tooltip-inner player-scrub-preview-time">1:03:19</div>
+                                    <div class="tooltip-inner player-scrub-preview-time"></div>
                                     <div class="tooltip-arrow"></div>
                                 </div>
                             </div>
@@ -496,7 +496,7 @@
                                 <div class="video-controls-center">
                                     <span class="player-position">0:00</span>
                                     <div class="seek-bar-container">
-                                        <div class="player-seek-bar player-slider" data-bind="event: {mousedown: startSeekDrag, mousemove: dragSeekBar, mouseup: stopSeekDrag}">
+                                        <div class="player-seek-bar player-slider" data-bind="event: {mouseenter: showScrub, mousedown: startSeekDrag, mousemove: dragSeekBar, mouseup: stopSeekDrag, mouseleave: hideScrub}">
                                             <div class="player-slider-track">
                                                 <div class="player-slider-buffer" style="width: 0%;"></div>
                                                 <div class="player-slider-progress" style="width: 0%;"></div>

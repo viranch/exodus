@@ -225,15 +225,27 @@ ko_data.closeModal = function() {
   ko_data.show_modal(false);
 };
 
+ko_data.showScrub = function() {
+  $('.player-scrub-preview').removeClass('hidden');
+};
+ko_data.hideScrub = function() {
+  $('.player-scrub-preview').addClass('hidden');
+};
+
 ko_data.startSeekDrag = function(data, event) {
   dragging.seek = true;
 };
 
 ko_data.dragSeekBar = function(data, event) {
-  // TODO: move tooltip (also TODO: show tooltip on mousein, hide on mouseout)
+  var seek = getSeekPosition(event.pageX);
+
+  // move scrubber
+  $('.player-scrub-preview').css('left', event.pageX);
+  $('.player-scrub-preview-time').text(videoDuration($('#html-video')[0].duration * seek));
+
   if (dragging.seek) {
     // move thumb
-    var seekPct = getSeekPosition(event.pageX) * 100;
+    var seekPct = seek * 100;
     $('.player-seek-bar .player-slider-buffer').css('width', seekPct+'%');
     $('.player-seek-bar .player-slider-thumb').css('left', seekPct+'%');
   }
