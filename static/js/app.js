@@ -9,6 +9,7 @@ var ko_data = {
   selected_season: ko.observable(null),
   tvshow_seasons: ko.observable([]),
   season_episodes: ko.observable([]),
+  autoplay: ko.observable(false),
 
   show_modal: ko.observable(false),
   modal_loading_index: ko.observable(-1),
@@ -73,6 +74,9 @@ ko_data.selected_tvshow.subscribe(function(tvshow) {
         prepareSeasons(seasons);
         ko_data.loading(false);
         ko_data.tvshow_seasons(seasons);
+        if (ko_data.autoplay()) {
+          seasons[0].show();
+        }
       });
   } else {
     ko_data.tvshow_seasons([]);
@@ -93,6 +97,10 @@ ko_data.selected_season.subscribe(function(season) {
         prepareEpisodes(episodes);
         ko_data.loading(false);
         ko_data.season_episodes(episodes);
+        if (ko_data.autoplay()) {
+          ko_data.autoplay(false);
+          episodes[0].play();
+        }
       });
   } else {
     ko_data.season_episodes([]);
@@ -419,22 +427,7 @@ function prepareMovies(movies) {
       window.open('http://www.imdb.com/title/' + $(this)[0].imdb + '/');
     };
     movie.play = function() {
-      var m = $(this)[0];
-      m.show();
-      ko_data.show_player(true);
-      ko_data.buffering(true);
-      var url = '/api/sources?' + serialize({
-        title: m.title,
-        year: m.year,
-        imdb: m.imdb
-      });
-      $.ajax(url).done(function(sources) {
-        prepareSources(sources);
-        ko_data.video_sources(sources);
-        ko_data.buffering(false);
-        ko_data.show_modal(true);
-        resolveSource(0);
-      });
+      playMedia($(this)[0]);
     };
   }
 }
@@ -469,13 +462,8 @@ function prepareTvshows(tvshows) {
       window.open('http://www.imdb.com/title/' + $(this)[0].imdb + '/');
     };
     tvshow.play = function() {
-      var t = $(this)[0];
-      window.open('/play?' + serialize({
-        tvshowtitle: t.title,
-        year: t.year,
-        imdb: t.imdb,
-        tvdb: t.tvdb,
-      }));
+      ko_data.autoplay(true);
+      $(this)[0].show();
     };
   }
 }
@@ -492,15 +480,8 @@ function prepareSeasons(seasons) {
       showSeason($(this)[0]);
     };
     season.play = function() {
-      var s = $(this)[0];
-      var url = '/play?' + serialize({
-        tvshowtitle: s.tvshowtitle,
-        year: s.year,
-        imdb: s.imdb,
-        tvdb: s.tvdb,
-        season: s.season
-      });
-      window.open(url);
+      ko_data.autoplay(true);
+      $(this)[0].show();
     };
   }
 }
@@ -510,32 +491,51 @@ function prepareEpisodes(episodes) {
     var episode = episodes[x];
     episode.ui_poster = pickPoster(episode, ['thumb', 'fanart']);
     episode.play = function() {
-      var e = $(this)[0];
-      window.open('/play?' + serialize({
-        title: e.title,
-        year: e.year,
-        imdb: e.imdb,
-        tvdb: e.tvdb,
-        season: e.season,
-        episode: e.episode,
-        tvshowtitle: e.tvshowtitle,
-        premiered: e.premiered
-      }));
+      playMedia($(this)[0]);
     };
   }
 }
 
-function prepareSources(sources) {
-  for (var x in sources) {
-    var source = sources[x];
-    source.label = (source.provider + ' | ' + source.source).toUpperCase() + ' (' + source.quality + ')';
-    source.ui_failure = ko.observable(false);
-    source.ui_video_url = null;
-    source.play = function() {
-      idx = ko_data.video_sources().indexOf($(this)[0]);
-      resolveSource(idx, true);
-    };
+function playMedia(media) {
+  if (media.show) {
+    media.show();
   }
+  ko_data.show_player(true);
+  ko_data.buffering(true);
+  var params = {};
+  var attrs = [
+    'title',
+    'year',
+    'imdb',
+    'tvdb',
+    'season',
+    'episode',
+    'tvshowtitle',
+    'premiered'
+  ];
+  for (var x in attrs) {
+    var attr = attrs[x];
+    if (media[attr]) {
+      params[attr] = media[attr];
+    }
+  }
+  var url = '/api/sources?' + serialize(params);
+  $.ajax(url).done(function(sources) {
+    for (var x in sources) {
+      var source = sources[x];
+      source.label = (source.provider + ' | ' + source.source).toUpperCase() + ' (' + source.quality + ')';
+      source.ui_failure = ko.observable(false);
+      source.ui_video_url = null;
+      source.play = function() {
+        idx = ko_data.video_sources().indexOf($(this)[0]);
+        resolveSource(idx, true);
+      };
+    }
+    ko_data.video_sources(sources);
+    ko_data.buffering(false);
+    ko_data.show_modal(true);
+    resolveSource(0);
+  });
 }
 
 function showItems(items, reset) {
