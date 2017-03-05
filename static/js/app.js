@@ -594,10 +594,11 @@ function playMedia(media) {
   var title = ko_data.selected_media().title;
   var ep = ko_data.episode_idx();
   if (ep > -1) {
-    if (ep.length == 1) {
-      ep = '0' + ep;
+    epn = ko_data.season_episodes()[ep].episode;
+    if (epn.length == 1) {
+      epn = '0' + epn;
     }
-    title += ' - ' + ko_data.season_idx() + 'x' + ep + ' - ' + media.title;
+    title += ' - ' + ko_data.tvshow_seasons()[ko_data.season_idx()].season + 'x' + epn + ' - ' + media.title;
   }
   ko_data.videoTitle(title);
   ko_data.show_player(true);
@@ -609,7 +610,7 @@ function playMedia(media) {
     'imdb'
   ];
   if (ep > -1) {
-    attrs.concat([
+    attrs = attrs.concat([
       'tvdb',
       'season',
       'episode',
