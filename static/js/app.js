@@ -594,13 +594,13 @@ function playMedia(media) {
     'imdb'
   ];
   if (ep > -1) {
-    attrs += [
+    attrs.concat([
       'tvdb',
       'season',
       'episode',
       'tvshowtitle',
       'premiered'
-    ];
+    ]);
   }
   for (var x in attrs) {
     var attr = attrs[x];
