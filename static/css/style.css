@@ -21,6 +21,15 @@
     top: 60px !important;
 }
 
+.background-bg {
+    background: url('/static/images/preset-light.png');
+    background-size: cover;
+    background-position: center center;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+}
+
 .section-sort-list-container .QuickSearch-container-18Zgf {
     width: auto;
     height: auto;
