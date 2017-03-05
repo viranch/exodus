@@ -149,7 +149,7 @@ ko_data.sidebar_items = [
       { name: 'In Theaters', code: 'theaters' },
       { name: 'New Movies', code: 'featured' }
     ],
-    api: '/api/movies/{}'
+    api: '/api/movies'
   },
   {
     title: 'TV Shows',
@@ -161,12 +161,27 @@ ko_data.sidebar_items = [
       { name: 'Airing today', code: 'airing' },
       { name: 'New TV Shows', code: 'premiere' }
     ],
-    api: '/api/tvshows/{}'
+    api: '/api/tvshows'
   }
 ];
 
 // ko functions - so we don't have to handle
 //   DOM elements coming and going
+ko_data.loadSidebarItem = function(data, event) {
+  var target = $(event.target);
+  if (target.hasClass('selected')) {
+    return true;
+  }
+  resetUi();
+  ko_data.loading(true);
+
+  var apiBase = target.attr('data-api');
+  ko_data.sidebar(apiBase + data.code);
+  var api = apiBase + '/' + encodeURIComponent(data.code);
+
+  $.ajax(api).done(sidebar_done);
+};
+
 ko_data.showControls = function() {
   var controls = $('.video-controls');
   if (controls.hasClass('transition-out')) {
@@ -750,12 +765,12 @@ $(document).ready(function() {
   ko_data.sidebar_items.push({
     title: 'Movie Genres',
     items: movie_genres.map(genre_mapf),
-    api: '/api/movies/genre/{}'
+    api: '/api/movies/genre'
   });
   ko_data.sidebar_items.push({
     title: 'TV Genres',
     items: tvshow_genres.map(genre_mapf),
-    api: '/api/tvshows/genre/{}'
+    api: '/api/tvshows/genre'
   });
   ko.options.deferUpdates = true;
   ko.applyBindings(ko_data);
@@ -799,18 +814,5 @@ $(document).ready(function() {
     ko_data.loading(true);
     search_type = $(this).attr('data-search');
     $.ajax('/api/'+search_type+'/search/' + encodeURIComponent(ko_data.search_text())).done(sidebar_done);
-  });
-
-  $('ul.side-bar-list > li > a').click(function() {
-    if ($(this).hasClass('selected')) {
-      return true;
-    }
-    resetUi();
-    ko_data.loading(true);
-    var code = $(this).attr('data-code');
-    var api = $(this).attr('data-api');
-    ko_data.sidebar(api + code);
-    var api_ep = api.replace('{}', encodeURIComponent(code));
-    $.ajax(api_ep).done(sidebar_done);
   });
 });

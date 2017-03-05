@@ -362,7 +362,7 @@
                         <div class="section-sort-list-container">
                             <ul class="list side-bar-list" data-bind="foreach: items">
                                 <li>
-                                    <a class="sort-btn btn-gray" href="#" data-bind="attr: {'data-code': code, 'data-api': $parent.api}, css: {selected: $root.sidebar() == $parent.api+code}, text: name"></a>
+                                    <a class="sort-btn btn-gray" href="#" data-bind="attr: {'data-api': $parent.api}, css: {selected: $root.sidebar() == $parent.api+code}, click: $root.loadSidebarItem, text: name"></a>
                                 </li>
                             </ul>
                         </div>
