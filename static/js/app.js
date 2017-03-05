@@ -795,7 +795,7 @@ $(document).ready(function() {
 
   $('#dummy-bg').on('load', function() {
     $('.background-bg').hide();
-    $('.background')
+    $('.background, .video-background-image')
       .css('background-image', 'url("'+ko_data.background()+'")')
       .removeClass('transition-out')
       .addClass('transition-in');

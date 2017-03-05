@@ -385,7 +385,8 @@
                 <div class="video-controls-container">
                     <div class="video-controls show-volume transition-out">
                         <div class="video-background">
-                            <div class="video-background-image" data-bind="style: {'background-image': 'url(&quot;'+background()+'&quot;)'}"></div>
+                            <div class="background-bg" style="background: url('/static/images/preset-light.png'); background-size: cover; background-position: center center; width: 100%; height: 100%; position: absolute;"></div>
+                            <div class="video-background-image transition-out"></div>
                         </div>
                         <video id="html-video" class="html-video" data-bind="event: {timeupdate: vid_timeupdate, loadedmetadata: vid_loadedmetadata, play: vid_play, pause: vid_pause, volumechange: vid_volumechange, seeking: vid_bufferStart, seeked: vid_bufferStop, loadstart: vid_bufferStart, canplay: vid_bufferStop, waiting: vid_bufferStart, ended: vid_ended}, style: {'background-color': show_video() ? '#000':'inherit'}"></video>
                         <div class="video-subtitles-container"></div>
