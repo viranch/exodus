@@ -109,7 +109,6 @@ def play():
 
     url = None
     for item in data:
-        print item.get('label')
         url = sources.sources().sourcesResolve(item)
         if url: break
     if url is None:
