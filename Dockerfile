@@ -1,6 +1,5 @@
 FROM python:2-onbuild
 
-EXPOSE 5000
+EXPOSE 8000
 
-#CMD ["gunicorn", "-w4", "-b", "0.0.0.0", "app:app"]
-CMD ["python", "app.py"]
+CMD ["gunicorn", "-w4", "-b", "0.0.0.0", "app:app"]
